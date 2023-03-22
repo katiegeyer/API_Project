@@ -11,15 +11,38 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Membership.belongsTo(models.User, {
+        foreignKey: 'userId'
+      })
+      Membership.belongsTo(models.Group, {
+        foreignKey: 'groupId'
+      })
     }
   }
   Membership.init({
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'Users'
+      },
+      onDelete: 'cascade'
     },
-    groupId: DataTypes.INTEGER,
-    status: DataTypes.ENUM
+    groupId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'Groups'
+      },
+      onDelete: 'cascade'
+    },
+    status: {
+      type: DataTypes.ENUM('Organizer(host)', 'Co-host', 'Member', 'Pending'),
+      allowNull: false,
+      validate: {
+        isIn: [['Organizer(host)', 'Co-host', 'Member', 'Pending']]
+      }
+    },
   }, {
     sequelize,
     modelName: 'Membership',
