@@ -20,8 +20,6 @@ module.exports = {
                 price: 0.00,
                 startDate: new Date('2023-03-27 19:00:00'),
                 endDate: new Date('2023-03-27 21:00:00'),
-                createdAt: new Date(),
-                updatedAt: new Date()
               },
               {
                 venueId: 2,
@@ -33,8 +31,6 @@ module.exports = {
                 price: 0.00,
                 startDate: new Date('2023-03-27 19:00:00'),
                 endDate: new Date('2023-03-27 21:00:00'),
-                createdAt: new Date(),
-                updatedAt: new Date()
               },
               {
                 venueId: 3,
@@ -46,8 +42,6 @@ module.exports = {
                 price: 0.00,
                 startDate: new Date('2023-03-27 19:00:00'),
                 endDate: new Date('2023-03-27 21:00:00'),
-                createdAt: new Date(),
-                updatedAt: new Date()
               },
         ], {});
     },
