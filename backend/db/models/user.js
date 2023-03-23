@@ -5,6 +5,16 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Group, {
+        through: 'Membership',
+        foreignKey: 'userId',
+        otherKey: 'groupId'
+      })
+      User.belongsToMany(models.Event, {
+        through: 'Attendance',
+        foreignKey: 'userId',
+        otherKey: 'eventId'
+      })
       User.hasMany(models.Membership, {
         foreignKey: 'userId'
       })
@@ -14,16 +24,6 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Group, {
         foreignKey: 'organizerId',
         as: 'Organizer'
-      })
-      User.belongsToMany(models.Group, {
-        through: models.Membership
-        // foreignKey: 'userId',
-        // otherKey: 'groupId'
-      })
-      User.belongsToMany(models.Event, {
-        through: 'Attendance',
-        foreignKey: 'userId',
-        otherKey: 'eventId'
       })
 
     }
