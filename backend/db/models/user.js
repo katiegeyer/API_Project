@@ -24,8 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'organizerId',
         as: 'Organizer'
       })
-<<<<<<< HEAD
-=======
       User.belongsToMany(models.Group, {
         through: models.Membership
         // foreignKey: 'userId',
@@ -36,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
         // foreignKey: 'userId',
         // otherKey: 'eventId'
       })
->>>>>>> dev
 
     }
   };
