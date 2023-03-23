@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Organizer'
       })
       Group.belongsToMany(models.User, {
-        through: 'Membership',
-        foreignKey: 'groupId',
-        otherKey: 'userId'
+        through: models.Membership
+        // foreignKey: 'groupId',
+        // otherKey: 'userId'
       })
       Group.hasMany(models.GroupImage, {
         foreignKey: 'groupId'
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       Group.hasMany(models.Membership, {
         foreignKey: 'groupId'
       })
-      Group.hasMany(models.Events, {
+      Group.hasMany(models.Event, {
         foreignKey: 'groupId'
       })
       Group.hasMany(models.Venue, {
@@ -29,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'Venue'
       })
       Group.belongsToMany(models.Venue, {
-        through: 'Event',
-        foreignKey: 'groupId',
-        otherKey: 'venueId'
+        through: models.Event
+        // foreignKey: 'groupId',
+        // otherKey: 'venueId'
       })
     }
   }
