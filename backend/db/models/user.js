@@ -5,30 +5,30 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
-      // User.belongsTo(models.Event, {
-      //   through: 'Attendance',
-      //   foreignKey: 'eventId'
-      // })
-      // User.hasMany(models.Membership, {
-      //   foreignKey: 'userId'
-      // })
-      // User.hasMany(models.Attendance, {
-      //   foreignKey: 'userId'
-      // })
-      // User.hasMany(models.Group, {
-      //   foreignKey: 'organizerId',
-      //   as: 'Organizer'
-      // })
-      // User.belongsToMany(models.Group, {
-      //   through: models.Membership
-      //   // foreignKey: 'userId',
-      //   // otherKey: 'groupId'
-      // })
-      // User.belongsToMany(models.Event, {
-      //   through: models.Attendance,
-      //   foreignKey: 'userId',
-      //   otherKey: 'eventId'
-      // })
+      User.belongsTo(models.Event, {
+        through: 'Attendance',
+        foreignKey: 'eventId'
+      })
+      User.hasMany(models.Membership, {
+        foreignKey: 'userId'
+      })
+      User.hasMany(models.Attendance, {
+        foreignKey: 'userId'
+      })
+      User.hasMany(models.Group, {
+        foreignKey: 'organizerId',
+        as: 'Organizer'
+      })
+      User.belongsToMany(models.Group, {
+        through: models.Membership
+        // foreignKey: 'userId',
+        // otherKey: 'groupId'
+      })
+      User.belongsToMany(models.Event, {
+        through: models.Attendance,
+        foreignKey: 'userId',
+        otherKey: 'eventId'
+      })
 
     }
   };
