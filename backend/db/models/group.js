@@ -5,34 +5,34 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     static associate(models) {
-      // define association here
-      Group.belongsTo(models.User, {
-        foreignKey: 'organizerId',
-        as: 'Organizer'
-      })
-      Group.belongsToMany(models.User, {
-        through: models.Membership
-        // foreignKey: 'groupId',
-        // otherKey: 'userId'
-      })
-      Group.hasMany(models.GroupImage, {
-        foreignKey: 'groupId'
-      })
-      Group.hasMany(models.Membership, {
-        foreignKey: 'groupId'
-      })
-      Group.hasMany(models.Event, {
-        foreignKey: 'groupId'
-      })
-      Group.hasMany(models.Venue, {
-        foreignKey: 'groupId',
-        as: 'Venue'
-      })
-      Group.belongsToMany(models.Venue, {
-        through: models.Event
-        // foreignKey: 'groupId',
-        // otherKey: 'venueId'
-      })
+      //   // define association here
+      //   Group.belongsTo(models.User, {
+      //     foreignKey: 'organizerId',
+      //     as: 'Organizer'
+      //   })
+      //   Group.belongsToMany(models.User, {
+      //     through: 'Membership',
+      //     foreignKey: 'groupId',
+      //     otherKey: 'userId'
+      //   })
+      //   Group.hasMany(models.GroupImage, {
+      //     foreignKey: 'groupId'
+      //   })
+      //   Group.hasMany(models.Membership, {
+      //     foreignKey: 'groupId'
+      //   })
+      //   Group.hasMany(models.Event, {
+      //     foreignKey: 'groupId'
+      //   })
+      //   Group.hasMany(models.Venue, {
+      //     foreignKey: 'groupId',
+      //     as: 'Venue'
+      //   })
+      //   Group.belongsToMany(models.Venue, {
+      //     through: 'Event',
+      //     foreignKey: 'groupId',
+      //     otherKey: 'venueId'
+      //   })
     }
   }
   Group.init({
