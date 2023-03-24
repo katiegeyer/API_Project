@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'organizerId',
         as: 'Organizer'
       })
-      // Group.belongsToMany(models.User, {
-      //   through: 'Membership',
-      //   foreignKey: 'groupId',
-      //   otherKey: 'userId'
-      // })
+      Group.belongsToMany(models.User, {
+        through: 'Membership',
+        foreignKey: 'groupId',
+        otherKey: 'userId'
+      })
       Group.hasMany(models.GroupImage, {
         foreignKey: 'groupId'
       })
@@ -80,24 +80,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    },
+    // createdAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false,
+    //   defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    // },
+    // updatedAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false,
+    //   defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+    // },
   }, {
     sequelize,
     modelName: 'Group',
-    defaultScope: {
-      attributes: {
-        exclude: ["createdAt", "updatedAt"]
-      }
-    }
+    // defaultScope: {
+    //   attributes: {
+    //     exclude: ["createdAt", "updatedAt"]
+    //   }
+    // }
   });
   return Group;
 };
