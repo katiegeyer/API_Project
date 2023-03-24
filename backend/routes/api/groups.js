@@ -188,11 +188,8 @@ router.put('/:groupId', handleValidationErrors, requireAuth, async (req, res, ne
         state,
     });
 
-// //Get all groups
-// router.get('/', async (req, res, next) => {
-//     const groups = await Group.find();
-//     return res.status(200).json(groups)
-// })
+    return res.status(200).json(updatedGroup); //check on validation errors more ALSO TIME
+});
 
 router.delete('/:groupId', requireAuth, async (req, res, next) => {
     const { user } = req;
