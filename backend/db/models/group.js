@@ -5,16 +5,16 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Group extends Model {
     static associate(models) {
-      // define association here
+      //   // define association here
       Group.belongsTo(models.User, {
         foreignKey: 'organizerId',
         as: 'Organizer'
       })
-      Group.belongsToMany(models.User, {
-        through: models.Membership
-        // foreignKey: 'groupId',
-        // otherKey: 'userId'
-      })
+      // Group.belongsToMany(models.User, {
+      //   through: 'Membership',
+      //   foreignKey: 'groupId',
+      //   otherKey: 'userId'
+      // })
       Group.hasMany(models.GroupImage, {
         foreignKey: 'groupId'
       })
@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId',
         as: 'Venue'
       })
-      Group.belongsToMany(models.Venue, {
-        through: models.Event
-        // foreignKey: 'groupId',
-        // otherKey: 'venueId'
-      })
+      // Group.belongsToMany(models.Venue, {
+      //   through: 'Event',
+      //   foreignKey: 'groupId',
+      //   otherKey: 'venueId'
+      // })
     }
   }
   Group.init({
@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Users'
       },
-      onDelete: 'cascade',
     },
     name: {
       type: DataTypes.STRING(60),
@@ -94,6 +93,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   });
   return Group;
 };
