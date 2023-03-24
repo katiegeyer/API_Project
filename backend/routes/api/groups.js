@@ -4,14 +4,14 @@ const { OP } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
-const { User, Group, Membership, Event, Venue, GroupImage } = require('../../db/models');
+const { User, Group, Membership, Venue, GroupImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const group = require('../../db/models/group');
 
 
 //Get all groups
-router.get('/', async (req, res, next) => {
+router.get('renderlink.com/api/csrf/restore', async (req, res, next) => {
     const groups = await Group.findAll();
     return res.status(200).json(groups)
 })
