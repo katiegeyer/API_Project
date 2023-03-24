@@ -8,7 +8,10 @@ const { User, Group, Membership, Venue, GroupImage } = require('../../db/models'
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 const group = require('../../db/models/group');
+const user = require('../../db/models/user');
+const { Router } = require('express');
 
+//CHANGE TIME FORMAT
 
 //Get all groups
 router.get('/', async (req, res, next) => {
@@ -20,8 +23,27 @@ router.get('/', async (req, res, next) => {
 //Get all Groups joined or organized by the Current User
 // where do we stash the current user info
 
-router.get('/current', async (req, res, next) => {
+router.get('/current', requireAuth, async (req, res, next) => {
+    let { user } = req;
+    const memberships = await Membership.findAll({
+        where: {
+            userId: user.id
+        },
+        attributes: ['groupId']
+    });
+
+    const groupIds = memberships.map(membership => membership.groupId);
+
     const groups = await Group.findAll({
+        // include: [{
+        //     model: Membership,
+        //     where: {
+        //         userId: user.id,
+        //     },
+        // }],
+        where: {
+            id: groupIds
+        },
         include: [{
             model: GroupImage,
             attributes: ['url'],
@@ -95,5 +117,90 @@ router.get('/:groupId', requireAuth, async (req, res, next) => {
     return res.json(group)
 });
 
+//create a Group
 
+router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => {
+    const { user } = req;
+    if (user) {
+        const { name, about, type, private, city, state } = req.body;
+        const newGroup = await Group.create({
+            organizerId: user.id,
+            name,
+            about,
+            type,
+            private,
+            city,
+            state
+        });
+        return res.status(201).json(newGroup);
+    } // work on validation errors
+});
+
+//Add image to a group based on group's id
+
+router.post('/:groupId/images', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    if (user.id !== group.organizerId) {
+        return res.status(403).json({ messge: "User is not authorized to perform this action" });
+    }
+    const { url, preview } = req.body;
+    const image = await GroupImage.create({
+        url,
+        preview,
+        groupId: group.id
+    });
+    return res.status(200).json({
+        id: image.id,
+        url: image.url,
+        preview: image.preview
+    });
+});
+
+router.put('/:groupId', handleValidationErrors, requireAuth, async (req, res, next) => {
+    const { groupId } = req.params;
+    const userId = req.user.id;
+    const {
+        name, about, type, private, city, state
+    } = req.body;
+    const group = await Group.findOne({
+        where: {
+            id: groupId,
+            organizerId: userId,
+        },
+    });
+
+    if (!group) {
+        return res.status(404).json({
+            message: "Group couldn't be found",
+        });
+    }
+
+    const updatedGroup = await group.update({
+        name,
+        about,
+        type,
+        private,
+        city,
+        state,
+    });
+
+    return res.status(200).json(updatedGroup); //check on validation errors more ALSO TIME
+});
+
+router.delete('/:groupId', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    if (user.id !== group.organizerId) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+    await group.destroy();
+    return res.status(200).json({ message: "Successfully deleted" });
+});
 module.exports = router;
