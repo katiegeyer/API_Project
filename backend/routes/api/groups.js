@@ -206,4 +206,55 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
     await group.destroy();
     return res.status(200).json({ message: "Successfully deleted" });
 });
+
+//Get all venues for group through groupId
+
+router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    if (user.id !== group.organizerId) {
+        return res.status(403).json({ messge: "User is not authorized to perform this action" });
+    }
+    const venues = await Venue.findAll({
+        where: {
+            groupId: group.id
+        },
+        attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
+    });
+    return res.json({ Venues: venues })
+});
+
+//Get all venues for group through groupId
+router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const group = await Group.findByPk(req.params.groupId);
+    if (!group) {
+        return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    if (user.id !== group.organizerId) {
+        return res.status(403).json({ messge: "User is not authorized to perform this action" });
+    }
+    const { address, city, state, lat, lng } = req.body;
+    const venue = await Venue.create({
+        groupId: group.id,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    });
+    return res.status(200).json({
+        id: venue.id,
+        groupId: group.id,
+        address: venue.address,
+        city: venue.city,
+        state: venue.state,
+        lat: venue.lat,
+        lng: venue.lng
+    });
+});
+
 module.exports = router;
