@@ -11,7 +11,7 @@ const group = require('../../db/models/group');
 
 
 //Get all groups
-router.get('renderlink.com/api/csrf/restore', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     const groups = await Group.findAll();
     return res.status(200).json(groups)
 })
@@ -90,7 +90,7 @@ router.get('/:groupId', requireAuth, async (req, res, next) => {
         ]
     });
     if (!group) {
-        return res.status(404).json({"message": "Group couldn't be found",})
+        return res.status(404).json({ "message": "Group couldn't be found", })
     };
     return res.json(group)
 });
