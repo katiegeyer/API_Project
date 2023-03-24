@@ -14,22 +14,22 @@ const { Router } = require('express');
 
 //Get all venues for group through groupId
 
-router.get('/groups/:groupId/venues', requireAuth, async (req, res, next) => {
-    const { user } = req;
-    const group = await Group.findByPk(req.params.groupId);
-    if (!group) {
-        return res.status(404).json({ message: "Group couldn't be found" });
-    }
-    if (user.id !== group.organizerId) {
-        return res.status(403).json({ messge: "User is not authorized to perform this action" });
-    }
-    const venues = await Venue.findAll({
-        where: {
-            groupId: group.id
-        }
-    });
-    return res.json(venues)
-});
+// router.get('/groups/:groupId/venues', requireAuth, async (req, res, next) => {
+//     const { user } = req;
+//     const group = await Group.findByPk(req.params.groupId);
+//     if (!group) {
+//         return res.status(404).json({ message: "Group couldn't be found" });
+//     }
+//     if (user.id !== group.organizerId) {
+//         return res.status(403).json({ messge: "User is not authorized to perform this action" });
+//     }
+//     const venues = await Venue.findAll({
+//         where: {
+//             groupId: group.id
+//         }
+//     });
+//     return res.json(venues)
+// });
 
 
 
