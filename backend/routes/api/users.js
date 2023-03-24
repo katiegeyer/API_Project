@@ -30,6 +30,7 @@ const validateSignup = [
   ];
 
 // Sign up
+// where do we stash the current user info in the backend
 router.post(
     '',
     validateSignup,

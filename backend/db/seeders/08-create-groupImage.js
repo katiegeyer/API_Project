@@ -16,12 +16,12 @@ module.exports = {
                 preview: true
             },
             {
-                groupId: 1,
+                groupId: 2,
                 url: 'url2.com',
                 preview: true
             },
             {
-                groupId: 1,
+                groupId: 3,
                 url: 'url3.com',
                 preview: true
             }

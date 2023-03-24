@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'organizerId',
         as: 'Organizer'
       })
-      Group.belongsToMany(models.User, {
-        through: 'Membership',
-        foreignKey: 'groupId',
-        otherKey: 'userId'
-      })
+      // Group.belongsToMany(models.User, {
+      //   through: 'Membership',
+      //   foreignKey: 'groupId',
+      //   otherKey: 'userId'
+      // })
       Group.hasMany(models.GroupImage, {
         foreignKey: 'groupId'
       })
@@ -28,11 +28,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'groupId',
         as: 'Venue'
       })
-      Group.belongsToMany(models.Venue, {
-        through: 'Event',
-        foreignKey: 'groupId',
-        otherKey: 'venueId'
-      })
+      // Group.belongsToMany(models.Venue, {
+      //   through: 'Event',
+      //   foreignKey: 'groupId',
+      //   otherKey: 'venueId'
+      // })
     }
   }
   Group.init({
@@ -93,6 +93,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   });
   return Group;
 };

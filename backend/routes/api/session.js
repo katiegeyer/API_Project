@@ -21,6 +21,7 @@ const validateLogin = [
 ];
 
 // Log in
+// where do we stash the current user info
 router.post(
     '/',
     validateLogin,
