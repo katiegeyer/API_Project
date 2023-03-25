@@ -11,6 +11,22 @@ const group = require('../../db/models/group');
 const user = require('../../db/models/user');
 const { Router } = require('express');
 
+const requireMembership = async (req, res, next) => {
+    const { user } = req;
+    const groupId = req.params.groupId;
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: groupId,
+        },
+    });
+    if (!membership) {
+        return res.status(403).json({ message: "User is not a member of this group" });
+    }
+    req.membership = membership;
+    return next();
+};
+
 //CHANGE TIME FORMAT
 
 //Get all groups
@@ -42,6 +58,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         //     },
         // }],
         where: {
+            organizerId: user.id,
             id: groupIds
         },
         include: [{
@@ -131,6 +148,28 @@ router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => 
             private,
             city,
             state
+        });
+        router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => {
+            const { user } = req;
+            if (user) {
+                const { name, about, type, private, city, state } = req.body;
+                const newGroup = await Group.create({
+                    organizerId: user.id,
+                    name,
+                    about,
+                    type,
+                    private,
+                    city,
+                    state
+                });
+
+                return res.status(201).json(newGroup);
+            } // work on validation errors
+        });
+        await Membership.create({
+            groupId: newGroup.id,
+            userId: user.id,
+            status: 'Organizer(host)'
         });
         return res.status(201).json(newGroup);
     } // work on validation errors
@@ -224,14 +263,15 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => {
     return res.json({ Venues: venues })
 });
 
-//Get all venues for group through groupId
-router.post('/:groupId/venues', requireAuth, async (req, res, next) => {
+//create venue for group through groupId
+router.post('/:groupId/venues', requireAuth,requireMembership, async (req, res, next) => {
     const { user } = req;
+    const { membership } = req;
     const group = await Group.findByPk(req.params.groupId);
     if (!group) {
         return res.status(404).json({ message: "Group couldn't be found" });
     }
-    if (user.id !== group.organizerId) {
+    if (user.id !== group.organizerId && membership.status !== 'Co-host') {
         return res.status(403).json({ messge: "User is not authorized to perform this action" });
     }
     const { address, city, state, lat, lng } = req.body;
