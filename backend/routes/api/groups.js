@@ -430,6 +430,7 @@ router.post('/:groupId/events', handleValidationErrors, requireAuth, requireMemb
 });
 
 // Get all Members of a Group specified by its id
+//**figure out how to show two success res */
 
 router.get('/:groupId/members', handleValidationErrors, async (req, res, next) => {
     const { user } = req;
@@ -570,9 +571,9 @@ router.put('/:groupId/membership', requireAuth, handleValidationErrors, async (r
             where: { groupId, memberId: userId },
         });
 
-        // if (!cohostMembership || cohostMembership.status !== 'Co-host') {
-        //     return res.status(403).json({ message: 'Unauthorized' });
-        // }
+        if (!cohostMembership || cohostMembership.status !== 'Co-host') {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
 
         // If changing status to "member", check if the current user has co-host status
         if (status === 'Member' && membership.status === 'Pending' && cohostMembership.status !== 'Co-host') {
