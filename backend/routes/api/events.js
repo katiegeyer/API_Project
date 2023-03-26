@@ -12,6 +12,7 @@ const user = require('../../db/models/user');
 const venue = require('../../db/models/venue');
 const { Router } = require('express');
 
+//Get all events
 
 router.get('/', async (req, res, next) => {
     const events = await Event.findAll({

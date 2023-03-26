@@ -58,27 +58,36 @@ const { Router } = require('express');
 
 router.put('/:venueId', handleValidationErrors, requireAuth, async (req, res, next) => {
     const { venueId } = req.params;
-
-    // const groupId = req.group.id;
+    const { user } = req;
+    // const { membership } = req;
     const {
         address, city, state, lat, lng
     } = req.body;
-    //how to connect Membership to this middleware
-    if (user.id !== group.organizerId && membership.status !== 'Co-host') {
-        return res.status(403).json({ messge: "User is not authorized to perform this action" });
+    //how to connect Membership.  query for group, query for co-host members of the group (do they have the same userid as the user dom id)
+    const group = await Group.findOne({ where: { organizerId: user.id } });
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id,
+            status: 'Organizer(host)' || 'Co-host'
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+    if (user.id !== group.organizerId && membership.status !== 'Co-host' && membership.status !== 'Organizer(host)') {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
     }
     const venue = await Venue.findOne({
         where: {
             id: venueId,
         },
     });
-
     if (!venue) {
         return res.status(404).json({
             message: "Venue couldn't be found",
         });
     }
-
     const updatedVenue = await venue.update({
         id: venue.id,
         groupId: group.id,
@@ -91,6 +100,8 @@ router.put('/:venueId', handleValidationErrors, requireAuth, async (req, res, ne
 
     return res.status(200).json(updatedVenue); //check on validation errors more ALSO TIME
 });
+
+
 
 
 

@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //define EventId
       Event.hasMany(models.EventImage, {
         foreignKey: 'id'
       })
@@ -31,6 +32,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     venueId: {
       type: DataTypes.INTEGER,
       references: {
