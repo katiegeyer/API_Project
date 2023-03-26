@@ -12,24 +12,85 @@ const user = require('../../db/models/user');
 const venue = require('../../db/models/venue');
 const { Router } = require('express');
 
-//Get all venues for group through groupId
 
-// router.get('/groups/:groupId/venues', requireAuth, async (req, res, next) => {
+// const requireMembership = async (req, res, next) => {
 //     const { user } = req;
-//     const group = await Group.findByPk(req.params.groupId);
-//     if (!group) {
-//         return res.status(404).json({ message: "Group couldn't be found" });
-//     }
-//     if (user.id !== group.organizerId) {
-//         return res.status(403).json({ messge: "User is not authorized to perform this action" });
-//     }
-//     const venues = await Venue.findAll({
+//     const { group } = req;
+//     const groupId = req.params.groupId;
+//     const membership = await Membership.findOne({
 //         where: {
-//             groupId: group.id
-//         }
+//             userId: user.id,
+//             groupId: group.id,
+//         },
 //     });
-//     return res.json(venues)
-// });
+//     if (!membership) {
+//         return res.status(403).json({ message: "User is not a member of this group" });
+//     }
+//     req.membership = membership;
+//     return next();
+// };
+
+// const requireHost = async (req, res, next) => {
+//     const { user } = req;
+//     const { group } = req;
+//     const groupId = req.params.groupId;
+//     const membership = await Membership.findOne({
+//         where: {
+//             userId: user.id,
+//             groupId: group.id,
+//         },
+//     });
+//     if (membership) {
+//         if (membership.status !== 'Organizer(host)' || membership.status !== 'Co-host') {
+//             return res.status(403).json({ message: "User is not authorized to perform this action" });
+//         }
+//     };
+//     if (!membership) {
+//         return res.status(403).json({ message: "User is not a member of this group" });
+//     }
+//     req.membership = membership;
+//     return next();
+// };
+
+
+
+// Edit a Venue specified by its id
+
+router.put('/:venueId', handleValidationErrors, requireAuth, async (req, res, next) => {
+    const { venueId } = req.params;
+
+    // const groupId = req.group.id;
+    const {
+        address, city, state, lat, lng
+    } = req.body;
+    //how to connect Membership to this middleware
+    if (user.id !== group.organizerId && membership.status !== 'Co-host') {
+        return res.status(403).json({ messge: "User is not authorized to perform this action" });
+    }
+    const venue = await Venue.findOne({
+        where: {
+            id: venueId,
+        },
+    });
+
+    if (!venue) {
+        return res.status(404).json({
+            message: "Venue couldn't be found",
+        });
+    }
+
+    const updatedVenue = await venue.update({
+        id: venue.id,
+        groupId: group.id,
+        address,
+        city,
+        state,
+        lat,
+        lng
+    });
+
+    return res.status(200).json(updatedVenue); //check on validation errors more ALSO TIME
+});
 
 
 

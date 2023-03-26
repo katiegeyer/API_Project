@@ -12,14 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Event.hasMany(models.EventImage, {
-        foreignKey: 'eventId'
+        foreignKey: 'id'
       })
       Event.hasMany(models.Attendance, {
         foreignKey: 'eventId'
       })
       Event.belongsToMany(models.User, {
         through: models.Attendance
-        // foriengKey: 'eventId',
+        // foriegnKey: 'eventId',
         // otherKey: 'userId'
       })
       Event.belongsTo(models.Group, {
@@ -89,7 +89,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isAfterStart: function (value) {
-          if (new Date(value).toDateString() <= new Date(this.startDate).toDateString()) {
+          if (new Date(value).toDateString() < new Date(this.startDate).toDateString()) {
             throw new Error('End date is less than start date');
           }
         }
@@ -98,6 +98,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   });
   return Event;
 };
