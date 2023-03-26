@@ -12,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Membership.belongsTo(models.User, {
-        foreignKey: 'id'
+        foreignKey: 'id',
+        onDelete: 'CASCADE'
       })
       Membership.belongsTo(models.Group, {
-        foreignKey: 'id'
+        foreignKey: 'id',
+        onDelete: 'CASCADE'
       })
     }
   }
@@ -46,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Membership',
+    onDelete: 'CASCADE'
   });
   return Membership;
 };

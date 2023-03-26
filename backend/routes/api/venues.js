@@ -72,6 +72,9 @@ router.put('/:venueId', handleValidationErrors, requireAuth, async (req, res, ne
             status: 'Organizer(host)' || 'Co-host'
         },
     })
+    if (!group) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
     if (!membership) {
         return res.status(403).json({ message: "User is not authorized to perform this action" });
     }

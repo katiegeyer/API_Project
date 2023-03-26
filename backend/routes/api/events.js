@@ -100,7 +100,7 @@ router.get('/:eventId', async (req, res, next) => {
             },
             attributes: {
                 exclude: ['eventId']
-              }
+            }
         });
         return {
             id: event.id,
@@ -121,5 +121,151 @@ router.get('/:eventId', async (req, res, next) => {
 
     prepEvent(event).then(data => res.status(200).json(data));
 });
+
+router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
+    const { user } = req;
+    const event = await Event.findByPk(req.params.eventId);
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    }
+    const group = await Group.findOne({ where: { organizerId: user.id } });
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id,
+            status: 'Co-host'
+        },
+    })
+    // check if the user is attending the event
+    const attendance = await Attendance.findOne({
+        where: {
+            userId: user.id,
+            eventId: event.id,
+            status: 'Attending'
+        }
+    });
+    if (!attendance) {
+        return res.status(403).json({ message: "User is not attending this event" });
+    }
+    if (!group && !membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    };
+    // if (!membership) {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" }); //figure out why a member (co-host/host) doesn't have privileges
+    // };
+
+    const { url, preview } = req.body;
+    const image = await EventImage.create({
+        url,
+        preview,
+        eventId: event.id
+    });
+    return res.status(200).json({
+        id: image.id,
+        url: image.url,
+        preview: image.preview
+    });
+})
+
+router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, next) => {
+    const { eventId } = req.params;
+    const { user } = req;
+    const {
+        venueId, name, type, capacity, price, description, startDate, endDate
+    } = req.body;
+    //how to connect Membership.  query for group, query for co-host members of the group (do they have the same userid as the user dom id)
+    const group = await Group.findOne({ where: { organizerId: user.id } });
+    // const membership = await Membership.findOne({
+    //     where: {
+    //         userId: user.id,
+    //         groupId: group.id
+    //     },
+    // })
+    // if (!group) {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
+    // }
+    // if (!membership) {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
+    // }
+    // if (user.id !== group.organizerId && membership.status !== 'Co-host') {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
+    // }
+    // if (!group || !membership) {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
+    // }
+
+    // if (user.id !== group.organizerId && membership.status !== 'Co-host') {
+    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
+    // }
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id,
+            status: ['Organizer(host)', 'Co-host']
+        },
+    });
+
+    if (!membership && membership.status !== 'Co-host' && membership.status !== 'Organizer(host)') {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+    const event = await Event.findOne({
+        where: {
+            id: eventId,
+        },
+    });
+    if (!event) {
+        return res.status(404).json({
+            message: "Event couldn't be found",
+        });
+    }
+    const updatedEvent = await event.update({
+        venueId,
+        name,
+        type,
+        capacity,
+        price,
+        description,
+        startDate,
+        endDate
+    });
+    const resBody = {
+        id: event.id,
+        groupId: event.groupId,
+        venueId: updatedEvent.venueId,
+        name: updatedEvent.name,
+        type: updatedEvent.type,
+        capacity: updatedEvent.capacity,
+        price: updatedEvent.price,
+        description: updatedEvent.description,
+        startDate: updatedEvent.startDate,
+        endDate: updatedEvent.endDate
+    }
+
+    return res.status(200).json(resBody); //ALLOWING FOR ANY USER TO MAKE CHANGES
+});
+
+//delete an event
+router.delete('/:eventId', requireAuth, async (req, res, next) => {
+    const { user } = req;
+    const event = await Event.findByPk(req.params.eventId);
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    };
+    const group = await Group.findOne({ where: { organizerId: user.id } });
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: group.id,
+            status: 'Co-host'
+        },
+    })
+    if (user.id !== group.organizerId && membership.status !== 'Co-host') {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+    await event.destroy();
+    return res.status(200).json({ message: "Successfully deleted" });
+});
+
+
 
 module.exports = router

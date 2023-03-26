@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'venueId'
       })
       Venue.belongsTo(models.Group, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE'
       })
     }
   }
@@ -63,6 +64,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Venue',
+    onDelete: 'CASCADE',
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt"]

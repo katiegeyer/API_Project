@@ -7,10 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Attendance.belongsTo(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'userId',
+        onDelete: 'CASCADE'
       })
       Attendance.belongsTo(models.Event, {
-        foreignKey: 'eventId'
+        foreignKey: 'eventId',
+        onDelete: 'CASCADE'
         //as: 'numAttended'
       })
     }
@@ -42,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Attendance',
+    onDelete: 'CASCADE'
   });
   return Attendance;
 };

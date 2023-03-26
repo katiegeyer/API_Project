@@ -24,7 +24,9 @@ module.exports = (sequelize, DataTypes) => {
         // otherKey: 'userId'
       })
       Event.belongsTo(models.Group, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE'
+
       })
       Event.belongsTo(models.Venue, {
         foreignKey: 'venueId'
@@ -105,6 +107,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    onDelete: 'CASCADE',
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt"]
