@@ -93,6 +93,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Group',
+    onDelete: 'CASCADE'
     // defaultScope: {
     //   attributes: {
     //     exclude: ["createdAt", "updatedAt"]

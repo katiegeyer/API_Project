@@ -11,19 +11,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      //define EventId
       Event.hasMany(models.EventImage, {
-        foreignKey: 'eventId'
+        foreignKey: 'id'
       })
       Event.hasMany(models.Attendance, {
         foreignKey: 'eventId'
       })
       Event.belongsToMany(models.User, {
-        through: 'Attendance',
-        foreignKey: 'eventId',
-        otherKey: 'userId'
+        through: models.Attendance
+        // foriegnKey: 'eventId',
+        // otherKey: 'userId'
       })
       Event.belongsTo(models.Group, {
-        foreignKey: 'groupId'
+        foreignKey: 'groupId',
+        onDelete: 'CASCADE'
+
       })
       Event.belongsTo(models.Venue, {
         foreignKey: 'venueId'
@@ -31,6 +34,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Event.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     venueId: {
       type: DataTypes.INTEGER,
       references: {
@@ -89,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         isAfterStart: function (value) {
-          if (new Date(value).toDateString() <= new Date(this.startDate).toDateString()) {
+          if (new Date(value).toDateString() < new Date(this.startDate).toDateString()) {
             throw new Error('End date is less than start date');
           }
         }
@@ -98,6 +107,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Event',
+    onDelete: 'CASCADE',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   });
   return Event;
 };
