@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       //define EventId
       Event.hasMany(models.EventImage, {
-        foreignKey: 'id'
+        foreignKey: 'eventId'
       })
       Event.hasMany(models.Attendance, {
         foreignKey: 'eventId'

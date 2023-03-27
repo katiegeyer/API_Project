@@ -18,6 +18,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Attendance.init({
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
     eventId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -35,11 +41,8 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade'
     },
     status: {
-      type: DataTypes.ENUM('Attending', 'Waitlist', 'Pending'),
+      type: DataTypes.ENUM('Attending', 'Waitlist', 'Pending',),
       allowNull: false,
-      validate: {
-        isIn: [['Attending', 'Waitlist', 'Pending']]
-      }
     },
   }, {
     sequelize,
