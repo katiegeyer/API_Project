@@ -105,29 +105,13 @@ router.put('/:venueId', handleValidationErrors, requireAuth, requireHost, async 
     const {
         address, city, state, lat, lng
     } = req.body;
-    //how to connect Membership.  query for group, query for co-host members of the group (do they have the same userid as the user dom id)
-
-    // const group = await Group.findOne({ where: { organizerId: user.id } });
-    // const membership = await Membership.findOne({
-    //     where: {
-    //         userId: user.id,
-    //         groupId: venue.groupId,
-    //         status: 'Organizer(host)' || 'Co-host'
-    //     },
-    // })
-    // if (!group) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-    // if (!membership) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-    // if (user.id !== group.organizerId && membership.status !== 'Co-host' && membership.status !== 'Organizer(host)') {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
     const venue = await Venue.findOne({
         where: {
             id: venueId,
         },
+        attributes: {
+            exclude: ['updatedAt']
+        }
     });
     if (!venue) {
         return res.status(404).json({
