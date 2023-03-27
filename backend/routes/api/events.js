@@ -123,7 +123,7 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
     prepEvent(event).then(data => res.status(200).json(data));
 });
 
-
+//add image to event
 
 
 router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
@@ -141,14 +141,9 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         where: {
             userId: user.id,
             groupId: event.groupId,
-            status: 'Co-host'
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
         },
     });
-
-    if (!group && !membership) {
-        return res.status(403).json({ message: "User is not authorized to perform this action" });
-    };
-    // Check if the user is attending the event
     const attendance = await Attendance.findOne({
         where: {
             userId: user.id,
@@ -158,9 +153,13 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     });
 
-    if (!attendance) {
-        return res.status(403).json({ message: "User is not attending this event" });
-    }
+    if (!group && !membership) {
+        if (!attendance) {
+            return res.status(403).json({ message: "User is not attending this event" });
+        }
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    };
+    // Check if the user is attending the event
 
     const { url, preview } = req.body;
     const image = await EventImage.create({
