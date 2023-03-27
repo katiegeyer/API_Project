@@ -145,7 +145,7 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
             userId: user.id,
             eventId: event.id,
             status: 'Attending'
-        }
+        }, raw: true,
     });
     if (!attendance) {
         return res.status(403).json({ message: "User is not attending this event" });
@@ -163,6 +163,7 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         preview,
         eventId: event.id
     });
+    console.log('Created image', image.toJSON());
     return res.status(200).json({
         id: image.id,
         // eventId: image.eventId,
