@@ -464,10 +464,7 @@ router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async
     await attendance.destroy();
 
     return res.status(200).json({ message: "Successfully deleted attendance from event" });
-};
-
-
-})
+});
 
 
 
