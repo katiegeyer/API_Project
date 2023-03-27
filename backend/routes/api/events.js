@@ -286,7 +286,19 @@ router.get('/:eventId/attendees', async (req, res) => {
         },
     })
     if (!membership) {
-        return res.status(403).json({ message: "User is not authorized to perform this action" });
+        const filteredAttendees = attendees.Attendances.filter(attendance =>
+            attendance.status === 'Attending' || attendance.status === 'Waitlist'
+        );
+        return res.status(200).json({
+            Attendees: filteredAttendees.map(attendance => ({
+                id: attendance.User.id,
+                firstName: attendance.User.firstName,
+                lastName: attendance.User.lastName,
+                Attendance: {
+                    status: attendance.status
+                }
+            }))
+        });
     }
     return res.status(200).json({
         Attendees: attendees.Attendances.map(attendance => ({
@@ -322,8 +334,7 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
             userId: user.id,
             eventId,
             status: 'Pending'
-        }, { raw: true }
-        )
+        })
         return res.status(200).json({
             userId: newAttendance.userId,
             status: newAttendance.status
@@ -332,7 +343,8 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
     if (attendance.status === 'Pending') {
         return res.status(400).json({ message: "Attendance has already been requested" })
     }
-    return res.status(400).json({ message: "User is already an attendee of the event" })
+    if (attendance.status === 'Attending')
+        return res.status(400).json({ message: "User is already an attendee of the event" })
 });
 
 //change attendance status
