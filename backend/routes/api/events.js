@@ -429,44 +429,32 @@ router.put('/:eventId/attendance', requireAuth, handleValidationErrors, async (r
 
 });
 
+//delete an attendance
 router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
-    const eventId = req.params.eventId;
-    const currentUserId = req.user.id;
-    const userIdToDelete = req.body.userId;
-
-    // Find the event
-    const event = await Event.findByPk(eventId);
-    if (!event) {
-        return res.status(404).json({ message: "Event couldn't be found" });
-    }
-
-    // Check if the current user is the host of the group
-    const group = await Group.findOne({ where: { organizerId: currentUserId, id: event.groupId } });
-
-    // Find the attendance
+    const { user } = req;
+    const { eventId } = req.params;
     const attendance = await Attendance.findOne({
         where: {
-            eventId: eventId,
-            userId: userIdToDelete
+            eventId,
+            userId: user.id
         }
     });
-
     if (!attendance) {
-        return res.status(404).json({ message: "Attendance does not exist for this User" });
+        return res.status(404).json({ message: "Attendance does not exist for this User" })
     }
-
-    // Check if the current user is authorized to delete the attendance
-    if (currentUserId !== userIdToDelete && !group) {
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            status: 'Organizer(host)'
+        },
+    })
+    if (!membership) {
         return res.status(403).json({ message: "Only the User or organizer may delete an Attendance" });
     }
 
-    // Delete the attendance
     await attendance.destroy();
-
     return res.status(200).json({ message: "Successfully deleted attendance from event" });
 });
-
-
 
 
 module.exports = router
