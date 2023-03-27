@@ -138,8 +138,19 @@ router.put('/:venueId', handleValidationErrors, requireAuth, requireHost, async 
         lng
     });
 
-    return res.status(200).json(updatedVenue); //check on validation errors more ALSO TIME
+    const responseVenue = {
+        id: updatedVenue.id,
+        groupId: updatedVenue.groupId,
+        address: updatedVenue.address,
+        city: updatedVenue.city,
+        state: updatedVenue.state,
+        lat: updatedVenue.lat,
+        lng: updatedVenue.lng
+    }
+
+    return res.status(200).json(responseVenue);
 });
+
 
 
 
