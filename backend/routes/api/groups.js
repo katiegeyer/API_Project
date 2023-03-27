@@ -333,8 +333,20 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
 
 router.get('/:groupId/venues', requireAuth, async (req, res, next) => { //RETURNING EMPTY ARRAY IF USER DOESN'T CREATE VENUE
     const { user } = req;
+    const { groupId } = req.params;
+    const group = await Group.findByPk(groupId);
     if (!group) {
         return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: groupId,
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
     }
     const venue = await Group.findByPk(req.params.groupId, {
         attributes: [],
