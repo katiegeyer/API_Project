@@ -369,8 +369,6 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
             userId: user.id,
             eventId,
             status: 'Pending'
-        }, {
-            fields: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
         })
         return res.status(200).json({
             userId: newAttendance.userId,
