@@ -8,7 +8,8 @@ module.exports = (sequelize, DataTypes) => {
       //   // define association here
       Group.belongsTo(models.User, {
         foreignKey: 'organizerId',
-        as: 'Organizer'
+        as: 'Organizer',
+        onDelete: 'CASCADE'
       })
       Group.belongsToMany(models.User, {
         through: 'Membership',
@@ -42,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       references: {
         model: 'Users'
       },
+      onDelete: 'CASCADE'
     },
     name: {
       type: DataTypes.STRING(60),
