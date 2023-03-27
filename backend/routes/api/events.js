@@ -175,6 +175,8 @@ router.get('/:eventId', async (req, res, next) => {
 
 router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
+    const { eventId } = req.params;
+
     const event = await Event.findByPk(req.params.eventId);
     if (!event) {
         return res.status(404).json({ message: "Event couldn't be found" });
@@ -190,11 +192,14 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         },
     });
 
+    if (!group && !membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    };
     // Check if the user is attending the event
     const attendance = await Attendance.findOne({
         where: {
             userId: user.id,
-            eventId: event.id,
+            eventId,
             status: 'Attending'
         }
     });
@@ -203,9 +208,6 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         return res.status(403).json({ message: "User is not attending this event" });
     }
 
-    if (!group && !membership) {
-        return res.status(403).json({ message: "User is not authorized to perform this action" });
-    };
 
     const { url, preview } = req.body;
     const image = await EventImage.create({
