@@ -45,7 +45,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Membership',
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt"]
+      }
+    }
   });
   return Membership;
 };

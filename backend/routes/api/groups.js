@@ -673,7 +673,12 @@ router.put('/:groupId/membership', requireAuth, handleValidationErrors, async (r
     // console.log(targetUserMembership.status);
     await targetUserMembership.save();
 
-    return res.status(200).json(targetUserMembership);
+    return res.status(200).json({
+        id: targetUserMembership.id,
+        groupId: targetUserMembership.groupId,
+        memberId: targetUserMembership.userId,
+        status: targetUserMembership.status
+    });
 });
 
 
