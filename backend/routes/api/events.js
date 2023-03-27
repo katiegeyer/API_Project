@@ -208,12 +208,11 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
         return res.status(403).json({ message: "User is not attending this event" });
     }
 
-
     const { url, preview } = req.body;
     const image = await EventImage.create({
         url,
         preview,
-        eventId: event.id
+        eventId
     });
     console.log('Created image', image.toJSON());
     return res.status(200).json({
