@@ -125,37 +125,87 @@ router.get('/:eventId', async (req, res, next) => {
 
 // Add an Image to a Event based on the Event's id
 
+// router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
+//     const { user } = req;
+//     const event = await Event.findByPk(req.params.eventId);
+//     if (!event) {
+//         return res.status(404).json({ message: "Event couldn't be found" });
+//     }
+//     const group = await Group.findOne({ where: { organizerId: user.id } });
+//     const membership = await Membership.findOne({
+//         where: {
+//             userId: user.id,
+//             groupId: group.id,
+//             status: 'Co-host'
+//         },
+//     })
+//     // check if the user is attending the event
+//     const attendance = await Attendance.findOne({
+//         where: {
+//             userId: user.id,
+//             eventId: event.id,
+//             status: 'Attending'
+//         }, raw: true,
+//     });
+//     if (!attendance) {
+//         return res.status(403).json({ message: "User is not attending this event" });
+//     }
+//     if (!group && !membership) {
+//         return res.status(403).json({ message: "User is not authorized to perform this action" });
+//     };
+//     // if (!membership) {
+//     //     return res.status(403).json({ message: "User is not authorized to perform this action" }); //figure out why a member (co-host/host) doesn't have privileges
+//     // };
+
+//     const { url, preview } = req.body;
+//     const image = await EventImage.create({
+//         url,
+//         preview,
+//         eventId: event.id
+//     });
+//     console.log('Created image', image.toJSON());
+//     return res.status(200).json({
+//         id: image.id,
+//         // eventId: image.eventId,
+//         url: image.url,
+//         preview: image.preview
+//     });
+// })
+
+
 router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const event = await Event.findByPk(req.params.eventId);
     if (!event) {
         return res.status(404).json({ message: "Event couldn't be found" });
     }
-    const group = await Group.findOne({ where: { organizerId: user.id } });
+    const group = await Group.findOne({ where: { organizerId: user.id, id: event.groupId } });
+
+    // Find the membership
     const membership = await Membership.findOne({
         where: {
             userId: user.id,
-            groupId: group.id,
+            groupId: event.groupId,
             status: 'Co-host'
         },
-    })
-    // check if the user is attending the event
+    });
+
+    // Check if the user is attending the event
     const attendance = await Attendance.findOne({
         where: {
             userId: user.id,
             eventId: event.id,
             status: 'Attending'
-        }, raw: true,
+        }
     });
+
     if (!attendance) {
         return res.status(403).json({ message: "User is not attending this event" });
     }
+
     if (!group && !membership) {
         return res.status(403).json({ message: "User is not authorized to perform this action" });
     };
-    // if (!membership) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" }); //figure out why a member (co-host/host) doesn't have privileges
-    // };
 
     const { url, preview } = req.body;
     const image = await EventImage.create({
@@ -166,11 +216,12 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
     console.log('Created image', image.toJSON());
     return res.status(200).json({
         id: image.id,
-        // eventId: image.eventId,
         url: image.url,
         preview: image.preview
     });
 })
+
+//edit an event by id
 
 router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { eventId } = req.params;
@@ -378,6 +429,45 @@ router.put('/:eventId/attendance', requireAuth, handleValidationErrors, async (r
 
 });
 
+router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
+    const eventId = req.params.eventId;
+    const currentUserId = req.user.id;
+    const userIdToDelete = req.body.userId;
+
+    // Find the event
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    }
+
+    // Check if the current user is the host of the group
+    const group = await Group.findOne({ where: { organizerId: currentUserId, id: event.groupId } });
+
+    // Find the attendance
+    const attendance = await Attendance.findOne({
+        where: {
+            eventId: eventId,
+            userId: userIdToDelete
+        }
+    });
+
+    if (!attendance) {
+        return res.status(404).json({ message: "Attendance does not exist for this User" });
+    }
+
+    // Check if the current user is authorized to delete the attendance
+    if (currentUserId !== userIdToDelete && !group) {
+        return res.status(403).json({ message: "Only the User or organizer may delete an Attendance" });
+    }
+
+    // Delete the attendance
+    await attendance.destroy();
+
+    return res.status(200).json({ message: "Successfully deleted attendance from event" });
+};
+
+
+})
 
 
 
