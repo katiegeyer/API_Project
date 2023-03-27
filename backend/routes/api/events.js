@@ -457,5 +457,73 @@ router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async
     return res.status(200).json({ message: "Successfully deleted attendance from event" });
 });
 
+//QUERY FILTERS
+
+router.get('/', handleValidationErrors, async (req, res) => {
+    let { name, type, startDate, page, size } = req.query;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (Number.isNaN(page)) page = 1;
+    if (Number.isNaN(size)) size = 20;
+    if (size > 20) size = 20;
+
+    const where = {};
+
+    if (name) {
+        where.name = name;
+    }
+
+    if (type) {
+        if (type === 'Online' || type === 'In Person') {
+            where.type = type;
+        } else {
+            res.status(400);
+            return res.json({
+                errors: [
+                    { message: "Type must be 'Online' or 'In Person'" }
+                ]
+            });
+        }
+    }
+
+    if (startDate) {
+        if (!isNaN(Date.parse(startDate))) {
+            where.startDate = startDate;
+        } else {
+            res.status(400);
+            return res.json({
+                errors: [
+                    { message: 'Start date must be a valid datetime' }
+                ]
+            });
+        }
+    }
+
+    const events = await Event.findAll({
+        where,
+        limit: size,
+        offset: (page - 1) * size,
+        include: [
+            {
+                model: Group,
+                attributes: ['id', 'name', 'city', 'state'],
+            },
+            {
+                model: Venue,
+                attributes: ['id', 'city', 'state'],
+            },
+        ],
+    });
+
+    return res.json({
+        Events: events,
+        page,
+        size,
+    });
+});
+
+
 
 module.exports = router

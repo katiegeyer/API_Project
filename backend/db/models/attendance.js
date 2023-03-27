@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       Attendance.belongsTo(models.Event, {
         foreignKey: 'eventId',
         onDelete: 'CASCADE'
-        //as: 'numAttended'
       })
     }
   }
