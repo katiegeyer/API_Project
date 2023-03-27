@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('Organizer(host)', 'Co-host', 'Member', 'Pending'),
       allowNull: false,
       validate: {
-        isIn: [['Organizer(host)', 'Co-host', 'Member', 'Pending']]
+        isIn: ['Organizer(host)', 'Co-host', 'Member', 'Pending']
       }
     },
   }, {

@@ -39,7 +39,7 @@ const requireHost = async (req, res, next) => {
         },
     });
     if (membership) {
-        if (membership.status !== 'Organizer(host)' || membership.status !== 'Co-host') {
+        if (membership.status !== 'Organizer(host)' && membership.status !== 'Co-host') {
             return res.status(403).json({ message: "User is not authorized to perform this action" });
         }
     };
@@ -50,13 +50,57 @@ const requireHost = async (req, res, next) => {
     return next();
 };
 
-//CHANGE TIME FORMAT
+
 
 //Get all groups
 router.get('/', async (req, res, next) => {
-    const groups = await Group.findAll();
-    return res.status(200).json(groups)
-})
+    const groups = await Group.findAll({
+        include: [{
+            model: GroupImage,
+            attributes: ['url']
+            // limit: 1
+        }]
+    });
+    const prepGroup = async (group) => {
+        const img = await GroupImage.findOne({
+            where: {
+                groupId: group.id,
+                preview: true
+            },
+        });
+        const previewImage = img ? img.url : null;
+        // console.log(group.name);
+        // console.log(previewImage.url);
+        const numMembers = await Membership.count({
+            where: {
+                groupId: group.id
+            },
+        })
+        return {
+            id: group.id,
+            organizerId: group.organizerId,
+            name: group.name,
+            about: group.about,
+            type: group.type,
+            private: group.private,
+            city: group.city,
+            state: group.state,
+            createdAt: group.createdAt,
+            updatedAt: group.updatedAt,
+            numMembers,
+            previewImage
+        }
+    }
+    const getData = async () => {
+        return Promise.all(groups.map((group) => {
+            return prepGroup(group)
+        }));
+    };
+    getData().then(data => res.status(200).json(data))
+});
+
+//     return res.status(200).json(groups)
+// })
 
 
 //Get all Groups joined or organized by the Current User
@@ -86,7 +130,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
         include: [{
             model: GroupImage,
             attributes: ['url'],
-            limit: 1
+            // limit: 1
         }]
     });
     const prepGroup = async (group) => {
@@ -125,7 +169,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             return prepGroup(group)
         }));
     };
-    getData().then(data => res.status(200).json(data))
+    getData().then(data => res.status(200).json({ Groups: data }))
 })
 
 //Get group details from id
@@ -149,6 +193,7 @@ router.get('/:groupId', requireAuth, async (req, res, next) => {
                 as: 'Venue'
             }
         ]
+
     });
     if (!group) {
         return res.status(404).json({ "message": "Group couldn't be found", })
@@ -554,6 +599,10 @@ router.put('/:groupId/membership', requireAuth, handleValidationErrors, async (r
     const { groupId } = req.params;
     const { memberId, status } = req.body;
     const userId = req.user.id;
+    // Check if changing status to "pending"
+    if (status === 'Pending') {
+        return res.status(400).json({ message: 'Validations Error', errors: { status: 'Cannot change a membership status to pending' } });
+    }
     const group = await Group.findByPk(groupId);
     if (!group) {
         return res.status(404).json({ message: "Group couldn't be found" });
@@ -564,39 +613,38 @@ router.put('/:groupId/membership', requireAuth, handleValidationErrors, async (r
     if (!membership) {
         return res.status(404).json({ message: 'Membership between the user and the group does not exist' });
     }
-    // Check if user is the organizer
-    if (group.organizerId !== userId) {
-        // If user is not the organizer, check if user has co-host status
-        const cohostMembership = await Membership.findOne({
-            where: { groupId, memberId: userId },
-        });
-
-        if (!cohostMembership || cohostMembership.status !== 'Co-host') {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
-
-        // If changing status to "member", check if the current user has co-host status
-        if (status === 'Member' && membership.status === 'Pending' && cohostMembership.status !== 'Co-host') {
-            return res.status(403).json({ message: 'Unauthorized' });
-        }
-    }
-
-    // Check if changing status to "pending"
-    if (status === 'Pending') {
-        return res.status(400).json({ message: 'Validations Error', errors: { status: 'Cannot change a membership status to pending' } });
-    }
-
     // Check if user exists
     const user = await User.findByPk(memberId);
     if (!user) {
-        return res.status(400).json({ message: 'Validation Error', errors: { memberId: "User couldn't be found" } });
+        return res.status(404).json({ message: 'Validation Error', errors: { memberId: "User couldn't be found" } });
     }
 
-    // Update membership status
-    membership.status = status;
-    await membership.save();
+    const currentUserMembershipStatus = membership.status;
 
-    return res.status(200).json(membership);
+    const targetUserMembership = await Membership.findOne({
+        where: {
+            userId: memberId,
+            groupId
+        }
+    });
+    const targetUserMembershipStatus = targetUserMembership.status;
+    if (targetUserMembershipStatus === 'Pending' && status === 'Member') {
+        if (currentUserMembershipStatus !== 'Organizer(host)' && currentUserMembershipStatus !== 'Co-host') {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+    }
+    if (targetUserMembershipStatus === 'Member' && status === 'Co-host') {
+        if (currentUserMembershipStatus !== 'Organizer(host)') {
+            return res.status(403).json({ message: 'Unauthorized' });
+        }
+    }
+
+
+    // Update membership status
+    targetUserMembership.status = status;
+    await targetUserMembership.save();
+
+    return res.status(200).json(targetUserMembership);
 });
 
 

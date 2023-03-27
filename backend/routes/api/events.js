@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { OP } = require('sequelize');
+const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
@@ -109,6 +109,7 @@ router.get('/:eventId', async (req, res, next) => {
             name: event.name,
             description: event.description,
             type: event.type,
+            capacity: event.capacity,
             price: event.price,
             startDate: event.startDate,
             endDate: event.endDate,
@@ -174,7 +175,6 @@ router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, ne
         venueId, name, type, capacity, price, description, startDate, endDate
     } = req.body;
     //how to connect Membership.  query for group, query for co-host members of the group (do they have the same userid as the user dom id)
-    const group = await Group.findOne({ where: { organizerId: user.id } });
     // const membership = await Membership.findOne({
     //     where: {
     //         userId: user.id,
@@ -197,17 +197,6 @@ router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, ne
     // if (user.id !== group.organizerId && membership.status !== 'Co-host') {
     //     return res.status(403).json({ message: "User is not authorized to perform this action" });
     // }
-    const membership = await Membership.findOne({
-        where: {
-            userId: user.id,
-            groupId: group.id,
-            status: ['Organizer(host)', 'Co-host']
-        },
-    });
-
-    if (!membership && membership.status !== 'Co-host' && membership.status !== 'Organizer(host)') {
-        return res.status(403).json({ message: "User is not authorized to perform this action" });
-    }
     const event = await Event.findOne({
         where: {
             id: eventId,
@@ -218,6 +207,16 @@ router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, ne
             message: "Event couldn't be found",
         });
     }
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: event.groupId,
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    };
     const updatedEvent = await event.update({
         venueId,
         name,
