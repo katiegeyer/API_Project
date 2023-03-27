@@ -123,54 +123,7 @@ router.get('/:eventId', async (req, res, next) => {
     prepEvent(event).then(data => res.status(200).json(data));
 });
 
-// Add an Image to a Event based on the Event's id
 
-// router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
-//     const { user } = req;
-//     const event = await Event.findByPk(req.params.eventId);
-//     if (!event) {
-//         return res.status(404).json({ message: "Event couldn't be found" });
-//     }
-//     const group = await Group.findOne({ where: { organizerId: user.id } });
-//     const membership = await Membership.findOne({
-//         where: {
-//             userId: user.id,
-//             groupId: group.id,
-//             status: 'Co-host'
-//         },
-//     })
-//     // check if the user is attending the event
-//     const attendance = await Attendance.findOne({
-//         where: {
-//             userId: user.id,
-//             eventId: event.id,
-//             status: 'Attending'
-//         }, raw: true,
-//     });
-//     if (!attendance) {
-//         return res.status(403).json({ message: "User is not attending this event" });
-//     }
-//     if (!group && !membership) {
-//         return res.status(403).json({ message: "User is not authorized to perform this action" });
-//     };
-//     // if (!membership) {
-//     //     return res.status(403).json({ message: "User is not authorized to perform this action" }); //figure out why a member (co-host/host) doesn't have privileges
-//     // };
-
-//     const { url, preview } = req.body;
-//     const image = await EventImage.create({
-//         url,
-//         preview,
-//         eventId: event.id
-//     });
-//     console.log('Created image', image.toJSON());
-//     return res.status(200).json({
-//         id: image.id,
-//         // eventId: image.eventId,
-//         url: image.url,
-//         preview: image.preview
-//     });
-// })
 
 
 router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
@@ -362,14 +315,15 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
             userId: user.id,
             eventId
         },
-        attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
+        attributes: ['id', 'eventId', 'userId', 'status']
     })
     if (!attendance) {
         const newAttendance = await Attendance.create({
             userId: user.id,
             eventId,
             status: 'Pending'
-        })
+        }, { raw: true }
+        )
         return res.status(200).json({
             userId: newAttendance.userId,
             status: newAttendance.status
