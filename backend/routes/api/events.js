@@ -14,7 +14,7 @@ const { Router } = require('express');
 
 //Get all events
 
-router.get('/', async (req, res, next) => {
+router.get('/', handleValidationErrors, async (req, res, next) => {
     const events = await Event.findAll({
         attributes: ['id', 'name', 'type', 'startDate', 'endDate'],
         include: [{
@@ -68,7 +68,7 @@ router.get('/', async (req, res, next) => {
 
 
 
-router.get('/:eventId', async (req, res, next) => {
+router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
     const event = await Event.findByPk(req.params.eventId, {
         attributes: ['id', 'name', 'description', 'type', 'capacity', 'price', 'startDate', 'endDate'],
         include: [
@@ -231,7 +231,7 @@ router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, ne
 });
 
 //delete an event
-router.delete('/:eventId', requireAuth, async (req, res, next) => {
+router.delete('/:eventId', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const event = await Event.findByPk(req.params.eventId);
     if (!event) {
@@ -254,7 +254,7 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
 
 
 // Get all Attendees of an Event specified by its id
-router.get('/:eventId/attendees', async (req, res) => {
+router.get('/:eventId/attendees', handleValidationErrors, async (req, res) => {
     const { user } = req;
     const { eventId } = req.params;
 

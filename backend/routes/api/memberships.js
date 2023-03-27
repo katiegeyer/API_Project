@@ -13,7 +13,7 @@ const venue = require('../../db/models/venue');
 const { Router } = require('express');
 
 //Delete a membership
-router.delete('/:groupId/membership', requireAuth, async (req, res, next) => {
+router.delete('/:groupId/membership', handleValidationErrors, requireAuth, async (req, res, next) => {
     const { user } = req;
     const membership = await Group.findByPk(req.params.userId);
     if (!membership) {

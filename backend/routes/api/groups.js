@@ -53,7 +53,7 @@ const requireHost = async (req, res, next) => {
 
 
 //Get all groups
-router.get('/', async (req, res, next) => {
+router.get('/', handleValidationErrors, async (req, res, next) => {
     const groups = await Group.findAll({
         include: [{
             model: GroupImage,
@@ -96,7 +96,7 @@ router.get('/', async (req, res, next) => {
             return prepGroup(group)
         }));
     };
-    getData().then(data => res.status(200).json(data))
+    getData().then(data => res.status(200).json({ Groups: data }))
 });
 
 //     return res.status(200).json(groups)
@@ -105,7 +105,7 @@ router.get('/', async (req, res, next) => {
 
 //Get all Groups joined or organized by the Current User
 
-router.get('/current', requireAuth, async (req, res, next) => {
+router.get('/current', requireAuth, handleValidationErrors, async (req, res, next) => {
     let { user } = req;
     const memberships = await Membership.findAll({
         where: {
@@ -174,7 +174,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 //Get group details from id
 
-router.get('/:groupId', requireAuth, async (req, res, next) => {
+router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, next) => {
     const group = await Group.findByPk(req.params.groupId, {
 
         include: [
@@ -316,7 +316,7 @@ router.put('/:groupId', handleValidationErrors, requireAuth, requireHost, async 
 
 //delete an event
 
-router.delete('/:groupId', requireAuth, async (req, res, next) => {
+router.delete('/:groupId', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const group = await Group.findByPk(req.params.groupId);
     if (!group) {
@@ -331,7 +331,7 @@ router.delete('/:groupId', requireAuth, async (req, res, next) => {
 
 //Get all venues for group through groupId
 
-router.get('/:groupId/venues', requireAuth, async (req, res, next) => { //RETURNING EMPTY ARRAY IF USER DOESN'T CREATE VENUE
+router.get('/:groupId/venues', requireAuth, handleValidationErrors, async (req, res, next) => { //RETURNING EMPTY ARRAY IF USER DOESN'T CREATE VENUE
     const { user } = req;
     const { groupId } = req.params;
     const group = await Group.findByPk(groupId);
@@ -374,7 +374,7 @@ router.get('/:groupId/venues', requireAuth, async (req, res, next) => { //RETURN
 // });
 
 //create venue for group through groupId
-router.post('/:groupId/venues', requireAuth, requireMembership, async (req, res, next) => {
+router.post('/:groupId/venues', requireAuth, handleValidationErrors, requireMembership, async (req, res, next) => {
     const { user } = req;
     const { membership } = req;
     const group = await Group.findByPk(req.params.groupId);
@@ -406,7 +406,7 @@ router.post('/:groupId/venues', requireAuth, requireMembership, async (req, res,
 
 //Get all Events of a Group specified by its id
 
-router.get('/:groupId/events', async (req, res, next) => {
+router.get('/:groupId/events', handleValidationErrors, async (req, res, next) => {
     const group = await Group.findByPk(req.params.groupId);
     if (!group) {
         return res.status(404).json({ message: "Group couldn't be found" });
