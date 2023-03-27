@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
@@ -123,6 +123,8 @@ router.get('/:eventId', async (req, res, next) => {
     prepEvent(event).then(data => res.status(200).json(data));
 });
 
+// Add an Image to a Event based on the Event's id
+
 router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const event = await Event.findByPk(req.params.eventId);
@@ -163,6 +165,7 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
     });
     return res.status(200).json({
         id: image.id,
+        // eventId: image.eventId,
         url: image.url,
         preview: image.preview
     });
@@ -174,29 +177,6 @@ router.put('/:eventId', requireAuth, handleValidationErrors, async (req, res, ne
     const {
         venueId, name, type, capacity, price, description, startDate, endDate
     } = req.body;
-    //how to connect Membership.  query for group, query for co-host members of the group (do they have the same userid as the user dom id)
-    // const membership = await Membership.findOne({
-    //     where: {
-    //         userId: user.id,
-    //         groupId: group.id
-    //     },
-    // })
-    // if (!group) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-    // if (!membership) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-    // if (user.id !== group.organizerId && membership.status !== 'Co-host') {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-    // if (!group || !membership) {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
-
-    // if (user.id !== group.organizerId && membership.status !== 'Co-host') {
-    //     return res.status(403).json({ message: "User is not authorized to perform this action" });
-    // }
     const event = await Event.findOne({
         where: {
             id: eventId,
@@ -264,6 +244,140 @@ router.delete('/:eventId', requireAuth, async (req, res, next) => {
     await event.destroy();
     return res.status(200).json({ message: "Successfully deleted" });
 });
+
+
+// Get all Attendees of an Event specified by its id
+router.get('/:eventId/attendees', async (req, res) => {
+    const { user } = req;
+    const { eventId } = req.params;
+
+    const attendees = await Event.findByPk(eventId, {
+
+        include: [
+            {
+                model: Attendance,
+                attributes: ['userId', 'status'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id', 'firstName', 'lastName'],
+                    }
+                ]
+            },
+        ],
+    });
+
+    if (!attendees) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: attendees.groupId,
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+    return res.status(200).json({
+        Attendees: attendees.Attendances.map(attendance => ({
+            id: attendance.User.id,
+            firstName: attendance.User.firstName,
+            lastName: attendance.User.lastName,
+            Attendance: {
+                status: attendance.status
+            }
+        }))
+    });
+});
+
+router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
+    const { user } = req;
+    const { eventId } = req.params;
+
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" });
+    }
+    const attendance = await Attendance.findOne({
+        where: {
+            eventId,
+            userId: user.id
+        }
+    })
+    if (!attendance) {
+        const newAttendance = await Attendance.create({
+            eventId,
+            userId: user.id,
+            status: 'Pending'
+        })
+        return res.status(200).json({
+            userId: newAttendance.userId,
+            status: newAttendance.status
+        })
+    }
+    if (attendance.status === 'Pending') {
+        return res.status(400).json({ message: "Attendance has already been requested" })
+    }
+    return res.status(400).json({ message: "User is already an attendee of the event" })
+});
+
+//change attendance status
+
+router.put('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
+
+    const { user } = req;
+    const { eventId } = req.params;
+    const { userId, status } = req.body;
+
+    if (status === 'Pending') {
+        return res.status(400).json({ message: "Cannot change an attendance status to pending" })
+    }
+    const event = await Event.findByPk(eventId);
+    if (!event) {
+        return res.status(404).json({ message: "Event couldn't be found" })
+    }
+
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId: event.groupId,
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
+    }
+
+
+    const attendance = await Attendance.findOne({
+        attributes: ['id', 'eventId', 'userId', 'status'],
+        where: {
+            eventId,
+            userId: userId
+        }
+    })
+
+    if (!attendance) {
+        return res.status(404).json({ message: "Attendance record couldn't be found" });
+    }
+
+    attendance.status = status;
+    await attendance.save();
+
+    return res.status(200).json({
+        id: attendance.id,
+        eventId: attendance.eventId,
+        userId: attendance.userId,
+        status: attendance.status
+
+    })
+
+});
+
+
 
 
 

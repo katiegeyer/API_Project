@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { OP } = require('sequelize');
+const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
@@ -195,10 +195,27 @@ router.get('/:groupId', requireAuth, async (req, res, next) => {
         ]
 
     });
+    const numMembers = await Membership.count({
+        where: {
+            groupId: group.id
+        },
+    });
     if (!group) {
         return res.status(404).json({ "message": "Group couldn't be found", })
     };
-    return res.json(group)
+    return res.json({
+        id: group.id,
+        organizerId: group.organizerId,
+        name: group.name,
+        about: group.about,
+        type: group.type,
+        private: group.private,
+        city: group.city,
+        state: group.state,
+        numMembers,
+        createdAt: group.createdAt,
+        updatedAt: group.updatedAt
+    })
 });
 
 //create a Group
@@ -479,10 +496,21 @@ router.post('/:groupId/events', handleValidationErrors, requireAuth, requireMemb
 
 router.get('/:groupId/members', handleValidationErrors, async (req, res, next) => {
     const { user } = req;
-    const { membership } = req;
-    const group = await Group.findByPk(req.params.groupId);
+    const { groupId } = req.params;
+    // const { membership } = req;
+    const group = await Group.findByPk(groupId);
     if (!group) {
         return res.status(404).json({ message: "Group couldn't be found" });
+    }
+    const membership = await Membership.findOne({
+        where: {
+            userId: user.id,
+            groupId,
+            status: { [Op.in]: ['Organizer(host)', 'Co-host'] }
+        },
+    })
+    if (!membership) {
+        return res.status(403).json({ message: "User is not authorized to perform this action" });
     }
     const members = await Membership.findAll({
         where: {
@@ -642,6 +670,7 @@ router.put('/:groupId/membership', requireAuth, handleValidationErrors, async (r
 
     // Update membership status
     targetUserMembership.status = status;
+    // console.log(targetUserMembership.status);
     await targetUserMembership.save();
 
     return res.status(200).json(targetUserMembership);

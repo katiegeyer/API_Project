@@ -41,9 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     status: {
       type: DataTypes.ENUM('Organizer(host)', 'Co-host', 'Member', 'Pending'),
       allowNull: false,
-      validate: {
-        isIn: ['Organizer(host)', 'Co-host', 'Member', 'Pending']
-      }
     },
   }, {
     sequelize,
