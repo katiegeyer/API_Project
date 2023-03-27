@@ -347,6 +347,8 @@ router.get('/:eventId/attendees', async (req, res) => {
     });
 });
 
+//request attendance
+
 router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const { eventId } = req.params;
@@ -364,8 +366,8 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
     })
     if (!attendance) {
         const newAttendance = await Attendance.create({
-            eventId,
             userId: user.id,
+            eventId,
             status: 'Pending'
         })
         return res.status(200).json({
@@ -433,6 +435,7 @@ router.put('/:eventId/attendance', requireAuth, handleValidationErrors, async (r
 });
 
 //delete an attendance
+
 router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
     const { eventId } = req.params;
