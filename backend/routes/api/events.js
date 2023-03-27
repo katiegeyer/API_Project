@@ -440,7 +440,8 @@ router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async
         where: {
             eventId,
             userId: user.id
-        }
+        },
+        attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     });
     if (!attendance) {
         return res.status(404).json({ message: "Attendance does not exist for this User" })
