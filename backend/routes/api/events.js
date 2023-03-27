@@ -201,7 +201,8 @@ router.post('/:eventId/images', requireAuth, handleValidationErrors, async (req,
             userId: user.id,
             eventId,
             status: 'Attending'
-        }
+        },
+        attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     });
 
     if (!attendance) {
@@ -358,7 +359,8 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
         where: {
             eventId,
             userId: user.id
-        }
+        },
+        attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     })
     if (!attendance) {
         const newAttendance = await Attendance.create({
