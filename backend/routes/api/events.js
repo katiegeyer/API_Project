@@ -357,8 +357,8 @@ router.post('/:eventId/attendance', requireAuth, handleValidationErrors, async (
     }
     const attendance = await Attendance.findOne({
         where: {
-            eventId,
-            userId: user.id
+            userId: user.id,
+            eventId
         },
         attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     })
@@ -438,8 +438,8 @@ router.delete('/:eventId/attendance', requireAuth, handleValidationErrors, async
     const { eventId } = req.params;
     const attendance = await Attendance.findOne({
         where: {
-            eventId,
-            userId: user.id
+            userId: user.id,
+            eventId
         },
         attributes: ['id', 'eventId', 'userId', 'status', 'createdAt', 'updatedAt']
     });
