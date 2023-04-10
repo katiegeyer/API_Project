@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import { NavLink } from "react-router-dom"
 
 function LoginFormModal() {
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function LoginFormModal() {
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
+                    if (data && Array.isArray(data.errors)) setErrors(data.errors);
                 }
             );
     };
@@ -28,30 +29,31 @@ function LoginFormModal() {
         <>
             <h1>Log In</h1>
             <form onSubmit={handleSubmit}>
-                <ul>
+                <ul className="login-error">
                     {errors.map((error, idx) => (
                         <li key={idx}>{error}</li>
                     ))}
                 </ul>
                 <label>
-                    Username or Email
                     <input
                         type="text"
                         value={credential}
                         onChange={(e) => setCredential(e.target.value)}
                         required
+                        placeholder="Username or Email"
                     />
                 </label>
                 <label>
-                    Password
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        placeholder="Password"
                     />
                 </label>
-                <button type="submit">Log In</button>
+                <button className={`login-button${!credential || !password ? " login-button-disabled" : ""}`} type="submit" disabled={!credential || !password}>Log In</button>
+                <button className="demo-button" type="submit">Demo User</button>
             </form>
         </>
     );

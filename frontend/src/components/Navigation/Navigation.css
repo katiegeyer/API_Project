@@ -1,11 +1,86 @@
-.profile-dropdown {
-    position: fixed;
-    top: 40px;
-    left: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
+/* Navigation.css */
+body {
+    margin: 0;
+
+}
+
+.nav-ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0;
     list-style: none;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid lightgrey;
+}
+
+li button {
+    cursor: pointer;
+    display: flex;
+    margin: 10px;
+    border: none;
+    background-color: white;
+    width: max-content;
+}
+
+li a {
+    color: #f64060;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 24pt;
+    margin-left: 10px;
+}
+
+li a:hover {
+    text-decoration: underline;
+}
+
+button {
+    cursor: pointer;
+    width: max-content;
+}
+
+
+.profile-dropdown {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: max-content;
+    max-height: 300px;
+    position: fixed;
+    top: 39px;
+    right: 0;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-right: 40px;
+}
+
+.profile-dropdown li {
+    padding: 2px;
+    width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 14pt;
+}
+
+.profile-dropdown button {
+    display: flex;
+    padding: 7px;
+    border: 1px solid black;
+    box-shadow: 0px 1.5px 2.5px black;
+    border-radius: 25px;
+    font-size: 14pt;
+    background-color: darkgray;
+    color: white;
+}
+
+li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .hidden {
