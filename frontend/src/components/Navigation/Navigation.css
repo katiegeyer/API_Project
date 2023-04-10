@@ -1,0 +1,30 @@
+/* .profile-dropdown {
+    position: absolute;
+    display: none;
+    top: 100%;
+    right: 0;
+    padding: 8px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-dropdown li {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.profile-dropdown button {
+    background-color: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.profile-dropdown button:hover {
+    background-color: #d00;
+} */
