@@ -3,7 +3,7 @@ const router = express.Router();
 const { OP } = require('sequelize');
 const bcrypt = require('bcryptjs');
 
-const { setTokenCookie, restoreUser, requireAuth } = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { User, Group, Membership, Venue, GroupImage, Event, Attendance, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
