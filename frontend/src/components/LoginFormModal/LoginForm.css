@@ -22,7 +22,7 @@
 
 h1 {
     margin-bottom: 0px;
-    margin-top: 0px;
+    margin-top: 5px;
     padding-top: 0px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -31,9 +31,10 @@ input {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
-    margin-bottom: 5px;
-    width: 275px;
-    background-color: rgb(232, 240, 254);
+    margin-bottom: 2.5px;
+    font-size: 14pt;
+    width: 350px;
+    background-color: #E8F0FE;
     border: 1px solid black;
 }
 
@@ -45,6 +46,12 @@ button {
 .demo-button {
     background-color: white;
     border: none;
+    color: #00525E;
+    font-size: 14pt;
+    margin-bottom: 4px;
+}
+
+.demo-button:hover {
     text-decoration: underline;
 }
 
@@ -54,6 +61,9 @@ button {
     color: white;
     padding: 10px;
     box-shadow: 2px 2px 2px black;
+    font-size: 14pt;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
 .login-button-disabled {
@@ -66,9 +76,17 @@ label {
     max-height: max-content;
     padding-top: 0px;
 }
-/*
+
+
 .login-error {
-    /* display: none; */
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+    color: red;
+    padding-left: 0;
+    list-style-type: none;
+    margin: 0;
+    max-width: fit-content;
+}
 
 
 form {
@@ -76,4 +94,5 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 10px;
 }

@@ -3,7 +3,6 @@ import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
-import { NavLink } from "react-router-dom"
 
 function LoginFormModal() {
     const dispatch = useDispatch();
@@ -12,7 +11,7 @@ function LoginFormModal() {
     const [errors, setErrors] = useState([]);
     const { closeModal } = useModal();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setErrors([]);
         return dispatch(sessionActions.login({ credential, password }))
@@ -20,10 +19,19 @@ function LoginFormModal() {
             .catch(
                 async (res) => {
                     const data = await res.json();
-                    if (data && Array.isArray(data.errors)) setErrors(data.errors);
+                    if (data && data.errors) setErrors([data.errors.credential]);
                 }
             );
-    };
+    }
+    //     e.preventDefault();
+    //     setErrors([]);
+    //     const result = await dispatch(sessionActions.login({ credential, password }));
+    //     if (result) {
+    //         setErrors(result);
+    //     } else {
+    //         closeModal();
+    //     };
+    // };
 
     return (
         <>
@@ -52,7 +60,7 @@ function LoginFormModal() {
                         placeholder="Password"
                     />
                 </label>
-                <button className={`login-button${!credential || !password ? " login-button-disabled" : ""}`} type="submit" disabled={!credential || !password}>Log In</button>
+                <button className={`login-button${credential.length < 4 || password.length < 6 ? " login-button-disabled" : ""}`} type="submit" disabled={!credential || !password}>Log In</button>
                 <button className="demo-button" type="submit">Demo User</button>
             </form>
         </>
