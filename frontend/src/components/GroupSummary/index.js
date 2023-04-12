@@ -12,6 +12,7 @@ function GroupSummary({
                 <h2>{group.name}</h2>
                 <div className='group-location'>{`${group.city},${group.state}`}</div>
                 <div>{group.about}</div>
+                <div>{}</div>
             </div>
         </div>
     );
