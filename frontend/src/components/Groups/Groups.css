@@ -8,7 +8,7 @@
 }
 
 .group-card img {
-    width: 100%;
+    width: 50%;
     object-fit: cover;
     border-radius: 4px;
 }

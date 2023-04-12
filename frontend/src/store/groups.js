@@ -45,8 +45,8 @@ export const getGroups = () => async (dispatch) => {
   const response = await csrfFetch("/api/groups");
   const data = await response.json();
   if (response.ok) {
-  await dispatch(loadGroupsAction(data));
-  return data;
+    await dispatch(loadGroupsAction(data));
+    return data;
   }
 };
 
@@ -54,10 +54,10 @@ export const getOneGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
   const data = await response.json();
   if (response.ok) {
-  await dispatch(loadOneGroupAction(data));
-  console.log('data', data);
-  return data;
-};
+    await dispatch(loadOneGroupAction(data));
+    console.log('data', data);
+    return data;
+  };
 }
 
 export const getUserGroups = () => async (dispatch) => {
@@ -71,8 +71,11 @@ export const createNewGroup = (groupData) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify(groupData),
   });
-  const newGroup = await response.json();
-  dispatch(createGroupAction(newGroup));
+  const data = await response.json();
+  if (response.ok) {
+    dispatch(createGroupAction(data));
+    return data;
+  };
 };
 
 export const updateGroup = (groupId, groupData) => async (dispatch) => {
@@ -103,7 +106,7 @@ const groupsReducer = (state = initialState, action) => {
   // console.log("type", type);
   let newState;
 
-  if(!action || !action.type) {
+  if (!action || !action.type) {
     return state;
   }
 

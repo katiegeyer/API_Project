@@ -7,7 +7,7 @@ import LandingPage from './components/LandingPage';
 import Groups from './components/Groups';
 import OneGroup from './components/OneGroup';
 // import UserGroups from './components/UserGroups';
-// import CreateGroup from './components/CreateGroup';
+import CreateGroup from './components/CreateGroup';
 // import UpdateGroup from './components/UpdateGroup';
 // import DeleteGroup from './components/DeleteGroup';
 
@@ -27,7 +27,7 @@ function App() {
           <Route path="/groups" component={Groups} />
           <Route exact path="/group/:groupId" component={OneGroup} />
           {/* <Route path="/groups/current" component={UserGroups} /> */}
-          {/* <Route path="/groups" component={CreateGroup} /> */}
+          <Route path="/create-group" component={CreateGroup} />
           {/* <Route exact path="/groups/:groupId" component={UpdateGroup} /> */}
           {/* <Route exact path="/groups/:groupId" component={DeleteGroup} /> */}
         </Switch>

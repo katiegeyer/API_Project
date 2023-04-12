@@ -7,18 +7,19 @@ import SignupFormModal from "../SignupFormModal";
 
 function LandingPage() {
 
-    const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) => state.session.user);
 
   let joinBeatupButton;
   if (sessionUser) {
     joinBeatupButton = null;
-  } else { joinBeatupButton =
-        <section className="join-beat-up">
-             <OpenModalButton
+  } else {
+    joinBeatupButton =
+      <section className="join-beat-up">
+        <OpenModalButton
           buttonText="Join Beatup"
           modalComponent={<SignupFormModal />}
         />
-    </section>
+      </section>
   }
 
 
@@ -26,34 +27,42 @@ function LandingPage() {
     <div className="landing-page-container">
       <section className="landing-page-section1">
         <div className="landing-page-section1-left">
-          <h1>Welcome to Meetup</h1>
+          <h1>The protest platform - Where words become actions</h1>
           <p>
-            Discover the world and meet new people who share your interests.
+            This platform
           </p>
         </div>
         <div className="landing-page-section1-right">
           <img
-            src="https://via.placeholder.com/350x250.png?text=Infographic"
-            alt="Infographic"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZ7sh13c6IK-RQu2iOm7BGvIpePso74nl8T4bRuhZ4j6EEAJWTNvBpymE1Tqh8Qdb-wN8&usqp=CAU"
+            alt="Image"
           />
         </div>
       </section>
       <section className="landing-page-section2">
-        <h2>Join Meetup today</h2>
+        <h2>How SpeakUp works</h2>
         <p>
-          Get started by creating an account and joining a group in your area.
+          Join a group filled with people filled with passion.
+          <p>Find a protest that aligns with your cause.</p>  <p>
+            Or if you don't see your issue being represented - Create your own for others to join. </p>
         </p>
       </section>
       <section className="landing-page-section3">
         <div className="landing-page-section3-column">
-          <i className="fas fa-users"></i>
+          <img className="groupImageLP"
+            src="https://v.fastcdn.co/u/f91f856b/56343322-0-Group-209.png"
+            alt="Image"
+          />
           <NavLink to="/groups" className="landing-page-section3-link">
             See all groups
           </NavLink>
           <p>Find groups that interest you and join the conversation.</p>
         </div>
         <div className="landing-page-section3-column">
-          <i className="far fa-calendar-alt"></i>
+          <img className="eventImageLP"
+            src="https://v.fastcdn.co/u/f91f856b/56343282-0-Tickets.png"
+            alt="Image"
+          />
           <NavLink to="/events" className="landing-page-section3-link">
             Find an event
           </NavLink>
@@ -63,10 +72,12 @@ function LandingPage() {
           </p>
         </div>
         <div className="landing-page-section3-column">
-          <i className="fas fa-plus-circle"></i>
+          <img className="newGroupImageLP"
+            src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=384"
+            alt="Image" />
           {sessionUser ? (
             <NavLink to="/create-group" className="landing-page-section3-link">
-              Start a group
+              Start a new group
             </NavLink>
           ) : (
             <span className="landing-page-section3-link-disabled">
@@ -76,7 +87,7 @@ function LandingPage() {
           <p>Create your own group and invite others to join you.</p>
         </div>
       </section>
-        {joinBeatupButton}
+      {joinBeatupButton}
     </div>
   );
 }

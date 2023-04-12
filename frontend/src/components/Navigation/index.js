@@ -36,7 +36,7 @@ function Navigation({ isLoaded }) {
     <ul className="nav-ul">
       <li>
         <NavLink exact to="/">
-          Beatup
+          SpeakUp
         </NavLink>
       </li>
       {isLoaded && sessionLinks}
