@@ -6,10 +6,10 @@ import Navigation from './components/Navigation';
 import LandingPage from './components/LandingPage';
 import Groups from './components/Groups';
 import OneGroup from './components/OneGroup';
-import UserGroups from './components/UserGroups';
-import CreateGroup from './components/CreateGroup';
-import UpdateGroup from './components/UpdateGroup';
-import DeleteGroup from './components/DeleteGroup';
+// import UserGroups from './components/UserGroups';
+// import CreateGroup from './components/CreateGroup';
+// import UpdateGroup from './components/UpdateGroup';
+// import DeleteGroup from './components/DeleteGroup';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={LandingPage} />
           <Route path="/groups" component={Groups} />
-          {/* <Route exact path="/groups/:groupId" component={OneGroup} /> */}
+          <Route exact path="/group/:groupId" component={OneGroup} />
           {/* <Route path="/groups/current" component={UserGroups} /> */}
           {/* <Route path="/groups" component={CreateGroup} /> */}
           {/* <Route exact path="/groups/:groupId" component={UpdateGroup} /> */}

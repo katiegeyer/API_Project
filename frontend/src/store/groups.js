@@ -1,4 +1,3 @@
-/* eslint-disable default-param-last */
 import { csrfFetch } from './csrf';
 
 // Action types
@@ -10,42 +9,45 @@ const LOAD_ORGANIZER_GROUP = 'groups/organizerGroup';
 const DELETE_GROUP = 'groups/deleteGroup';
 
 // POJO action creators
-const loadGroupsAction = (groups) => ({
+export const loadGroupsAction = (groups) => ({
   type: LOAD_GROUPS,
-  groups,
+  payload: groups,
 });
 
-const loadOneGroupAction = (group) => ({
+export const loadOneGroupAction = (group) => ({
   type: LOAD_ONE_GROUP,
   group,
 });
 
-const createGroupAction = (newGroup) => ({
+export const createGroupAction = (newGroup) => ({
   type: CREATE_GROUP,
-  group,
+  newGroup,
 });
 
-const editGroupAction = (group) => ({
+export const editGroupAction = (group) => ({
   type: EDIT_GROUP,
   group,
 });
 
-const loadOrganizerGroupAction = (groups) => ({
+export const loadOrganizerGroupAction = (groups) => ({
   type: LOAD_ORGANIZER_GROUP,
   groups,
 });
 
-const deleteGroupAction = (groupId) => ({
+export const deleteGroupAction = (groupId) => ({
   type: DELETE_GROUP,
   groupId,
 });
 
 // Thunks
+console.log(csrfFetch("/api/groups"))
 export const getGroups = () => async (dispatch) => {
-  const response = await csrfFetch('/api/groups');
+  const response = await csrfFetch("/api/groups");
   const data = await response.json();
-  dispatch(loadGroupsAction(data));
-  return response;
+  if (response.ok) {
+  await dispatch(loadGroupsAction(data));
+  return data;
+  }
 };
 
 export const getOneGroup = (groupId) => async (dispatch) => {
@@ -89,29 +91,28 @@ export const deleteGroupById = (groupId) => async (dispatch) => {
 // Reducer
 const initialState = {
   allGroups: {},
-  singleGroup: {
-    groupData: {},
-    GroupImages: [],
-    Organizer: {},
-    Venues: [],
-  },
+  singleGroup: {},
 };
 
 const groupsReducer = (state = initialState, action) => {
+  // console.log("action", action);
+  // console.log("type", type);
   let newState;
+
+  if(!action || !action.type) {
+    return state;
+  }
+
   switch (action.type) {
     case LOAD_GROUPS: {
-    //   const allGroups = {};
-    //   action.groups.forEach((group) => {
-    //     allGroups[group.id] = group;
-    //   });
-    //   return {
-    //     ...state,
-    //     allGroups,
-    //   };
-        newState = Object.assign({}, state);
-        newState = {...action.payload.Groups};
-        return newState;
+      const allGroups = {};
+      action.payload.Groups.forEach((group) => {
+        allGroups[group.id] = group;
+      });
+      return {
+        ...state,
+        allGroups,
+      };
     }
     case LOAD_ONE_GROUP: {
       newState = {

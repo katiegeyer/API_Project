@@ -1,27 +1,34 @@
 
-import React, { useEffect, Tooltip } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import groupsReducer from '../../store/groups';
+import {getGroups} from '../../store/groups';
+import GroupSummary from '../GroupSummary';
+import {NavLink} from 'react-router-dom';
 
 function GroupList() {
   const dispatch = useDispatch();
-  const groups = useSelector((state) => state.groups.allGroups);
+  let groups = useSelector((state) => state.groups.allGroups);
 
   useEffect(() => {
-    dispatch(groupsReducer());
+    dispatch(getGroups());
   }, [dispatch]);
+
 
   return (
     <div>
       <h1>All Groups</h1>
-      {Object.values(groups).map((group) => (
+      {groups && Object.values(groups).map((group) => (
         <div key={group.id}>
-          <h2>{group.name}</h2>
+          <NavLink to={`/group/${group.id}`} className="landing-page-section3-link">
+            <GroupSummary group={group}></GroupSummary>
+          </NavLink>
           {/* Render other group properties here */}
         </div>
       ))}
     </div>
   );
 }
+
+
 
 export default GroupList;
