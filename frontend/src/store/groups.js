@@ -52,9 +52,13 @@ export const getGroups = () => async (dispatch) => {
 
 export const getOneGroup = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`);
-  const group = await response.json();
-  dispatch(loadOneGroupAction(group));
+  const data = await response.json();
+  if (response.ok) {
+  await dispatch(loadOneGroupAction(data));
+  console.log('data', data);
+  return data;
 };
+}
 
 export const getUserGroups = () => async (dispatch) => {
   const response = await csrfFetch('/api/groups/current');
