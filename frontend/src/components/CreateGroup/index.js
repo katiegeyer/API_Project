@@ -14,7 +14,7 @@ const GroupForm = () => {
         about: '',
         type: '',
         private: '',
-        imageUrl: '',
+        previewImage: '',
     });
 
 
@@ -30,7 +30,12 @@ const GroupForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const createdGroup = await dispatch(createNewGroup(formData));
+        const modifiedFormData = {
+            ...formData,
+            private: formData.private === 'private' ? true : false,
+        };
+        const createdGroup = await dispatch(createNewGroup(modifiedFormData));
+        console.log('created group:', createdGroup)
         if (createdGroup) {
             history.push(`/group/${createdGroup.id}`);
         }
@@ -94,21 +99,22 @@ const GroupForm = () => {
             <div className="section">
                 <label htmlFor="type">Is this an in-person or online group?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
-                    <option value="in-person">In-Person</option>
-                    <option value="online">Online</option>
+                    <option value="" selected disabled>Please select one</option>
+                    <option value="In Person">In Person</option>
+                    <option value="Online">Online</option>
                 </select>
 
                 <label htmlFor="private">Is this group private or public?</label>
-                <select name="privacy" value={formData.private} onChange={handleChange}>
-                    /*create placeholder!!!*/
+                <select name="private" value={formData.private} onChange={handleChange}>
+                    <option value="" selected disabled>Please select one</option>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
 
-                <label htmlFor="imageUrl">Please add an image URL for your group below:</label>
+                <label htmlFor="previewImage">Please add an image URL for your group below:</label>
                 <input
                     type="text"
-                    name="imageUrl"
+                    name="previewImage"
                     placeholder="Image URL"
                     value={formData.imageUrl}
                     onChange={handleChange}

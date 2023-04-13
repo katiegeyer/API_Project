@@ -18,6 +18,9 @@ export default function DeleteOpenModal() {
                 closeModal();
             })
     }
+    const handleNo = () => {
+        closeModal();
+    }
     return (
         <>
             <h1>Are you sure you would like to delete this group?</h1>
@@ -26,7 +29,7 @@ export default function DeleteOpenModal() {
                 <button onClick={handleDelete}>Yes</button>
             </div>
             <div>
-                <button>No</button>
+                <button onClick={handleNo}>No</button>
             </div>
         </>
     )

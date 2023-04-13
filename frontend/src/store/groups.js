@@ -20,9 +20,9 @@ export const loadOneGroupAction = (group) => ({
   group,
 });
 
-export const createGroupAction = (newGroup) => ({
+export const createGroupAction = (group) => ({
   type: CREATE_GROUP,
-  newGroup,
+  group,
 });
 
 export const editGroupAction = (group) => ({
@@ -95,13 +95,24 @@ export const createNewGroup = (groupData) => async (dispatch) => {
   };
 };
 
-export const updateGroup = (groupId, groupData) => async (dispatch) => {
+export const updateGroup = (groupId, updatedGroup) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`, {
     method: 'PUT',
-    body: JSON.stringify(groupData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: updatedGroup.name,
+      about: updatedGroup.about,
+      type: updatedGroup.type,
+      private: updatedGroup.private,
+      city: updatedGroup.city,
+      state: updatedGroup.state,
+      id: updatedGroup.id
+    }),
   });
-  const data = await response.json();
   if (response.ok) {
+    const data = await response.json();
     dispatch(editGroupAction(data));
     return data;
   }
@@ -154,7 +165,7 @@ const groupsReducer = (state = initialState, action) => {
         ...state,
         allGroups: {
           ...state.allGroups,
-          [action.group.id]: action.group,
+          [action.newGroup.id]: action.group,
         },
       };
       return newState;
@@ -162,11 +173,11 @@ const groupsReducer = (state = initialState, action) => {
     case EDIT_GROUP: {
       newState = {
         ...state,
-        allGroups: {
-          ...state.allGroups,
-          [action.group.id]: action.group,
+        singleGroup: {
+          ...state.singleGroup,
         },
       };
+      newState[action.group.id] = action.group;
       return newState;
     }
     case LOAD_ORGANIZER_GROUP: {
