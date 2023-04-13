@@ -191,8 +191,13 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
                 model: Venue,
                 attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng'],
                 as: 'Venue'
+            },
+            {
+                model: Event,
+                attributes: ['id', 'groupId']
             }
         ]
+
 
     });
     const numMembers = await Membership.count({
@@ -203,6 +208,29 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
     if (!group) {
         return res.status(404).json({ "message": "Group couldn't be found", })
     };
+
+    const img = await GroupImage.findOne({
+        where: {
+            groupId: group.id,
+            preview: true
+        },
+    });
+    const previewImage = img ? img.url : null;
+
+    const events = await Event.count({
+        where: {
+            groupId: group.id,
+        },
+    });
+
+    const organizer = await User.findOne({
+        where: {
+            id: group.id,
+        },
+    });
+
+    const organizerName = organizer ? organizer.firstName : null;
+
     return res.json({
         id: group.id,
         organizerId: group.organizerId,
@@ -213,6 +241,9 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
         city: group.city,
         state: group.state,
         numMembers,
+        previewImage,
+        events,
+        organizerName,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
     })
@@ -233,23 +264,23 @@ router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => 
             city,
             state
         });
-        router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => {
-            const { user } = req;
-            if (user) {
-                const { name, about, type, private, city, state } = req.body;
-                const newGroup = await Group.create({
-                    organizerId: user.id,
-                    name,
-                    about,
-                    type,
-                    private,
-                    city,
-                    state
-                });
+        // router.post('/', handleValidationErrors, requireAuth, async (req, res, next) => {
+        //     const { user } = req;
+        //     if (user) {
+        //         const { name, about, type, private, city, state } = req.body;
+        //         const newGroup = await Group.create({
+        //             organizerId: user.id,
+        //             name,
+        //             about,
+        //             type,
+        //             private,
+        //             city,
+        //             state
+        //         });
 
-                return res.status(201).json(newGroup);
-            } // work on validation errors
-        });
+        //         return res.status(201).json(newGroup);
+        //     } // work on validation errors
+        // });
         await Membership.create({
             groupId: newGroup.id,
             userId: user.id,
@@ -283,11 +314,45 @@ router.post('/:groupId/images', handleValidationErrors, requireAuth, async (req,
     });
 });
 
+//edit group
+
+// router.put('/:groupId', handleValidationErrors, requireAuth, requireHost, async (req, res, next) => {
+//     const { groupId } = req.params;
+//     const userId = req.user.id;
+//     const {
+//         name, about, type, private, city, state, previewImage
+//     } = req.body;
+//     const group = await Group.findOne({
+//         where: {
+//             id: groupId,
+//             organizerId: userId,
+//         },
+//     });
+
+//     if (!group) {
+//         return res.status(404).json({
+//             message: "Group couldn't be found",
+//         });
+//     }
+
+//     const updatedGroup = await group.update({
+//         name,
+//         about,
+//         type,
+//         private,
+//         city,
+//         state,
+//         previewImage,
+//     });
+
+//     return res.status(200).json(updatedGroup); //check on validation errors more ALSO TIME
+// });
+
 router.put('/:groupId', handleValidationErrors, requireAuth, requireHost, async (req, res, next) => {
     const { groupId } = req.params;
     const userId = req.user.id;
     const {
-        name, about, type, private, city, state
+        name, about, type, private, city, state, previewImage
     } = req.body;
     const group = await Group.findOne({
         where: {
@@ -311,10 +376,26 @@ router.put('/:groupId', handleValidationErrors, requireAuth, requireHost, async 
         state,
     });
 
-    return res.status(200).json(updatedGroup); //check on validation errors more ALSO TIME
+    // Find and update the preview image separately
+    const groupImage = await GroupImage.findOne({
+        where: {
+            groupId: groupId,
+            preview: true,
+        },
+    });
+
+    if (groupImage && previewImage) {
+        await groupImage.update({ url: previewImage });
+    }
+
+    // Add the updated preview image to the response
+    const responseGroup = updatedGroup.toJSON();
+    responseGroup.previewImage = groupImage ? groupImage.url : null;
+
+    return res.status(200).json(responseGroup);
 });
 
-//delete an event
+//delete a group
 
 router.delete('/:groupId', requireAuth, handleValidationErrors, async (req, res, next) => {
     const { user } = req;
@@ -360,18 +441,6 @@ router.get('/:groupId/venues', requireAuth, handleValidationErrors, async (req, 
 
     return res.json({ Venues: venue });
 });
-// if (user.id !== group.organizerId) {
-//     return res.status(403).json({ message: "User is not authorized to perform this action" });
-// };
-
-// const venues = await Venue.findAll({
-//     where: {
-//         groupId: group.id
-//     },
-//     attributes: ['id', 'groupId', 'address', 'city', 'state', 'lat', 'lng']
-// });
-//     return res.json({ Venues: venue })
-// });
 
 //create venue for group through groupId
 router.post('/:groupId/venues', requireAuth, handleValidationErrors, requireMembership, async (req, res, next) => {
@@ -547,18 +616,6 @@ router.get('/:groupId/members', handleValidationErrors, async (req, res, next) =
     return res.json({
         Members: membersResults
     });
-    // const members = await Membership.findAll({
-    //     where: {
-    //         groupId: group.id
-    //     },
-    //     include: {
-    //         model: User,
-    //         attributes: ['id', 'firstName', 'lastName']
-    //     },
-    //     attributes: ['id', 'status']
-    // });
-    // return res.json({
-    // })
 });
 
 
