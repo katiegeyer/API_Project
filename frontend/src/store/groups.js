@@ -20,9 +20,9 @@ export const loadOneGroupAction = (group) => ({
   group,
 });
 
-export const createGroupAction = (group) => ({
+export const createGroupAction = (newGroup) => ({
   type: CREATE_GROUP,
-  group,
+  newGroup,
 });
 
 export const editGroupAction = (group) => ({
@@ -165,7 +165,7 @@ const groupsReducer = (state = initialState, action) => {
         ...state,
         allGroups: {
           ...state.allGroups,
-          [action.newGroup.id]: action.group,
+          [action.newGroup.id]: action.newGroup,
         },
       };
       return newState;
