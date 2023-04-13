@@ -7,6 +7,7 @@ const CREATE_GROUP = 'groups/createGroup';
 const EDIT_GROUP = 'groups/editGroup';
 const LOAD_ORGANIZER_GROUP = 'groups/organizerGroup';
 const DELETE_GROUP = 'groups/deleteGroup';
+// const STORE_USER_DATA = 'groups/userData'
 
 // POJO action creators
 export const loadGroupsAction = (groups) => ({
@@ -39,6 +40,11 @@ export const deleteGroupAction = (groupId) => ({
   groupId,
 });
 
+// export const foreignUserData = (organizer) => ({
+//   type: STORE_USER_DATA,
+//   organizer,
+// })
+
 // Thunks
 console.log(csrfFetch("/api/groups"))
 export const getGroups = () => async (dispatch) => {
@@ -55,15 +61,26 @@ export const getOneGroup = (groupId) => async (dispatch) => {
   const data = await response.json();
   if (response.ok) {
     await dispatch(loadOneGroupAction(data));
-    console.log('data', data);
+    // console.log('data', data);
+    // const res = await fetch(`/api/users/${data.organizerId}`)
+    // console.log(res);
+    // const foreignData = await response.json();
+    // if (res.ok) {
+    //   await dispatch(foreignUserData(foreignData));
+    //   return foreignData
+    // }
+    // console.log(data)
     return data;
   };
-}
+};
 
 export const getUserGroups = () => async (dispatch) => {
   const response = await csrfFetch('/api/groups/current');
-  const groups = await response.json();
-  dispatch(loadOrganizerGroupAction(groups.Groups));
+  const data = await response.json();
+  if (response.ok) {
+    dispatch(loadOrganizerGroupAction(data));
+    return data;
+  }
 };
 
 export const createNewGroup = (groupData) => async (dispatch) => {
@@ -83,16 +100,20 @@ export const updateGroup = (groupId, groupData) => async (dispatch) => {
     method: 'PUT',
     body: JSON.stringify(groupData),
   });
-  const updatedGroup = await response.json();
-  dispatch(editGroupAction(updatedGroup));
+  const data = await response.json();
+  if (response.ok) {
+    dispatch(editGroupAction(data));
+    return data;
+  }
 };
 
 export const deleteGroupById = (groupId) => async (dispatch) => {
   const response = await csrfFetch(`/api/groups/${groupId}`, {
     method: 'DELETE',
   });
-  const deletedGroup = await response.json();
-  dispatch(deleteGroupAction(deletedGroup.id));
+  if (response.ok) {
+    dispatch(deleteGroupAction(groupId));
+  }
 };
 
 // Reducer
@@ -156,7 +177,6 @@ const groupsReducer = (state = initialState, action) => {
       return {
         ...state,
         allGroups: {
-          ...state.allGroups,
           ...organizerGroups,
         },
       };

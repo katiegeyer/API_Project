@@ -1,28 +1,42 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createNewGroup } from '../../store/groups';
-import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const GroupForm = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const [formData, setFormData] = useState({
-        location: '',
+        city: '',
+        state: '',
         name: '',
-        description: '',
-        groupType: '',
-        privacy: '',
+        about: '',
+        type: '',
+        private: '',
         imageUrl: '',
     });
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     dispatch(createNewGroup(formData));
+    // };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(createNewGroup(formData));
+        const createdGroup = await dispatch(createNewGroup(formData));
+        if (createdGroup) {
+            history.push(`/group/${createdGroup.id}`);
+        }
     };
+
+
     return (
         <form onSubmit={handleSubmit}>
             /* SECTION 1 */
@@ -37,9 +51,16 @@ const GroupForm = () => {
                 <p>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</p>
                 <input
                     type="text"
-                    name="location"
-                    placeholder="Enter your group's location"
-                    value={formData.location}
+                    name="city"
+                    placeholder="Enter your group's city"
+                    value={formData.city}
+                    onChange={handleChange}
+                />
+                <input
+                    type="text"
+                    name="state"
+                    placeholder="Enter your group's state"
+                    value={formData.state}
                     onChange={handleChange}
                 />
             </div>
@@ -62,7 +83,7 @@ const GroupForm = () => {
                 <h2>Now describe what your group will be about</h2>
                 <p>People will see this when we promote your group, but you'll be able to add to it later, too. 1, What's the purpose of the group? 2. Who should join? 3. What will you do at your events?</p>
                 <textarea
-                    name="description"
+                    name="about"
                     placeholder="Describe your group"
                     value={formData.description}
                     onChange={handleChange}
@@ -71,14 +92,14 @@ const GroupForm = () => {
 
             {/* SECTION 5 */}
             <div className="section">
-                <label htmlFor="groupType">Is this an in-person or online group?</label>
-                <select name="groupType" value={formData.groupType} onChange={handleChange}>
+                <label htmlFor="type">Is this an in-person or online group?</label>
+                <select name="type" value={formData.type} onChange={handleChange}>
                     <option value="in-person">In-Person</option>
                     <option value="online">Online</option>
                 </select>
 
-                <label htmlFor="privacy">Is this group private or public?</label>
-                <select name="privacy" value={formData.privacy} onChange={handleChange}>
+                <label htmlFor="private">Is this group private or public?</label>
+                <select name="privacy" value={formData.private} onChange={handleChange}>
                     /*create placeholder!!!*/
                     <option value="public">Public</option>
                     <option value="private">Private</option>

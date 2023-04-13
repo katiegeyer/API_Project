@@ -28,8 +28,10 @@ function App() {
           <Route exact path="/group/:groupId" component={OneGroup} />
           {/* <Route path="/groups/current" component={UserGroups} /> */}
           <Route path="/create-group" component={CreateGroup} />
+          {/* <Route path="/group/new" component={CreateGroup} /> */}
           {/* <Route exact path="/groups/:groupId" component={UpdateGroup} /> */}
           {/* <Route exact path="/groups/:groupId" component={DeleteGroup} /> */}
+          <Route path="/events/new" component={CreateGroup} />
         </Switch>
       )}
     </>
