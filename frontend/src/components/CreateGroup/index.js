@@ -17,6 +17,19 @@ const GroupForm = () => {
         previewImage: '',
     });
 
+    //need to combine city and state, parse location
+    //potential code for modified handlesubmit
+    /*    const [city, state] = formData.location.split(',').map((item) => item.trim());
+
+    const modifiedFormData = {
+        ...formData,
+        city,
+        state,
+        private: formData.private === 'private' ? true : false,
+    };
+    delete modifiedFormData.location;
+    */
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
