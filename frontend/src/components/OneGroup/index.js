@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneGroup } from '../../store/groups';
-import GroupSummary from '../GroupSummary';
+// import GroupSummary from '../GroupSummary';
 import './OneGroup.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteOpenModal from '../DeleteOpenModal';

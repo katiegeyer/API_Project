@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { createNewEvent } from '../../store/events';
 import { useHistory } from 'react-router-dom';
+import { getOneGroup } from '../../store/groups';
 
 const EventForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const { groupId } = useParams();
+
+    const singleGroup = useSelector((state) => state.groups.singleGroup);
+    useEffect(() => {
+        dispatch(getOneGroup(groupId));
+    }, [dispatch, groupId]);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -60,7 +69,7 @@ const EventForm = () => {
         <form onSubmit={handleSubmit}>
             {/* SECTION 1 */}
             <div className="section">
-                <h1>CREATE AN EVENT FOR groupname</h1>
+                <h1>CREATE AN EVENT FOR {`${singleGroup.name}`}`</h1>
             </div>
 
             {/* SECTION 2 */}
