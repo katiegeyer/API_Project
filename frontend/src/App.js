@@ -28,16 +28,16 @@ function App() {
       {isLoaded && (
         <Switch>
           <Route exact path="/" component={LandingPage} />
-          <Route path="/groups" component={Groups} />
+          <Route exact path="/groups" component={Groups} />
           <Route exact path="/group/:groupId" component={OneGroup} />
           {/* <Route path="/groups/current" component={UserGroups} /> */}
-          <Route path="/create-group" component={CreateGroup} />
+          <Route exact path="/create-group" component={CreateGroup} />
           {/* <Route path="/group/new" component={CreateGroup} /> */}
           <Route exact path="/:groupId/update-group" component={UpdateGroup} />
           {/* <Route exact path="/groups/:groupId" component={DeleteGroup} /> */}
-          <Route path="/events" component={EventList} />
-          <Route exact path="/event/:eventId" component={OneEvent} />
-          <Route path="/create-event" component={CreateEvent} />
+          <Route exact path="/events" component={EventList} />
+          <Route exact path="/groups/:groupId/events/:eventId" component={OneEvent} />
+          <Route exact path="/groups/:groupId/create-event" component={CreateEvent} />
         </Switch>
       )}
     </>

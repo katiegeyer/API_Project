@@ -237,6 +237,12 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
         },
     });
 
+    const groupEvents = await Event.findAll({
+        where: {
+            groupId: group.id
+        }
+    })
+
     const organizer = await User.findOne({
         where: {
             id: group.id,
@@ -258,6 +264,7 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
         previewImage,
         events,
         organizerName,
+        groupEvents,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
     })

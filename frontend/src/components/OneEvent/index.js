@@ -6,12 +6,9 @@ import EventSummary from '../EventSummary';
 // import './OneEvent.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteOpenModal from '../DeleteOpenModal';
-import DeleteEvent from '../DeleteEvent';
-
 //does not throw error when groupId doesn't exist, shows same thing
 
-function OneEvent() { //call a restApi to retrieve this groupId (singleGroups, look at the groups store)
-    //will fetch the groupId details, full page display of single group. whatever comes back in the payload, we'll show in the return
+function OneEvent() {
     const { eventId } = useParams();
     const dispatch = useDispatch();
 
@@ -37,7 +34,7 @@ function OneEvent() { //call a restApi to retrieve this groupId (singleGroups, l
         return `${hours}:${minutes}`;
     }
 
-
+//find out why it isn't giving us the event - store probably isnt updating the info properly
     return (
         <div>
             <section className='event-heading'>

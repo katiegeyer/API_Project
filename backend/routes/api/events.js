@@ -53,7 +53,7 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
         return {
             id: event.id,
             groupId: event.Group.id,
-            venueId: event.Venue.id,
+            venueId: event.Venue?.id,
             name: event.name,
             type: event.type,
             startDate: event.startDate,
@@ -145,14 +145,15 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
 
         return {
             id: event.id,
+            name: event.name,
             groupId: event.Group.id,
-            venueId: event.Venue.id,
+            venueId: event.Venue?.id,
             groupName: event.Group.name,
             hostFirst: host.firstName,
             hostLast: host.lastName,
             description: event.description,
             type: event.type,
-            capacity: event.capacity,
+            capacity: event?.capacity,
             price: event.price === 0 ? 'Free' : event.price,
             private: event.Group.private ? 'Private' : 'Public',
             groupImage,
@@ -165,6 +166,8 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
             EventImages: eventImage
         };
     };
+
+    //find venue
 
     prepEvent(event).then(data => res.status(200).json(data));
 });
@@ -287,10 +290,10 @@ router.delete('/:eventId', requireAuth, handleValidationErrors, async (req, res,
         where: {
             userId: user.id,
             groupId: group.id,
-            status: 'Co-host'
+            status: 'Co-host' || 'Host'
         },
     })
-    if (user.id !== group.organizerId && membership.status !== 'Co-host') {
+    if (user.id !== group.organizerId || membership.status !== 'Co-host') {
         return res.status(403).json({ message: "User is not authorized to perform this action" });
     }
     await event.destroy();

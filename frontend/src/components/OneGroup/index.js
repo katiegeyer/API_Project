@@ -7,6 +7,7 @@ import './OneGroup.css'
 import OpenModalButton from '../OpenModalButton';
 import DeleteOpenModal from '../DeleteOpenModal';
 
+
 //does not throw error when groupId doesn't exist, shows same thing
 
 function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, look at the groups store)
@@ -18,6 +19,30 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
     useEffect(() => {
         dispatch(getOneGroup(groupId));
     }, [dispatch, groupId]);
+
+
+    // // return JSON.stringify(singleGroup);
+    // function formatDate(dateString) {
+    //     const date = new Date(dateString);
+    //     const month = String(date.getMonth() + 1).padStart(2, '0');
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     const year = date.getFullYear();
+
+    //     return `${month}/${day}/${year}`;
+    // };
+    // let startDay = formatDate(singleGroup.events.startDate);
+    // let endDay = formatDate(singleGroup.events.endDate);
+
+    // function formatTime(dateString) {
+    //     const date = new Date(dateString);
+    //     const hours = String(date.getHours()).padStart(2, '0');
+    //     const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    //     return `${hours}:${minutes}`;
+    // }
+
+    // let startTime = formatTime(singleGroup.events.startDate);
+    // let endTime = formatTime(singleGroup.events.endDate);
 
     return (
         <div>
@@ -37,7 +62,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                     <button className="join-group-button">Join this Group</button>
                 </div>
                 {/* if session user && if group organizerId = userId} */}
-                <div><NavLink to={"/create-event"} className="groups-create-event-link">Create event</NavLink>
+                <div><NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">Create event</NavLink>
                     <NavLink to={`/${singleGroup.id}/update-group`} className="groups-create-event-link">Update</NavLink>
                     <OpenModalButton
                         buttonText="Delete"
@@ -54,10 +79,13 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                 <p>{singleGroup.about}</p>
             </section>
             <section className='group-detail-section4'>
-                <h2>Upcoming Events  {singleGroup.events} </h2>
-            </section>
-            <section className='group-detail-section5'>
-                <h2>Past Events {singleGroup.events}</h2>
+                <h2>Upcoming Events</h2>
+                {Array.isArray(singleGroup.groupEvents) && Object.values(singleGroup.groupEvents).map((event) => (
+                    <div key={event.id}>
+                        <h3>{event.name}</h3>
+                        {/* Render other event properties here */}
+                    </div>
+                ))}
             </section>
         </div >
     );

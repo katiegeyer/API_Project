@@ -1,6 +1,8 @@
 # API_project
 
-create event isn't dispatching
+<!-- create event isn't dispatching -->
+
+manage events/groups
 
 Is it possible to include an minimized 'event' on groups page or do i need to manually stick it in there
 
@@ -12,6 +14,7 @@ When no events, No Upcoming Events.  Counting past events, counting future event
 
 Connect validation errors on create group/create event page
 
+font awesome isn't showing up
 
 
 Need to:

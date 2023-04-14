@@ -4,28 +4,39 @@ import { useParams } from 'react-router-dom';
 import { createNewEvent } from '../../store/events';
 import { useHistory } from 'react-router-dom';
 import { getOneGroup } from '../../store/groups';
+import { getOneEvent } from '../../store/events';
 
 const EventForm = () => {
     const dispatch = useDispatch();
     const history = useHistory();
 
     const { groupId } = useParams();
+    const { eventId } = useParams();
 
     const singleGroup = useSelector((state) => state.groups.singleGroup);
     useEffect(() => {
         dispatch(getOneGroup(groupId));
     }, [dispatch, groupId]);
 
+    const event = useSelector((state) => state.events.singleEvent);
+
+    useEffect(() => {
+        if (eventId) {
+            dispatch(getOneEvent(eventId));
+        }
+    }, [dispatch, eventId]);
+
     const [formData, setFormData] = useState({
         name: '',
         type: '',
         private: '',
         price: '',
+        capacity: '',
         startDate: '',
         endDate: '',
         previewImage: '',
-        description: ''
-    });
+        description: '',
+    }, [event]);
 
     //need to combine city and state, parse location
     //potential code for modified handlesubmit
@@ -57,19 +68,22 @@ const EventForm = () => {
             ...formData,
             private: formData.private === 'private' ? true : false,
         };
-        const createdEvent = await dispatch(createNewEvent(modifiedFormData));
+        const createdEvent = await dispatch(createNewEvent(modifiedFormData, groupId));
         console.log('created event:', createdEvent)
         if (createdEvent) {
-            history.push(`/event/${createdEvent.id}`);
+            history.push(`/groups/${groupId}/events/${createdEvent.id}`);
         }
     };
+    if (!singleGroup) {
+        return <div>Loading...</div>
+    }
 
 
     return (
         <form onSubmit={handleSubmit}>
             {/* SECTION 1 */}
             <div className="section">
-                <h1>CREATE AN EVENT FOR {`${singleGroup.name}`}`</h1>
+                {/* <h1>CREATE AN EVENT FOR {`${singleGroup.name}`}</h1> */}
             </div>
 
             {/* SECTION 2 */}

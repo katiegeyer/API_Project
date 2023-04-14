@@ -5,7 +5,7 @@ import { deleteEventById } from "../../store/events";
 import { useModal } from "../../context/Modal";
 
 
-export default function DeleteEvent () {
+export default function DeleteEvent() {
     const dispatch = useDispatch();
     const singleEvent = useSelector((state) => state.events.singleEvent);
     const history = useHistory()
@@ -21,6 +21,7 @@ export default function DeleteEvent () {
     const handleNo = () => {
         closeModal();
     }
+    console.log(singleEvent)
     return (
         <>
             <h1>Are you sure you would like to delete this group?</h1>
