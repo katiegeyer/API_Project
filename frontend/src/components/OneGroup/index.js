@@ -27,8 +27,10 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                     <img src={singleGroup.previewImage} />
                 </div>
                 <div className="section1-right">
-                    <GroupSummary group={singleGroup} className="one-group-summary"></GroupSummary>
-                    <p>Organized by {singleGroup.organizerName}</p>
+                    <h1 className='group-name-right'>{singleGroup.name}</h1>
+                    <div className='location'>{singleGroup.city}</div>
+                    {/* <GroupSummary group={singleGroup} className="one-group-summary"></GroupSummary>
+                    <p>Organized by {singleGroup.organizerName}</p> */}
                 </div>
                 <div>
                     {/*if not organizer*/}

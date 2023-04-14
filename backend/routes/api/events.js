@@ -7,11 +7,14 @@ const { requireAuth } = require('../../utils/auth');
 const { User, Group, Membership, Venue, GroupImage, Event, Attendance, EventImage } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const user = require('../../db/models/user');
+const group = require('../../db/models/group');
 
 
 //Get all events
 
 router.get('/', handleValidationErrors, async (req, res, next) => {
+
     const events = await Event.findAll({
         attributes: ['id', 'name', 'type', 'startDate', 'endDate', 'description'],
         include: [{
@@ -24,6 +27,7 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
         }]
     });
     const prepEvent = async (event) => {
+
         const img = await EventImage.findOne({
             where: {
                 eventId: event.id,
@@ -31,8 +35,7 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
             },
         });
         const previewImage = img ? img.url : null;
-        // console.log(group.name);
-        // console.log(previewImage.url);
+
         const numAttending = event.id ? await Attendance.count({
             where: {
                 eventId: event.id,
@@ -77,12 +80,17 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
 
 
 router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
+
     const event = await Event.findByPk(req.params.eventId, {
         attributes: ['id', 'name', 'description', 'type', 'capacity', 'price', 'startDate', 'endDate'],
         include: [
             {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
                 model: Group,
-                attributes: ['id', 'name', 'private', 'city', 'state']
+                attributes: ['id', 'organizerId', 'name', 'private', 'city', 'state']
             },
             {
                 model: Venue,
@@ -110,18 +118,48 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
                 exclude: ['eventId']
             }
         });
+
+        const img = await EventImage.findOne({
+            where: {
+                eventId: event.id,
+                preview: true
+            },
+        });
+
+        const groupImg = await GroupImage.findOne({
+            where: {
+                groupId: event.Group.id,
+                preview: true,
+            },
+            attributes: ['url'],
+        });
+
+        const groupImage = groupImg ? groupImg.url : null;
+
+
+        const host = await User.findByPk(event.Group.organizerId, {
+            attributes: ['firstName', 'lastName'],
+        });
+
+        const previewImage = img ? img.url : null;
+
         return {
             id: event.id,
             groupId: event.Group.id,
             venueId: event.Venue.id,
-            name: event.name,
+            groupName: event.Group.name,
+            hostFirst: host.firstName,
+            hostLast: host.lastName,
             description: event.description,
             type: event.type,
             capacity: event.capacity,
             price: event.price,
+            private: event.Group.private ? 'Private' : 'Public',
+            groupImage,
             startDate: event.startDate,
             endDate: event.endDate,
             numAttending,
+            previewImage,
             Group: event.Group,
             Venue: event.Venue,
             EventImages: eventImage

@@ -30,7 +30,7 @@ function EventSummary({
                 </div>
                 <h1 className='event-name'>{`${event.name}`}</h1>
                 <h2 className='event-location'>{`${event.city},${event.state}`}</h2>
-                {/* <div className='event-about'>{`${event.description}`}</div> */}
+                <div className='event-about'>{`${event.description}`}</div>
             </div>
         </div>
     );
