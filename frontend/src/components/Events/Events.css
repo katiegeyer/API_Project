@@ -6,13 +6,13 @@
     margin-right: 15px;
 }
 
-.groups-event-link:hover,
-.groups-groups-link:hover {
+.events-groups-link:hover,
+.events-events-link:hover {
     color: #0056b3;
     text-decoration: underline;
 }
 
-.group-list-container {
+.event-list-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -23,7 +23,7 @@
     margin-top: 2rem;
 }
 
-.group-card {
+.event-card {
     display: flex;
     flex-direction: row;
     border: 1px solid #ccc;
@@ -41,11 +41,11 @@
     display: flex;
 }
 
-.group-card:hover {
+.event-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.groups-section1 {
+.events-section1 {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -56,7 +56,7 @@
     margin-right: 20px
 }
 
-.group-card img {
+.event-card img {
     width: 50%;
     height: fit-content;
     object-fit: cover;

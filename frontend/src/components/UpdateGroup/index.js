@@ -103,7 +103,7 @@ const GroupUpdate = () => {
                 <label htmlFor="type">Is this an in-person or online group?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
                     <option></option>
-                    <option value="In Person">In Person</option>
+                    <option value="In-person">In-person</option>
                     <option value="Online">Online</option>
                 </select>
 

@@ -24,7 +24,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
             <section className='group-details-section1'>
                 <div className="section1-left-image">
                     <div>&lt; <NavLink to={"/groups"} className="groups-groups-link">Groups</NavLink></div>
-                    <img src="https://static.boredpanda.com/blog/wp-content/uploads/2019/12/guy-protesting-randon-things-dudewithsign-1-13-5df09bdd2244f__700.jpg" />
+                    <img src={singleGroup.previewImage} />
                 </div>
                 <div className="section1-right">
                     <GroupSummary group={singleGroup} className="one-group-summary"></GroupSummary>
@@ -45,7 +45,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
             </section>
             <section className='group-details-section2'>
                 <h1>Organizer</h1>
-                <h2>!OrganizerName!</h2>
+                <h2>{singleGroup.organizerName}</h2>
             </section>
             <section className='group-detail-section3'>
                 <h1>What we're about</h1>
@@ -55,7 +55,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                 <h2>Upcoming Events  {singleGroup.events} </h2>
             </section>
             <section className='group-detail-section5'>
-                <h2>{singleGroup.previewImage} Past Events !!!numbers of past events, most recent on top!!</h2>
+                <h2>Past Events {singleGroup.events}</h2>
             </section>
         </div >
     );

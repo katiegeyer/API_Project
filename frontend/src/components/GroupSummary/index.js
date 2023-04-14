@@ -8,10 +8,9 @@ function GroupSummary({
     return (
         <div>
             <div>
-                <div className='group-location'>{`${group.city},${group.state}`}</div>
-                <div>{group.about}</div>
-                {/* number of events?! */}
-                <div>{group.type}</div>
+                <h1 className='group-name'>{`${group.name}`}</h1>
+                <h2 className='group-location'>{`${group.city},${group.state}`}</h2>
+                <div className='group-about'>{group.about}</div>
             </div>
         </div>
     );

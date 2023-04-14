@@ -76,6 +76,13 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
                 groupId: group.id
             },
         })
+
+        const events = await Event.count({
+            where: {
+                groupId: group.id,
+            },
+        });
+
         return {
             id: group.id,
             organizerId: group.organizerId,
@@ -87,6 +94,7 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
             state: group.state,
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
+            events,
             numMembers,
             previewImage
         }
@@ -148,6 +156,11 @@ router.get('/current', requireAuth, handleValidationErrors, async (req, res, nex
                 groupId: group.id
             },
         })
+        const events = await Event.count({
+            where: {
+                groupId: group.id,
+            },
+        });
         // console.log(numMembers);
         return {
             id: group.id,
@@ -160,6 +173,7 @@ router.get('/current', requireAuth, handleValidationErrors, async (req, res, nex
             state: group.state,
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
+            events,
             numMembers,
             previewImage
         }
@@ -229,7 +243,7 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
         },
     });
 
-    const organizerName = organizer ? organizer.firstName : null;
+    const organizerName = organizer ? organizer.firstName + ' ' + organizer.lastName : null;
 
     return res.json({
         id: group.id,

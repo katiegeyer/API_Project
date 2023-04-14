@@ -17,12 +17,37 @@ module.exports = {
             },
             {
                 eventId: 2,
-                userId: 2,
+                userId: 1,
                 status: 'Attending'
             },
             {
                 eventId: 3,
+                userId: 2,
+                status: 'Attending'
+            },
+            {
+                eventId: 4,
                 userId: 3,
+                status: 'Attending'
+            },
+            {
+                eventId: 5,
+                userId: 3,
+                status: 'Attending'
+            },
+            {
+                eventId: 6,
+                userId: 2,
+                status: 'Attending'
+            },
+            {
+                eventId: 7,
+                userId: 2,
+                status: 'Attending'
+            },
+            {
+                eventId: 8,
+                userId: 1,
                 status: 'Attending'
             }
         ], {});

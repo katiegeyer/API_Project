@@ -13,7 +13,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 router.get('/', handleValidationErrors, async (req, res, next) => {
     const events = await Event.findAll({
-        attributes: ['id', 'name', 'type', 'startDate', 'endDate'],
+        attributes: ['id', 'name', 'type', 'startDate', 'endDate', 'description'],
         include: [{
             model: Group,
             attributes: ['id', 'name', 'city', 'state']
@@ -39,6 +39,14 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
                 status: 'Attending'
             },
         }) : 0;
+
+        // const address = await Group.findOne({
+        //     where: {
+        //         groupId: group.id,
+        //     },
+        // });
+
+        // const location = address ? address.city + ', ' + address.state : null;
         return {
             id: event.id,
             groupId: event.Group.id,
@@ -47,6 +55,9 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
             type: event.type,
             startDate: event.startDate,
             endDate: event.endDate,
+            city: event.Group.city,
+            state: event.Group.state,
+            description: event.description,
             numAttending,
             previewImage,
             Group: event.Group,
@@ -444,13 +455,13 @@ router.get('/', handleValidationErrors, async (req, res) => {
     }
 
     if (type) {
-        if (type === 'Online' || type === 'In Person') {
+        if (type === 'Online' || type === 'In-Person') {
             where.type = type;
         } else {
             res.status(400);
             return res.json({
                 errors: [
-                    { message: "Type must be 'Online' or 'In Person'" }
+                    { message: "Type must be 'Online' or 'In-Person'" }
                 ]
             });
         }

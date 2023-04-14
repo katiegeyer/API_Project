@@ -27,7 +27,7 @@ module.exports = {
             {
                 userId: 3,
                 groupId: 3,
-                status: 'Member',
+                status: 'Organizer(host)',
                 createdAt: new Date(),
                 updatedAt: new Date()
             },

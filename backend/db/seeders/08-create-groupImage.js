@@ -12,17 +12,17 @@ module.exports = {
         return queryInterface.bulkInsert(options, [
             {
                 groupId: 1,
-                url: 'url1.com',
+                url: 'https://static.boredpanda.com/blog/wp-content/uploads/2019/12/guy-protesting-randon-things-dudewithsign-1-13-5df09bdd2244f__700.jpg',
                 preview: true
             },
             {
                 groupId: 2,
-                url: 'url2.com',
+                url: 'https://www.boredpanda.com/blog/wp-content/uploads/2019/12/guy-protesting-randon-things-dudewithsign-1-1-5df09bc654fb1__700.jpg',
                 preview: true
             },
             {
                 groupId: 3,
-                url: 'url3.com',
+                url: 'https://static.boredpanda.com/blog/wp-content/uploads/2019/12/guy-protesting-randon-things-dudewithsign-1-10-5df09bd70fa89__700.jpg',
                 preview: true
             }
         ], {});
