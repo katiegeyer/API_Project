@@ -59,6 +59,7 @@ function OneEvent() { //call a restApi to retrieve this groupId (singleGroups, l
                 <div className="section1-bottomright">
                     <div className='time-details'>
                         <span>
+                            <i class="fa-regular fa-clock"></i>
                             <div className='start'>START</div>
                             <div className='date'>{formatDate(`${singleEvent.startDate}`)}</div>
                             <div className='time'>{formatTime(`${singleEvent.startDate}`)}</div></span>
@@ -68,11 +69,13 @@ function OneEvent() { //call a restApi to retrieve this groupId (singleGroups, l
                             <div className='time'>{formatTime(`${singleEvent.endDate}`)}</div>
                         </span>
                     </div>
+                    <div>
+                        <i class="fa-regular fa-circle-dollar">$</i>
+                        {`${singleEvent.price}`}</div>
                     <span>
                         <div>
-
-                        </div>
-                        <div>{`${singleEvent.type}`}</div>
+                            <i class="fa-regular fa-location-dot"></i>
+                            {`${singleEvent.type}`}</div>
                     </span>
                 </div>
                 <div>
@@ -87,17 +90,9 @@ function OneEvent() { //call a restApi to retrieve this groupId (singleGroups, l
                     />
                 </div>
             </section >
-            <section className='event-details-section2'>
-            </section>
             <section className='event-detail-section3'>
                 <h1>What we're about</h1>
-                <p>{singleEvent.about}</p>
-            </section>
-            <section className='event-detail-section4'>
-                <h2></h2>
-            </section>
-            <section className='event-detail-section5'>
-                <h2></h2>
+                <p>{singleEvent.description}</p>
             </section>
         </div >
     );

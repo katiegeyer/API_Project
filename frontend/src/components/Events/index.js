@@ -62,7 +62,6 @@ function EventList() {
                                 <div className='events-section1'>
                                     <EventSummary event={event}></EventSummary>
                                 </div>
-                                <div className='event-about'>{`${event.description}`}</div>
                             </NavLink>
                         </div>
                     ))}

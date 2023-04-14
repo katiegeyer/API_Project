@@ -103,7 +103,7 @@ const GroupForm = () => {
                 <textarea
                     name="about"
                     placeholder="Describe your group"
-                    value={formData.description}
+                    value={formData.about}
                     onChange={handleChange}
                 />
             </div>
@@ -129,7 +129,7 @@ const GroupForm = () => {
                     type="text"
                     name="previewImage"
                     placeholder="Image URL"
-                    value={formData.imageUrl}
+                    value={formData.previewImage}
                     onChange={handleChange}
                 />
             </div>

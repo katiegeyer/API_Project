@@ -11,10 +11,11 @@ const EventForm = () => {
         name: '',
         type: '',
         private: '',
-        about: '',
-        type: '',
-        private: '',
+        price: '',
+        startDate: '',
+        endDate: '',
         previewImage: '',
+        description: ''
     });
 
     //need to combine city and state, parse location
@@ -57,60 +58,26 @@ const EventForm = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-            /* SECTION 1 */
+            {/* SECTION 1 */}
             <div className="section">
-                <h2>BECOME AN ORGANIZER</h2>
-                <p>We'll walk you through a few steps to build your local community</p>
+                <h1>CREATE AN EVENT FOR groupname</h1>
             </div>
 
-            /* SECTION 2 */
+            {/* SECTION 2 */}
             <div className="section">
-                <h2>First, set your group's location.</h2>
-                <p>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</p>
-                <input
-                    type="text"
-                    name="city"
-                    placeholder="Enter your group's city"
-                    value={formData.city}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    name="state"
-                    placeholder="Enter your group's state"
-                    value={formData.state}
-                    onChange={handleChange}
-                />
-            </div>
-
-            /* SECTION 3 */
-            <div className="section">
-                <h2>What will your group's name be?</h2>
-                <p>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</p>
+                <h2>What is the name of your event?</h2>
                 <input
                     type="text"
                     name="name"
-                    placeholder="Enter your group's name"
+                    placeholder="Event Name"
                     value={formData.name}
                     onChange={handleChange}
                 />
             </div>
 
-            {/* SECTION 4 */}
+            {/* SECTION 3 */}
             <div className="section">
-                <h2>Now describe what your group will be about</h2>
-                <p>People will see this when we promote your group, but you'll be able to add to it later, too. 1, What's the purpose of the group? 2. Who should join? 3. What will you do at your events?</p>
-                <textarea
-                    name="about"
-                    placeholder="Describe your group"
-                    value={formData.description}
-                    onChange={handleChange}
-                />
-            </div>
-
-            {/* SECTION 5 */}
-            <div className="section">
-                <label htmlFor="type">Is this an in-person or online group?</label>
+                <label htmlFor="type">Is this an in-person or online event?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
                     <option value="" selected disabled>Please select one</option>
                     <option value="In-Person">In-Person</option>
@@ -123,23 +90,84 @@ const EventForm = () => {
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>
+                <div>What is the price of your event?</div>
+                <input
+                    type="number"
+                    name="price"
+                    placeholder="0"
+                    value={formData.price}
+                    onChange={handleChange}
+                />
+            </div>
+            <div>
+                <label htmlFor="startDate">Start Date:</label>
+                <input
+                    type="date"
+                    id="startDate"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                />
+                <label htmlFor="startTime">Start Time:</label>
+                <input
+                    type="time"
+                    id="startTime"
+                    name="startTime"
+                    value={formData.startTime}
+                    onChange={handleChange}
+                />
+            </div>
+            <div>
+                <label htmlFor="endDate">End Date:</label>
+                <input
+                    type="date"
+                    id="endDate"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                />
+            </div>
+            <div>
+                <label htmlFor="endTime">End Time:</label>
+                <input
+                    type="time"
+                    id="endTime"
+                    name="endTime"
+                    value={formData.endTime}
+                    onChange={handleChange}
+                />
+            </div>
 
-                <label htmlFor="previewImage">Please add an image URL for your group below:</label>
+
+            <div className="section">
+                <h2>Please describe your event:</h2>
+                <textarea
+                    name="about"
+                    placeholder="Please include at least 30 characters"
+                    value={formData.about}
+                    onChange={handleChange}
+                />
+            </div>
+
+            {/* SECTION 5 */}
+            <div className="section">
+                <label htmlFor="previewImage">Please add an image URL for your event below:</label>
                 <input
                     type="text"
                     name="previewImage"
                     placeholder="Image URL"
-                    value={formData.imageUrl}
+                    value={formData.previewImage}
                     onChange={handleChange}
                 />
             </div>
 
             /* SECTION 6 */
             <div className="section">
-                <button type="submit">Create Group</button>
+                <button type="submit">Create Event</button>
             </div>
         </form>
     )
-}
 
+
+}
 export default EventForm;

@@ -51,7 +51,7 @@ export const getEvents = () => async (dispatch) => {
 };
 
 export const getOneEvent = (eventId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/Events/${eventId}`);
+    const response = await csrfFetch(`/api/events/${eventId}`);
     const data = await response.json();
     if (response.ok) {
         await dispatch(loadOneEventAction(data));
@@ -69,7 +69,7 @@ export const getOneEvent = (eventId) => async (dispatch) => {
 };
 
 export const getUserEvents = () => async (dispatch) => {
-    const response = await csrfFetch('/api/Events/current');
+    const response = await csrfFetch('/api/events/current');
     const data = await response.json();
     if (response.ok) {
         dispatch(loadOrganizerEventAction(data));
@@ -78,7 +78,7 @@ export const getUserEvents = () => async (dispatch) => {
 };
 
 export const createNewEvent = (eventData) => async (dispatch) => {
-    const response = await csrfFetch('/api/Events', {
+    const response = await csrfFetch('/api/events', {
         method: 'POST',
         body: JSON.stringify(eventData),
     });
@@ -90,7 +90,7 @@ export const createNewEvent = (eventData) => async (dispatch) => {
 };
 
 export const deleteEventById = (eventId) => async (dispatch) => {
-    const response = await csrfFetch(`/api/Events/${eventId}`, {
+    const response = await csrfFetch(`/api/events/${eventId}`, {
         method: 'DELETE',
     });
     if (response.ok) {

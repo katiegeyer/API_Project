@@ -153,7 +153,7 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
             description: event.description,
             type: event.type,
             capacity: event.capacity,
-            price: event.price,
+            price: event.price === 0 ? 'Free' : event.price,
             private: event.Group.private ? 'Private' : 'Public',
             groupImage,
             startDate: event.startDate,
