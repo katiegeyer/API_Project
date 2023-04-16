@@ -29,6 +29,7 @@ function SignupFormModal() {
         return setErrors(['Confirm Password field must be the same as the Password field']);
     };
 
+
     return (
         <>
             <h1>Sign Up</h1>
@@ -90,7 +91,7 @@ function SignupFormModal() {
                         placeholder="Confirm Password"
                     />
                 </label>
-                <button type="submit">Sign Up</button>
+                <button className={`signup-button${username.length < 4 || password.length < 6 ? " login-button-disabled" : ""}`} type="submit" disabled={!email || !username || !firstName || !lastName || !password || !confirmPassword}>Sign In</button>
             </form>
         </>
     );

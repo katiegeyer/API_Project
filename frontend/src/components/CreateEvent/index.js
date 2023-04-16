@@ -114,8 +114,8 @@ const EventForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validateForm();
-        const startDate = new Date(`${formData.startDate}T${formData.startTime}`);
-        const endDate = new Date(`${formData.endDate}T${formData.endTime}`);
+        const startDate = moment(`${formData.startDate}T${formData.startTime}`).format("MMMM D, YYYY, h:mm A");
+        const endDate = moment(`${formData.endDate}T${formData.endTime}`).format("MMMM D, YYYY, h:mm A");
         if (Object.keys(errors).length === 0) {
             const modifiedFormData = {
                 ...formData,

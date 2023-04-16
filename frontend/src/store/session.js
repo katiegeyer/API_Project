@@ -64,23 +64,84 @@ export const restoreUser = () => async (dispatch) => {
   return response;
 };
 
+// export const signup = (user) => async (dispatch) => {
+//   const {
+//     username, firstName, lastName, email, password,
+//   } = user;
+//   const response = await csrfFetch('/api/users', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//       username,
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//     }),
+//   });
+//   if (!response.ok) {
+//     const errorData = await response.json();
+//     throw errorData;
+//   }
+//   const data = await response.json();
+//   dispatch(setUser(data));
+//   return response;
+// };
+
+
+// export const signup = (user) => async (dispatch) => {
+//   try {
+//     const {
+//       username, firstName, lastName, email, password,
+//     } = user;
+//     const response = await csrfFetch('/api/users', {
+//       method: 'POST',
+//       body: JSON.stringify({
+//         username,
+//         firstName,
+//         lastName,
+//         email,
+//         password,
+//       }),
+//     });
+//     if (response.ok) {
+//       const data = await response.json();
+//       dispatch(setUser(data));
+//       return response;
+//     }
+//   } catch (error) {
+//       const errorData = await response.json();
+//       throw errorData;
+//     }
+//   };
+
+
 export const signup = (user) => async (dispatch) => {
-  const {
-    username, firstName, lastName, email, password,
-  } = user;
-  const response = await csrfFetch('/api/users', {
-    method: 'POST',
-    body: JSON.stringify({
-      username,
-      firstName,
-      lastName,
-      email,
-      password,
-    }),
-  });
-  const data = await response.json();
-  dispatch(setUser(data));
-  return response;
+  try {
+    const {
+      username, firstName, lastName, email, password,
+    } = user;
+    const response = await csrfFetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify({
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+      }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+      return response;
+    } else {
+      const errorData = await response.json();
+      throw errorData;
+    }
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const logout = () => async (dispatch) => {
@@ -90,5 +151,73 @@ export const logout = () => async (dispatch) => {
   dispatch(removeUser());
   return response;
 };
+
+
+// export const signup = (user) => async (dispatch) => {
+//   const {
+//     username, firstName, lastName, email, password,
+//   } = user;
+
+//   try {
+//     const response = await csrfFetch('/api/users', {
+//       method: 'POST',
+//       body: JSON.stringify({
+//         username,
+//         firstName,
+//         lastName,
+//         email,
+//         password,
+//       }),
+//     });
+
+//     if (!response.ok) {
+//       const errorData = await response.json();
+//       console.log('Errors from backend:', errorData); // Log the errors from the backend
+//       throw errorData;
+//     }
+
+//     const data = await response.json();
+//     dispatch(setUser(data));
+//     return { ok: true };
+//   } catch (error) {
+//     console.error('Error during signup:', error);
+//     return { ok: false, errors: error.errors };
+//   }
+// };
+
+// export const signup = (user) => async (dispatch) => {
+//   const {
+//     username, firstName, lastName, email, password,
+//   } = user;
+//   const response = await csrfFetch('/api/users', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//       username,
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//     }),
+//   });
+
+//   if (!response.ok) {
+//     const errorData = await response.json();
+//     return { ok: false, errors: errorData.errors };
+//   }
+
+//   const data = await response.json();
+//   dispatch(setUser(data));
+//   return { ok: true };
+// };
+
+
+
+// export const logout = () => async (dispatch) => {
+//   const response = await csrfFetch('/api/session', {
+//     method: 'DELETE',
+//   });
+//   dispatch(removeUser());
+//   return response;
+// };
 
 export default sessionReducer;

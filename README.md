@@ -2,19 +2,20 @@
 
 <!-- create event isn't dispatching -->
 
-manage events/groups
+!! Error validation on signup form, printing errors from backend
 
-Is it possible to include an minimized 'event' on groups page or do i need to manually stick it in there
-
-Allowing for Organizer privileges/non-member view on group detail page
-
-My default 500 DNE page is a groups detail page?  When I go to a route that doesn't exist (i.e. groupId)
-
-When no events, No Upcoming Events.  Counting past events, counting future events
+Non-organizer can delete an event, need to validate auth
 
 font awesome isn't showing up
 
+manage events/groups.  when user is logged in, has 'view all groups' 'view all events' in dropdown.
+organizer user has different view in groups and events.
+start new group is a link of nav bar for logged in user only
+
+
+When no events, No Upcoming Events.  Counting past events, counting future events
+
+
 
 Need to:
-Update,
-Get all User Groups (organizer view vs. non-member)
+
