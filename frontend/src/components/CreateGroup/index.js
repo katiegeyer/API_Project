@@ -128,7 +128,7 @@ const GroupForm = () => {
             /* SECTION 2 */
                 <div className="section">
                     <h2>First, set your group's location.</h2>
-                    <p>Meetup groups meet locally, in person and online. We'll connect you with people in your area, and more can join you online.</p>
+                    <p>Meetup groups meet locally, In person and online. We'll connect you with people in your area, and more can join you online.</p>
                     <input
                         type="text"
                         name="city"
@@ -184,10 +184,10 @@ const GroupForm = () => {
 
                 {/* SECTION 5 */}
                 <div className="section">
-                    <label htmlFor="type">Is this an In Person or online group?</label>
+                    <label htmlFor="type">Is this an In person or online group?</label>
                     <select name="type" value={formData.type} onChange={handleChange}>
                         <option value="" selected disabled>Please select one</option>
-                        <option value="In Person">In Person</option>
+                        <option value="In person">In person</option>
                         <option value="Online">Online</option>
                     </select>
                     {formErrors.type && (

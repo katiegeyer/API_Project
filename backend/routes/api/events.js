@@ -497,13 +497,13 @@ router.get('/', handleValidationErrors, async (req, res) => {
     }
 
     if (type) {
-        if (type === 'Online' || type === 'In Person') {
+        if (type === 'Online' || type === 'In person') {
             where.type = type;
         } else {
             res.status(400);
             return res.json({
                 errors: [
-                    { message: "Type must be 'Online' or 'In Person'" }
+                    { message: "Type must be 'Online' or 'In person'" }
                 ]
             });
         }

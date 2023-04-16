@@ -138,10 +138,10 @@ const EventForm = () => {
 
                 {/* SECTION 3 */}
                 <div className="section">
-                    <label htmlFor="type">Is this an In Person or online event?</label>
+                    <label htmlFor="type">Is this an In person or online event?</label>
                     <select name="type" value={formData.type} onChange={handleChange}>
                         <option value="" selected disabled>Please select one</option>
-                        <option value="In Person">In Person</option>
+                        <option value="In person">In person</option>
                         <option value="Online">Online</option>
                     </select>
                     {validationErrors.type && (
