@@ -42,7 +42,7 @@ function LandingPage() {
       <section className="landing-page-section2">
         <h2>How SpeakUp works</h2>
         <p>
-          Meet new people who care about the same stuff you do through online and in-person events.  It's free to create an account.
+          Meet new people who care about the same stuff you do through online and In Person events.  It's free to create an account.
         </p>
       </section>
       <section className="landing-page-section3">

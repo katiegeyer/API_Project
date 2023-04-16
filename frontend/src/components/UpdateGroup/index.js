@@ -100,10 +100,10 @@ const GroupUpdate = () => {
 
             {/* SECTION 5 */}
             <div className="section">
-                <label htmlFor="type">Is this an in-person or online group?</label>
+                <label htmlFor="type">Is this an In Person or online group?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
                     <option></option>
-                    <option value="In-person">In-person</option>
+                    <option value="In Person">In Person</option>
                     <option value="Online">Online</option>
                 </select>
 
@@ -228,7 +228,7 @@ export default GroupUpdate;
 
 //             {/* SECTION 5 */}
 //             <div className="section">
-//                 <label htmlFor="type">Is this an in-person or online group?</label>
+//                 <label htmlFor="type">Is this an In Person or online group?</label>
 //                 <select name="type" value={formData.type} onChange={handleChange}>
 //                     <option></option>
 //                     <option value="In Person">In Person</option>

@@ -184,10 +184,10 @@ const GroupForm = () => {
 
                 {/* SECTION 5 */}
                 <div className="section">
-                    <label htmlFor="type">Is this an in-person or online group?</label>
+                    <label htmlFor="type">Is this an In Person or online group?</label>
                     <select name="type" value={formData.type} onChange={handleChange}>
                         <option value="" selected disabled>Please select one</option>
-                        <option value="In-Person">In-Person</option>
+                        <option value="In Person">In Person</option>
                         <option value="Online">Online</option>
                     </select>
                     {formErrors.type && (
