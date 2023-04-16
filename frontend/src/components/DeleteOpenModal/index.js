@@ -23,7 +23,7 @@ export default function DeleteOpenModal() {
     }
     return (
         <>
-            <h1>Are you sure you would like to delete this group?</h1>
+            <h1>Are you sure you would like to delete this group? hi</h1>
             <h2>{singleGroup.name}</h2>
             <div>
                 <button onClick={handleDelete}>Yes</button>

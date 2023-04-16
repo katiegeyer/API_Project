@@ -1,15 +1,42 @@
-.groups-event-link,
-.groups-groups-link {
-    font-size: 1.5rem;
-    text-decoration: none;
-    color: #007bff;
-    margin-right: 15px;
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 60%;
+    margin: 0 auto;
 }
 
-.events-groups-link:hover,
-.events-events-link:hover {
-    color: #0056b3;
+.events-groups-link {
+    font-size: 24pt;
+    text-decoration: none;
+    color: lightgray;
+    font-weight: normal;
+    margin-left: 60px;
+}
+
+.events-groups-link:hover {
     text-decoration: underline;
+}
+
+.events-events-link {
+    font-size: 24pt;
+    text-decoration: none;
+    color: #00525E;
+    text-decoration: underline;
+    font-weight: normal;
+    pointer-events: none;
+}
+
+.events-section1-links {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: left;
+}
+
+.section1 h2 {
+    font-weight: normal;
+    font-size: 14pt;
 }
 
 .event-list-container {
@@ -25,46 +52,66 @@
 
 .event-card {
     display: flex;
-    flex-direction: row;
-    border: 1px solid #ccc;
+    flex-direction: column;
+    flex: wrap;
+    border-top: 3px solid #ccc;
     height: max-content;
-    border-radius: 6px;
-    padding: 1rem;
     width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease-in-out;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    padding: 30px 0px;
 }
 
-.landing-page-section3-link {
+/* .event-summary {
     display: flex;
-}
+    flex-direction: column;
+    max-width: 50%;
+} */
 
 .event-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.events-section1 {
+.events-section2-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.section2-link {
+    text-decoration: none;
+    color: black;
+}
+
+.event-summary {
     display: flex;
     flex-direction: column;
-    width: 50%;
-    justify-content: center;
+    width: 55%;
 }
 
-.events-number {
-    margin-right: 20px
+.event-name {
+    font-size: 20pt;
 }
+
+.event-location {
+    font-size: 14pt;
+}
+
+.date-time {
+    font-size: 14pt;
+    color: #00525E;
+}
+
 
 .event-card img {
-    width: 50%;
-    height: fit-content;
-    object-fit: cover;
-    border-radius: 4px;
+    display: flex;
+    justify-content: left;
+    width: 40%;
+    height: 200px;
+    /* object-fit: cover; */
     padding-right: 20px;
 }
 
-.landing-page-section3-link {
-    text-decoration: none;
-    color: inherit;
+.class-about {
+    width: 100%;
 }

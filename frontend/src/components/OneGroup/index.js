@@ -48,7 +48,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
         <div>
             <section className='group-details-section1'>
                 <div className="section1-left-image">
-                    <div>&lt; <NavLink to={"/groups"} className="groups-groups-link">Groups</NavLink></div>
+                    <div>&lt; <NavLink to={"/groups"} className="group-groups-link">Groups</NavLink></div>
                     <img src={singleGroup.previewImage} />
                 </div>
                 <div className="section1-right">
@@ -62,12 +62,22 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                     <button className="join-group-button">Join this Group</button>
                 </div>
                 {/* if session user && if group organizerId = userId} */}
-                <div><NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">Create event</NavLink>
+                {/* <div><NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">Create event</NavLink>
                     <NavLink to={`/${singleGroup.id}/update-group`} className="groups-create-event-link">Update</NavLink>
                     <OpenModalButton
                         buttonText="Delete"
                         modalComponent={<DeleteOpenModal />}
                     />
+                </div>
+            </section> */}
+                <div className="section1-right-bottom">
+                    <NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">
+                        Create event
+                    </NavLink>
+                    <NavLink to={`/${singleGroup.id}/update-group`} className="groups-create-event-link">
+                        Update
+                    </NavLink>
+                    <OpenModalButton buttonText="Delete" modalComponent={<DeleteOpenModal />} />
                 </div>
             </section>
             <section className='group-details-section2'>

@@ -293,7 +293,8 @@ router.delete('/:eventId', requireAuth, handleValidationErrors, async (req, res,
             status: 'Co-host' || 'Host'
         },
     })
-    if (user.id !== group.organizerId || membership.status !== 'Co-host') {
+    console.log('this is user', user, 'group', group, 'membership', membership);
+    if (user.id !== group.organizerId) {
         return res.status(403).json({ message: "User is not authorized to perform this action" });
     }
     await event.destroy();

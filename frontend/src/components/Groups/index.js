@@ -40,7 +40,7 @@ function GroupList() {
   // }
 
   return (
-    <div>
+    <div className='body'>
       <h1 className='groups-section1'>
         <NavLink to={"/events"} className="groups-event-link">
           Events
@@ -59,7 +59,7 @@ function GroupList() {
                 className="landing-page-section3-link"
               >
                 <img src={group.previewImage} alt="Group" />
-                <div className='groups-section1'>
+                <div className='groups-section2'>
                   <GroupSummary group={group}></GroupSummary>
                   <div>
                     <span className='events-number'>{group.events} events</span>

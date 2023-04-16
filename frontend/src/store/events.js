@@ -91,6 +91,7 @@ export const createNewEvent = (eventData, groupId) => async (dispatch) => {
 };
 
 export const deleteEventById = (eventId) => async (dispatch) => {
+    console.log('delete thunk running');
     const response = await csrfFetch(`/api/events/${eventId}`, {
         method: 'DELETE',
     });

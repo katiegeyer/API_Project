@@ -4,50 +4,73 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getEvents } from '../../store/events';
 import { NavLink } from 'react-router-dom';
-import EventSummary from '../EventSummary';
-import { getOneGroup } from '../../store/groups';
+// import EventSummary from '../EventSummary';
 import './Events.css';
 
 function EventList() {
     const dispatch = useDispatch();
     const { groupId } = useParams();
-    let events = useSelector((state) => state.events.allEvents);
+    // const { eventId } = useParams()
 
-    const singleGroup = useSelector((state) => state.groups.singleGroup);
-    useEffect(() => {
-        dispatch(getOneGroup(groupId));
-    }, [dispatch, groupId]);
+    let events = useSelector((state) => state.events.allEvents);
 
     useEffect(() => {
         dispatch(getEvents());
     }, [dispatch]);
-    console.log(events)
+
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = date.getFullYear();
+
+        return `${year}-${month}-${day}`;
+    };
+    function formatTime(dateString) {
+        const date = new Date(dateString);
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        return `${hours}:${minutes}`;
+    };
 
 
 
     return (
-        <div>
-            <h1 className='groups-section1'>
-                <NavLink to={"/groups"} className="events-groups-link">
-                    Groups
-                </NavLink>
-                <NavLink to={"/events"} className="events-events-link">
-                    Events
-                </NavLink>
-            </h1>
-            <h2>Events in SpeakUp</h2>
+        <div className='body'>
+            <div className='section1'>
+                <h1 className='events-section1-links'>
+                    <NavLink to={"/events"} className="events-events-link">
+                        Events
+                    </NavLink>
+                    <NavLink to={"/groups"} className="events-groups-link">
+                        Groups
+                    </NavLink>
+                </h1>
+                <h2>Events in SpeakUp</h2>
+            </div>
             <div className="event-list-container">
                 {events &&
                     Object.values(events).map((event) => (
                         <div key={event.id} className="event-card">
                             <NavLink
-                                to={`/groups/${singleGroup.id}/events/${event.id}`}
-                                className="section3-link"
+                                to={`/groups/${event.groupId}/events/${event.id}`}
+                                className="section2-link"
                             >
-                                <img src={event.previewImage} alt="Event" />
-                                <div className='events-section1'>
-                                    <EventSummary event={event}></EventSummary>
+                                <div className='events-section2-top'>
+                                    <img src={event.previewImage} alt="Event" />
+                                    <div className='event-summary'>
+                                            <div className='date-time'>
+                                                <span className='date'>{formatDate(`${event.startDate}`)}</span>
+                                                <span> · </span>
+                                                <span className='time'>{formatTime(`${event.startDate}`)}</span>
+                                            </div>
+                                            <p className='event-name'>{`${event.name}`}</p>
+                                            <p className='event-location'>{`${event.city},${event.state}`}</p>
+                                    </div>
                                 </div>
+                                <div className='event-about'>{`${event.description}`}</div>
                             </NavLink>
                         </div>
                     ))}

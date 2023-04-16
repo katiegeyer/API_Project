@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneEvent } from '../../store/events';
-import EventSummary from '../EventSummary';
+// import EventSummary from '../EventSummary';
 // import './OneEvent.css'
 import OpenModalButton from '../OpenModalButton';
-import DeleteOpenModal from '../DeleteOpenModal';
+// import DeleteOpenModal from '../DeleteOpenModal';
+import DeleteEvent from '../DeleteEvent';
+import './OneEvent.css'
 //does not throw error when groupId doesn't exist, shows same thing
+
+
 
 function OneEvent() {
     const { eventId } = useParams();
@@ -38,7 +42,7 @@ function OneEvent() {
     return (
         <div>
             <section className='event-heading'>
-                <div>&lt; <NavLink to={"/events"} className="events-events-link">Events</NavLink></div>
+                <div>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
                 <h1 className='event-name-header'>{singleEvent.name}</h1>
                 <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
             </section>
@@ -83,7 +87,7 @@ function OneEvent() {
                 <div>
                     <OpenModalButton
                         buttonText="Delete"
-                        modalComponent={<DeleteOpenModal />}
+                        modalComponent={<DeleteEvent />}
                     />
                 </div>
             </section >

@@ -13,7 +13,6 @@ import EventList from './components/Events';
 import OneEvent from './components/OneEvent';
 import CreateEvent from './components/CreateEvent';
 
-// import DeleteGroup from './components/DeleteGroup';
 
 function App() {
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ function App() {
           <Route exact path="/:groupId/update-group" component={UpdateGroup} />
           {/* <Route exact path="/groups/:groupId" component={DeleteGroup} /> */}
           <Route exact path="/events" component={EventList} />
-          <Route exact path="/groups/:groupId/events/:eventId" component={OneEvent} />
+          <Route  path="/groups/:groupId/events/:eventId" component={OneEvent} />
           <Route exact path="/groups/:groupId/create-event" component={CreateEvent} />
         </Switch>
       )}

@@ -1,4 +1,4 @@
-.group-form {
+.event-form {
     max-width: 600px;
     margin: 0 auto;
     font-family: Arial, sans-serif;
@@ -8,24 +8,21 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.group-form .section {
+.event-form .section {
     margin-bottom: 1.5rem;
 }
 
-.group-form h2 {
+.event-form h2 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
 }
 
-.group-form p {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    color: #666;
-}
-
-.group-form input[type="text"],
-.group-form textarea,
-.group-form select {
+.event-form input[type="text"],
+.event-form input[type="number"],
+.event-form input[type="date"],
+.event-form input[type="time"],
+.event-form textarea,
+.event-form select {
     width: 100%;
     padding: 0.5rem;
     font-size: 1rem;
@@ -35,12 +32,12 @@
     box-sizing: border-box;
 }
 
-.group-form textarea {
+.event-form textarea {
     min-height: 100px;
     resize: vertical;
 }
 
-.group-form label {
+.event-form label {
     display: block;
     font-weight: bold;
     margin-top: 1rem;
@@ -48,7 +45,7 @@
     color: #444;
 }
 
-.group-form select {
+.event-form select {
     width: 100%;
     font-size: 1rem;
     padding: 0.5rem;
@@ -58,7 +55,7 @@
     background-color: #fff;
 }
 
-.group-form button[type="submit"] {
+.event-form button[type="submit"] {
     display: inline-block;
     background-color: #0073e6;
     color: white;
@@ -71,12 +68,6 @@
     margin-top: 1rem;
 }
 
-.group-form button[type="submit"]:hover {
+.event-form button[type="submit"]:hover {
     background-color: #005cb9;
-}
-
-.error {
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 4px;
 }
