@@ -87,10 +87,16 @@ module.exports = (sequelize, DataTypes) => {
         // },
         isFutureDate: function (value) {
           const currentDate = new Date();
-          if (new Date(value).toDateString() <= currentDate.toDateString()) {
+          if (new Date(value) <= currentDate) {
             throw new Error('Start date must be in the future');
           }
         }
+        //   const currentDate = new Date();
+        //   if (new Date(value).toDateString() <= currentDate.toDateString()) {
+        //     throw new Error('Start date must be in the future');
+        //   }
+        // }
+
       }
     },
     endDate: {

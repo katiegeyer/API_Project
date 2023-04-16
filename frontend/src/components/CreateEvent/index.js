@@ -32,6 +32,7 @@ const EventForm = () => {
         type: '',
         private: '',
         price: '',
+        capacity: '',
         startDate: '',
         endDate: '',
         previewImage: '',
@@ -76,6 +77,7 @@ const EventForm = () => {
         if (!formData.type) errors.type = "Event Type is required";
         if (!formData.private) errors.private = "Visibility type is required";
         if (!formData.price) errors.price = "Price is required";
+        if (!formData.capacity) errors.capacity = "Capacity is required";
         if (!formData.startDate || !formData.startTime)
             errors.start = "Event start is required";
         if (!formData.endDate || !formData.endTime)
@@ -166,6 +168,17 @@ const EventForm = () => {
                     </select>
                     {validationErrors.private && (
                         <p className="error-message">{validationErrors.private}</p>
+                    )}
+                    <div>What is the maximum number of attendees for your event?</div>
+                    <input
+                        type="number"
+                        name="capacity"
+                        placeholder="0"
+                        value={formData.capacity}
+                        onChange={handleChange}
+                    />
+                    {validationErrors.capacity && (
+                        <p className="error-message">{validationErrors.capacity}</p>
                     )}
                     <div>What is the price of your event?</div>
                     <input
