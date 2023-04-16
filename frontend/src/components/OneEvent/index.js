@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { getOneEvent } from '../../store/events';
-// import EventSummary from '../EventSummary';
 // import './OneEvent.css'
 import OpenModalButton from '../OpenModalButton';
 // import DeleteOpenModal from '../DeleteOpenModal';

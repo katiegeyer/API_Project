@@ -37,7 +37,23 @@ const EventForm = () => {
         endDate: '',
         previewImage: '',
         description: '',
-    }, [event]);
+    });
+
+    // useEffect(() => {
+    //     if (event) {
+    //         setFormData({
+    //             name: event.name,
+    //             type: event.type,
+    //             private: event.private,
+    //             price: event.price,
+    //             capacity: event.capacity,
+    //             startDate: event.startDate,
+    //             endDate: event.endDate,
+    //             previewImage: event.previewImage,
+    //             description: event.description,
+    //         });
+    //     }
+    // }, [event]);
 
     const [validationErrors, setValidationErrors] = useState({});
 

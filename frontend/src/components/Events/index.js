@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getEvents } from '../../store/events';
 import { NavLink } from 'react-router-dom';
-// import EventSummary from '../EventSummary';
 import './Events.css';
 
 function EventList() {
