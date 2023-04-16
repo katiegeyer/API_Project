@@ -32,7 +32,6 @@ const EventForm = () => {
         type: '',
         private: '',
         price: '',
-        capacity: '',
         startDate: '',
         endDate: '',
         previewImage: '',
@@ -122,11 +121,6 @@ const EventForm = () => {
             setValidationErrors(errors);
         }
     };
-
-    if (!singleGroup) {
-        return <div>Loading...</div>
-    }
-
 
 
     return (
