@@ -13,6 +13,11 @@ body {
     padding-top: 0;
 }
 
+.auth-buttons button {
+    border: none;
+    background-color: white;
+}
+
 /* SECTION 1 */
 
 .landing-page-section1 {
@@ -21,7 +26,8 @@ body {
     align-items: center;
     justify-content: space-between;
     max-width: 90%;
-    margin-top: 30px; /*ADJUST SIZING, LEFT PADDING IS UNEVEN WITH RIGHT SECTION*/
+    margin-top: 30px;
+    /*ADJUST SIZING, LEFT PADDING IS UNEVEN WITH RIGHT SECTION*/
 }
 
 h1 {
@@ -146,23 +152,22 @@ h1 {
 }
 
 .landing-page-section3-link-disabled {
-    display: block;
-    margin-bottom: 20px;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
     font-size: 24px;
-    font-weight: bold;
     text-decoration: none;
-    color: lightgray;
+    color: #00525E;
     background-color: #ffffff;
-    border: 2px solid lightgrey;
-    border-radius: 10px;
     transition: all 0.2s ease-in-out;
+    max-width: 100%;
+    color: lightgray;
     pointer-events: none;
 }
 
 
-.join-beat-up button {
+.join-speak-up button {
     display: block;
     margin: 0 auto;
     padding: 20px;

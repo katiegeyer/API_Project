@@ -41,15 +41,17 @@ function GroupList() {
 
   return (
     <div className='body'>
-      <h1 className='groups-section1'>
-        <NavLink to={"/events"} className="groups-event-link">
-          Events
-        </NavLink>
-        <NavLink to={"/groups"} className="groups-groups-link">
-          Groups
-        </NavLink>
-      </h1>
-      <h2>Groups in SpeakUp</h2>
+      <div className='groups-section1'>
+        <h1>
+          <NavLink to={"/events"} className="groups-event-link">
+            Events
+          </NavLink>
+          <NavLink to={"/groups"} className="groups-groups-link">
+            Groups
+          </NavLink>
+        </h1>
+        <h2>Groups in SpeakUp</h2>
+      </div>
       <div className="group-list-container">
         {groups &&
           Object.values(groups).map((group) => (
@@ -62,7 +64,10 @@ function GroupList() {
                 <div className='groups-section2'>
                   <GroupSummary group={group}></GroupSummary>
                   <div>
-                    <span className='events-number'>{group.events} events</span>
+                    {group.numMembers > 1 ? (
+                      <span className='events-number'>{group.numMembers} members</span>) : (
+                      <span className='events-number'>{group.numMembers} member</span>
+                    )}
                     <span className='group-type'>{group.type}</span>
                   </div>
                 </div>

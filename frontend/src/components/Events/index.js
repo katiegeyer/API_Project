@@ -20,19 +20,38 @@ function EventList() {
 
 
     function formatDate(dateString) {
+        // const date = new Date(dateString);
+        // const month = String(date.getMonth() + 1).padStart(2, '0');
+        // const day = String(date.getDate()).padStart(2, '0');
+        // const year = date.getFullYear();
+
+        // return `${month}-${day}-${year}`;
         const date = new Date(dateString);
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
         const year = date.getFullYear();
 
-        return `${year}-${month}-${day}`;
+        return `${month} ${day}, ${year}`;
     };
     function formatTime(dateString) {
-        const date = new Date(dateString);
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
+        // const date = new Date(dateString);
+        // const hours = String(date.getHours()).padStart(2, '0');
+        // const minutes = String(date.getMinutes()).padStart(2, '0');
 
-        return `${hours}:${minutes}`;
+        // return `${hours}:${minutes}`;
+        const date = new Date(dateString);
+        let hours = date.getHours();
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+
+        hours = hours % 12;
+        hours = hours ? hours : 12; // If the hours is 0, change it to 12
+
+        return `${hours}:${minutes} ${ampm}`;
     };
 
 
@@ -61,13 +80,13 @@ function EventList() {
                                 <div className='events-section2-top'>
                                     <img src={event.previewImage} alt="Event" />
                                     <div className='event-summary'>
-                                            <div className='date-time'>
-                                                <span className='date'>{formatDate(`${event.startDate}`)}</span>
-                                                <span> · </span>
-                                                <span className='time'>{formatTime(`${event.startDate}`)}</span>
-                                            </div>
-                                            <p className='event-name'>{`${event.name}`}</p>
-                                            <p className='event-location'>{`${event.city},${event.state}`}</p>
+                                        <div className='date-time'>
+                                            <span className='date'>{formatDate(`${event.startDate}`)}</span>
+                                            <span> · </span>
+                                            <span className='time'>{formatTime(`${event.startDate}`)}</span>
+                                        </div>
+                                        <h1 className='event-name'>{`${event.name}`}</h1>
+                                        <h2 className='event-location'>{`${event.city},${event.state}`}</h2>
                                     </div>
                                 </div>
                                 <div className='event-about'>{`${event.description}`}</div>

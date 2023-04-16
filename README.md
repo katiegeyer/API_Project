@@ -12,8 +12,6 @@ My default 500 DNE page is a groups detail page?  When I go to a route that does
 
 When no events, No Upcoming Events.  Counting past events, counting future events
 
-Connect validation errors on create group/create event page
-
 font awesome isn't showing up
 
 

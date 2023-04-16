@@ -1,9 +1,18 @@
+body {
+    display: block;
+}
+
 .body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     max-width: 60%;
     margin: 0 auto;
+    width: 100%;
+}
+
+.nav-ul {
+    width: 100%;
 }
 
 .events-groups-link {
@@ -35,8 +44,18 @@
 }
 
 .section1 h2 {
-    font-weight: normal;
+    font-weight: lighter;
     font-size: 14pt;
+}
+
+.section1 {
+    position: sticky;
+    top: 70px;
+    z-index: 999;
+    /* Add this property to ensure it stays below the navigation bar */
+    background-color: white;
+    width: 100%;
+    border-bottom: 3px solid #ccc;
 }
 
 .event-list-container {
@@ -54,7 +73,7 @@
     display: flex;
     flex-direction: column;
     flex: wrap;
-    border-top: 3px solid #ccc;
+    border-bottom: 3px solid #ccc;
     height: max-content;
     width: 100%;
     justify-content: center;
@@ -68,9 +87,9 @@
     max-width: 50%;
 } */
 
-.event-card:hover {
+/* .event-card:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+} */
 
 .events-section2-top {
     display: flex;
@@ -86,7 +105,9 @@
 .event-summary {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     width: 55%;
+    padding-left: 20px;
 }
 
 .event-name {
@@ -107,9 +128,11 @@
     display: flex;
     justify-content: left;
     width: 40%;
-    height: 200px;
+    height: 175px;
     /* object-fit: cover; */
-    padding-right: 20px;
+    /* padding-right: 20px; */
+    border-radius: 10px;
+
 }
 
 .class-about {

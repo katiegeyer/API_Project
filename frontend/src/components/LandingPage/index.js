@@ -82,7 +82,10 @@ function LandingPage() {
             </NavLink>
           ) : (
             <span className="landing-page-section3-link-disabled">
-              Start a group
+              <img className="newGroupImageLP"
+                src="https://secure.meetupstatic.com/next/images/shared/joinGroup.svg?w=384"
+                alt="Image" />
+              Start a new group
             </span>
           )}
           <p>Create your own group and invite others to join you.</p>
