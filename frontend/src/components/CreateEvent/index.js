@@ -5,7 +5,8 @@ import { createNewEvent } from '../../store/events';
 import { useHistory } from 'react-router-dom';
 import { getOneGroup } from '../../store/groups';
 import { getOneEvent } from '../../store/events';
-import './CreateEvent.css'
+import './CreateEvent.css';
+import moment from 'moment';
 
 const EventForm = () => {
     const dispatch = useDispatch();
@@ -90,6 +91,9 @@ const EventForm = () => {
             errors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
         if (!formData.about || formData.about.length < 30)
             errors.about = "Description must be at least 30 characters long";
+        if (new Date(`${formData.startDate}T${formData.startTime}`) >= new Date(`${formData.endDate}T${formData.endTime}`)) {
+            errors.date = "End date and time must be after start date and time";
+        }
 
         return errors;
     };
@@ -110,9 +114,13 @@ const EventForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validateForm();
+        const startDate = new Date(`${formData.startDate}T${formData.startTime}`);
+        const endDate = new Date(`${formData.endDate}T${formData.endTime}`);
         if (Object.keys(errors).length === 0) {
             const modifiedFormData = {
                 ...formData,
+                startDate,
+                endDate,
                 private: formData.private === 'private' ? true : false,
             };
             const createdEvent = await dispatch(createNewEvent(modifiedFormData, groupId));
@@ -227,6 +235,9 @@ const EventForm = () => {
                     />
                     {validationErrors.end && (
                         <p className="error-message">{validationErrors.end}</p>
+                    )}
+                    {validationErrors.date && (
+                        <p className="error-message">{validationErrors.date}</p>
                     )}
                 </div>
                 <div>

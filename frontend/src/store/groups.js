@@ -32,7 +32,7 @@ export const editGroupAction = (group) => ({
 
 export const loadOrganizerGroupAction = (groups) => ({
   type: LOAD_ORGANIZER_GROUP,
-  groups,
+  payload: groups,
 });
 
 export const deleteGroupAction = (groupId) => ({
@@ -182,7 +182,7 @@ const groupsReducer = (state = initialState, action) => {
     }
     case LOAD_ORGANIZER_GROUP: {
       const organizerGroups = {};
-      action.groups.forEach((group) => {
+      action.payload.Groups.forEach((group) => {
         organizerGroups[group.id] = group;
       });
       return {

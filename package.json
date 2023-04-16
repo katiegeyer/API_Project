@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/katiegeyer/API_Project#readme",
   "dependencies": {
-    "bcryptjs": "^2.4.3"
+    "bcryptjs": "^2.4.3",
+    "moment": "^2.29.4"
   }
 }
