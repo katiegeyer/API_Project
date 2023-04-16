@@ -71,3 +71,9 @@
 .event-form button[type="submit"]:hover {
     background-color: #005cb9;
 }
+
+.error-message {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 4px;
+}

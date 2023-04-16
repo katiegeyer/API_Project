@@ -39,7 +39,7 @@ const EventForm = () => {
         description: '',
     }, [event]);
 
-    const [formErrors, setFormErrors] = useState({});
+    const [validationErrors, setValidationErrors] = useState({});
 
     //need to combine city and state, parse location
     //potential code for modified handlesubmit
@@ -57,40 +57,28 @@ const EventForm = () => {
     const validateForm = () => {
         const errors = {};
 
-        // Name validation
-        if (!formData.name.trim()) {
-          errors.name = 'Name is required.';
-        }
+        if (!formData.name) errors.name = "Name is required";
+        if (!formData.type) errors.type = "Event Type is required";
+        if (!formData.private) errors.private = "Visibility type is required";
+        if (!formData.price) errors.price = "Price is required";
+        if (!formData.startDate || !formData.startTime)
+            errors.start = "Event start is required";
+        if (!formData.endDate || !formData.endTime)
+            errors.end = "Event end is required";
+        if (
+            !formData.previewImage.match(
+                /\.(png|jpg|jpeg)$/i
+            )
+        )
+            errors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
+        if (!formData.about || formData.about.length < 30)
+            errors.about = "Description must be at least 30 characters long";
 
-        // Location validation
-        if (!formData.city.trim() || !formData.state.trim()) {
-          errors.location = 'Location is required.';
-        }
-
-        // Group Type validation
-        if (!formData.type) {
-            errors.type = 'Group Type is required.';
-        }
-
-        // Visibility validation
-        if (!formData.private) {
-            errors.private = 'Visibility type is required.';
-        }
-
-        // Image URL validation
-        const imageURLPattern = /\.(jpe?g|png)$/i;
-        if (!imageURLPattern.test(formData.previewImage.trim())) {
-
-                    // Description validation
-                    if (formData.about.trim().length < 30) {
-                      errors.about = 'Description must be at least 30 characters long.';
-                    }
-            errors.previewImage = 'Image URL must end in .png, .jpg, or .jpeg';
-        }
-
-        setFormErrors(errors);
-        return Object.keys(errors).length === 0;
-      };
+        return errors;
+    };
+    //     setFormErrors(errors);
+    //     return Object.keys(errors).length === 0;
+    // };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -104,15 +92,21 @@ const EventForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const modifiedFormData = {
-            ...formData,
-            private: formData.private === 'private' ? true : false,
-        };
-        const createdEvent = await dispatch(createNewEvent(modifiedFormData, groupId));
-        if (createdEvent) {
-            history.push(`/groups/${groupId}/events/${createdEvent.id}`);
+        const errors = validateForm();
+        if (Object.keys(errors).length === 0) {
+            const modifiedFormData = {
+                ...formData,
+                private: formData.private === 'private' ? true : false,
+            };
+            const createdEvent = await dispatch(createNewEvent(modifiedFormData, groupId));
+            if (createdEvent) {
+                history.push(`/groups/${groupId}/events/${createdEvent.id}`);
+            }
+        } else {
+            setValidationErrors(errors);
         }
     };
+
     if (!singleGroup) {
         return <div>Loading...</div>
     }
@@ -137,6 +131,9 @@ const EventForm = () => {
                         value={formData.name}
                         onChange={handleChange}
                     />
+                    {validationErrors.name && (
+                        <p className="error-message">{validationErrors.name}</p>
+                    )}
                 </div>
 
                 {/* SECTION 3 */}
@@ -144,9 +141,12 @@ const EventForm = () => {
                     <label htmlFor="type">Is this an in-person or online event?</label>
                     <select name="type" value={formData.type} onChange={handleChange}>
                         <option value="" selected disabled>Please select one</option>
-                        <option value="In-Person">In-Person</option>
+                        <option value="In-person">In-person</option>
                         <option value="Online">Online</option>
                     </select>
+                    {validationErrors.type && (
+                        <p className="error-message">{validationErrors.type}</p>
+                    )}
 
                     <label htmlFor="private">Is this group private or public?</label>
                     <select name="private" value={formData.private} onChange={handleChange}>
@@ -154,6 +154,9 @@ const EventForm = () => {
                         <option value="public">Public</option>
                         <option value="private">Private</option>
                     </select>
+                    {validationErrors.private && (
+                        <p className="error-message">{validationErrors.private}</p>
+                    )}
                     <div>What is the price of your event?</div>
                     <input
                         type="number"
@@ -162,6 +165,9 @@ const EventForm = () => {
                         value={formData.price}
                         onChange={handleChange}
                     />
+                    {validationErrors.price && (
+                        <p className="error-message">{validationErrors.price}</p>
+                    )}
                 </div>
                 <div>
                     <label htmlFor="startDate">Start Date:</label>
@@ -172,6 +178,9 @@ const EventForm = () => {
                         value={formData.startDate}
                         onChange={handleChange}
                     />
+                    {validationErrors.start && (
+                        <p className="error-message">{validationErrors.start}</p>
+                    )}
                     <label htmlFor="startTime">Start Time:</label>
                     <input
                         type="time"
@@ -180,6 +189,9 @@ const EventForm = () => {
                         value={formData.startTime}
                         onChange={handleChange}
                     />
+                    {validationErrors.start && (
+                        <p className="error-message">{validationErrors.start}</p>
+                    )}
                 </div>
                 <div>
                     <label htmlFor="endDate">End Date:</label>
@@ -190,6 +202,9 @@ const EventForm = () => {
                         value={formData.endDate}
                         onChange={handleChange}
                     />
+                    {validationErrors.end && (
+                        <p className="error-message">{validationErrors.end}</p>
+                    )}
                 </div>
                 <div>
                     <label htmlFor="endTime">End Time:</label>
@@ -200,6 +215,9 @@ const EventForm = () => {
                         value={formData.endTime}
                         onChange={handleChange}
                     />
+                    {validationErrors.end && (
+                        <p className="error-message">{validationErrors.end}</p>
+                    )}
                 </div>
 
 
@@ -211,6 +229,9 @@ const EventForm = () => {
                         value={formData.about}
                         onChange={handleChange}
                     />
+                    {validationErrors.about && (
+                        <p className="error-message">{validationErrors.about}</p>
+                    )}
                 </div>
 
                 {/* SECTION 5 */}
@@ -223,6 +244,9 @@ const EventForm = () => {
                         value={formData.previewImage}
                         onChange={handleChange}
                     />
+                    {validationErrors.previewImage && (
+                        <p className="error-message">{validationErrors.previewImage}</p>
+                    )}
                 </div>
 
             /* SECTION 6 */
