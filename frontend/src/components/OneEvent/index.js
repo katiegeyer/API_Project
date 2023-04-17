@@ -142,75 +142,77 @@ function OneEvent() {
     // export default OneEvent;
 
     return (
-        <div className='oneevent-body'>
-            <section className='event-heading'>
-                <div className='bread-crumb'>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
-                <h1 className='event-name-header'>{singleEvent.name}</h1>
-                <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
-            </section>
+        <div>
+            <div className='bread-crumb'>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
+            <div className='oneevent-body'>
+                <section className='event-heading'>
+                    <h1 className='event-name-header'>{singleEvent.name}</h1>
+                    <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
+                </section>
 
-            <div className='top-side'>
-                <div className="section1-left-image">
-                    <img src={singleEvent.previewImage} />
-                </div>
-                {/* <div className='section1-right-card'> */}
-                <div className='right-side'>
-                    <section className='section1-card'>
-                        <div className="section1-topright">
-                            <img src={singleEvent.groupImage} />
-                        </div>
-                        <div className="section1-bottomright">
-                            <div className='part1'>
-                                <h2 className='events-group-name'>{singleEvent.groupName}</h2>
-                                <h3 className='type-of-event'>{singleEvent.private}</h3>
+                <div className='top-side'>
+                    <div className="section1-left-image">
+                        <img src={singleEvent.previewImage} />
+                    </div>
+                    {/* <div className='section1-right-card'> */}
+                    <div className='right-side'>
+                        <section className='section1-card'>
+                            <div className="section1-topright">
+                                <img src={singleEvent.groupImage} />
                             </div>
-                        </div>
-                    </section >
-                    <section className='columncard'>
-                        <div className='time'>
-                            <i id='clock' className="fa-regular fa-clock"></i>
-                            <div className='time-details'>
-                                <span>
-
-                                    <div className='start'>START {formatDate(`${singleEvent.startDate}`)} {formatTime(`${singleEvent.startDate}`)}</div>
-                                </span>
-                                <span>
-                                    <div className='start'>END {formatDate(`${singleEvent.endDate}`)} {formatTime(`${singleEvent.endDate}`)}</div>
-
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <i id='dollar' className="fa-solid fa-dollar-sign"></i>
-                            {`${singleEvent.price}`}</div>
-                        <span>
-                            {sessionUser && sessionUser.id === singleEvent.organizerId && (
-                                <div className="delete-modal-events">
-                                    <i id='dot' className="fa-solid fa-location-dot"></i>
-                                    <span className='eventtype'>{`${singleEvent.type}`}</span>
-                                    <OpenModalButton
-                                        buttonText="Delete"
-                                        modalComponent={<DeleteEvent />}
-                                    />
+                            <div className="section1-bottomright">
+                                <div className='part1'>
+                                    <h2 className='events-group-name'>{singleEvent.groupName}</h2>
+                                    <h3 className='type-of-event'>{singleEvent.private}</h3>
                                 </div>
-                            )}
-                            {sessionUser && sessionUser.id !== singleEvent.organizerId && (
-                                <>
-                                    <i id='dot' className="fa-solid fa-location-dot"></i>
-                                    <span className='eventtype'>{`${singleEvent.type}`}</span>
-                                </>
-                            )}
-                        </span>
-                    </section>
+                            </div>
+                        </section >
+                        <section className='columncard'>
+                            <div className='time'>
+                                <i id='clock' className="fa-regular fa-clock"></i>
+                                <div className='time-details'>
+                                    <span>
+
+                                        <div className='start'>START {formatDate(`${singleEvent.startDate}`)} {formatTime(`${singleEvent.startDate}`)}</div>
+                                    </span>
+                                    <span>
+                                        <div className='start'>END {formatDate(`${singleEvent.endDate}`)} {formatTime(`${singleEvent.endDate}`)}</div>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <i id='dollar' className="fa-solid fa-dollar-sign"></i>
+                                {`${singleEvent.price}`}</div>
+                            <span>
+                                {sessionUser && sessionUser.id === singleEvent.organizerId && (
+                                    <div className="delete-modal-events">
+                                        <i id='dot' className="fa-solid fa-location-dot"></i>
+                                        <span className='eventtype'>{`${singleEvent.type}`}</span>
+                                        <OpenModalButton
+                                            buttonText="Delete"
+                                            modalComponent={<DeleteEvent />}
+                                        />
+                                    </div>
+                                )}
+                                {sessionUser && sessionUser.id !== singleEvent.organizerId && (
+                                    <>
+                                        <i id='dot' className="fa-solid fa-location-dot"></i>
+                                        <span className='eventtype'>{`${singleEvent.type}`}</span>
+                                    </>
+                                )}
+                            </span>
+                        </section>
+                    </div>
                 </div>
+
+                {/* </div> */}
+
+                <section className='event-detail-section3'>
+                    <h1>Details </h1>
+                    <p>{singleEvent.description}</p>
+                </section>
             </div>
-
-            {/* </div> */}
-
-            <section className='event-detail-section3'>
-                <h1>Details </h1>
-                <p>{singleEvent.description}</p>
-            </section>
         </div >
     );
 }

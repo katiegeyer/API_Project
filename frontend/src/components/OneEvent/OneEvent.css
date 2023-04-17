@@ -1,13 +1,17 @@
 .event-heading {
     text-align: left;
 }
+
 .oneevent-body {
-    padding: 20px
+    padding: 20px;
+    width: 80%;
+    margin: 0px auto;
 }
 
 .bread-crumb {
     font-size: 14pt;
-    padding: 10px
+    padding: 10px;
+    margin-left: 0px;
 }
 
 .bread-crumb a {
@@ -109,7 +113,8 @@
     /* justify-content: space-between; */
 }
 
-#dollar, #dot {
+#dollar,
+#dot {
     margin-right: 80px;
 }
 
