@@ -1,20 +1,53 @@
 # API_project
+This project is a clone of Meetup.
 
-<!-- create event isn't dispatching -->
+## Table of Contents
 
-<!-- !! Error validation on signup form, printing errors from backend -->
+- [Getting Started]
+- [Prerequisites]
+- [Installation]
+- [Running the Application]
+- [Running Tests]
+- [Deployment]
+- [Built With]
+<!-- - [Contributing]
+- [Versioning]
+- [Authors]
+- [License]
+- [Acknowledgments] -->
 
-Non-organizer can delete an event, need to validate auth
+## Getting Started
 
-<!-- font awesome isn't showing up -->
+Install npm
 
-manage events/groups.  when user is logged in, has 'view all groups' 'view all events' in dropdown.
-organizer user has different view in groups and events.
-start new group is a link of nav bar for logged in user only
+### Prerequisites
 
+React, Redux, Npm, Express, Sequelize, SQlite3
 
-When no events, No Upcoming Events.  Counting past events, counting future events
+### Installation
 
-trying to use the browser debugger in the dev tools, can't find the source files to set breakpoints
+Step by step series of instructions:
 
-Need to:
+1. Clone the repo
+git clone https://github.com/katiegeyer/API_Project
+
+cd API_project
+cd frontend
+npm install
+
+cd ../backend
+npm install
+
+cd frontend
+npm start
+
+cd backend
+npm start
+
+### Running Tests
+
+cd frontend
+npm test
+
+cd backend
+npm test

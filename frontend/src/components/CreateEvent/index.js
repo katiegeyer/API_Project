@@ -81,10 +81,6 @@ const EventForm = () => {
         if (!formData.private) errors.private = "Visibility type is required";
         if (!formData.price) errors.price = "Price is required";
         if (!formData.capacity) errors.capacity = "Capacity is required";
-        // if (!formData.startDate || !formData.startTime)
-        //     errors.start = "Event start is required";
-        // if (!formData.endDate || !formData.endTime)
-        //     errors.end = "Event end is required";
         if (!formData.startDateTime)
             errors.start = "Event start is required";
         if (new Date(formData.startDateTime) <= new Date())
@@ -100,11 +96,8 @@ const EventForm = () => {
             )
         )
             errors.previewImage = "Image URL must end in .png, .jpg, or .jpeg";
-        if (!formData.about || formData.about.length < 30)
-            errors.about = "Description must be at least 30 characters long";
-        if (new Date(`${formData.startDate}T${formData.startTime}`) >= new Date(`${formData.endDate}T${formData.endTime}`)) {
-            errors.date = "End date and time must be after start date and time";
-        }
+        if (!formData.description || formData.description.length < 30)
+            errors.description = "Description must be at least 30 characters long";
 
         return errors;
     };
@@ -306,9 +299,9 @@ const EventForm = () => {
                 <div className="section">
                     <h2>Please describe your event:</h2>
                     <textarea
-                        name="about"
+                        name="description"
                         placeholder="Please include at least 30 characters"
-                        value={formData.about}
+                        value={formData.description}
                         onChange={handleChange}
                     />
                     {validationErrors.about && (
