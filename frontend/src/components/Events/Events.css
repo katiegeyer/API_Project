@@ -121,6 +121,16 @@ body {
 .date-time {
     font-size: 14pt;
     color: #00525E;
+    display: flex;
+
+}
+
+.time {
+    padding-left: 5px;
+}
+
+.date {
+    padding-right: 5px;
 }
 
 .event-about {
