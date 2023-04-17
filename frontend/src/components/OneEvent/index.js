@@ -193,6 +193,7 @@ function OneEvent() {
                                             buttonText="Delete"
                                             modalComponent={<DeleteEvent />}
                                         />
+                                        <button className="Update-events1">Update</button>
                                     </div>
                                 )}
                                 {sessionUser && sessionUser.id !== singleEvent.organizerId && (
