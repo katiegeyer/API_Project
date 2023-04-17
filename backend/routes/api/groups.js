@@ -83,6 +83,12 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
             },
         });
 
+        const event = await Event.findAll({
+            where: {
+                groupId: group.id
+            }
+        })
+
         return {
             id: group.id,
             organizerId: group.organizerId,
@@ -95,6 +101,7 @@ router.get('/', handleValidationErrors, async (req, res, next) => {
             createdAt: group.createdAt,
             updatedAt: group.updatedAt,
             events,
+            event,
             numMembers,
             previewImage
         }
@@ -240,8 +247,28 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
     const groupEvents = await Event.findAll({
         where: {
             groupId: group.id
-        }
+        },
+        include: [
+            {
+                model: EventImage,
+                attributes: ['id', 'url', 'preview'],
+            },
+            {
+                model: Group,
+                attributes: ['city', 'state']
+            },
+        ],
     })
+
+    const formattedGroupEvents = groupEvents.map((event) => {
+        const previewImageObj = event.EventImages.find((image) => image.preview);
+        const previewImage = previewImageObj ? previewImageObj.url : null;
+
+        return {
+            ...event.get({ plain: true }),
+            previewImage,
+        };
+    });
 
     const organizer = await User.findOne({
         where: {
@@ -264,7 +291,7 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
         previewImage,
         events,
         organizerName,
-        groupEvents,
+        groupEvents: formattedGroupEvents,
         createdAt: group.createdAt,
         updatedAt: group.updatedAt
     })

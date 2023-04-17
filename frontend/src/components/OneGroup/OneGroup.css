@@ -1,72 +1,122 @@
 .group-details-section1 {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
 
-  .section1-left-image {
-    position: relative;
-    max-width: 300px;
-    margin-right: 1rem;
-  }
+.section1-left-image {
+  position: relative;
+  max-width: 300px;
+  margin-right: 1rem;
+}
 
-  .section1-left-image img {
-    width: 100%;
-    height: auto;
-  }
+.section1-left-image img {
+  width: 100%;
+  height: auto;
+}
 
-  .group-groups-link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    color: #000;
-    text-decoration: none;
-  }
+.group-groups-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #000;
+  text-decoration: none;
+}
 
-  .section1-right {
-    flex-grow: 1;
-  }
+.section1-right {
+  flex-grow: 1;
+}
 
-  .group-name-right {
-    margin: 0;
-    margin-bottom: 0.5rem;
-  }
+.group-name-right {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
 
-  .location {
-    font-size: 1rem;
-    color: #777;
-    margin-bottom: 1rem;
-  }
+.location {
+  font-size: 1rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
 
-  .join-group-button {
-    padding: 10px 15px;
-    background-color: #f44a4a;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    text-align: center;
-  }
+.join-group-button {
+  padding: 10px 15px;
+  background-color: #f44a4a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
 
-  .group-details-section2,
-  .group-detail-section3,
-  .group-detail-section4 {
-    margin-top: 2rem;
-  }
+.group-details-section2,
+.group-detail-section3,
+.group-detail-section4 {
+  margin-top: 2rem;
+}
 
-  .group-details-section2 h1,
-  .group-detail-section3 h1,
-  .group-detail-section4 h2 {
-    margin-bottom: 1rem;
-  }
+.group-details-section2 h1,
+.group-detail-section3 h1,
+.group-detail-section4 h2 {
+  margin-bottom: 1rem;
+}
 
-  .group-details-section2 h2 {
-    font-size: 1.2rem;
-    margin: 0;
-  }
+.group-details-section2 h2 {
+  font-size: 1.2rem;
+  margin: 0;
+}
 
-  .groups-create-event-link {
-    margin-right: 1rem;
-    text-decoration: none;
-    color: #000;
-  }
+.groups-create-event-link {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.group-detail-section4 {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.event-card-groups {
+  display: flex;
+  flex-direction: row;
+  flex: wrap;
+  border-bottom: 3px solid #ccc;
+  height: max-content;
+  width: 60%;
+  justify-content: left;
+  /* align-items: center; */
+  padding: 30px 0px;
+}
+
+.event-card-groups img {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  width: 30%;
+  height: 175px;
+  /* object-fit: cover; */
+  /* padding-right: 20px; */
+  border-radius: 10px;
+
+}
+
+.events-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 55%;
+  padding-left: 20px;
+}

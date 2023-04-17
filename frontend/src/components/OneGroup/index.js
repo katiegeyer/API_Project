@@ -19,30 +19,43 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
     useEffect(() => {
         dispatch(getOneGroup(groupId));
     }, [dispatch, groupId]);
+    console.log('events', singleGroup.groupEvents)
 
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
 
-    // // return JSON.stringify(singleGroup);
-    // function formatDate(dateString) {
-    //     const date = new Date(dateString);
-    //     const month = String(date.getMonth() + 1).padStart(2, '0');
-    //     const day = String(date.getDate()).padStart(2, '0');
-    //     const year = date.getFullYear();
+        return `${month} ${day}, ${year}`;
+    }
 
-    //     return `${month}/${day}/${year}`;
-    // };
-    // let startDay = formatDate(singleGroup.events.startDate);
-    // let endDay = formatDate(singleGroup.events.endDate);
+    function formatTime(dateString) {
+        const date = new Date(dateString);
+        let hours = date.getHours();
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
 
-    // function formatTime(dateString) {
-    //     const date = new Date(dateString);
-    //     const hours = String(date.getHours()).padStart(2, '0');
-    //     const minutes = String(date.getMinutes()).padStart(2, '0');
+        hours = hours % 12;
+        hours = hours ? hours : 12;
 
-    //     return `${hours}:${minutes}`;
-    // }
+        return `${hours}:${minutes} ${ampm}`;
+    }
 
-    // let startTime = formatTime(singleGroup.events.startDate);
-    // let endTime = formatTime(singleGroup.events.endDate);
+    const sortedEvents = Array.isArray(singleGroup.groupEvents)
+        ? singleGroup.groupEvents.sort((a, b) => {
+            const aDate = new Date(a.startDate);
+            const bDate = new Date(b.startDate);
+            return aDate - bDate;
+        })
+        : [];
+    const upcomingEvents = sortedEvents.filter(event => new Date(event.startDate) >= new Date());
+    const pastEvents = sortedEvents.filter(event => new Date(event.startDate) < new Date());
+
 
     return (
         <div>
@@ -88,15 +101,47 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                 <h1>What we're about</h1>
                 <p>{singleGroup.about}</p>
             </section>
-            <section className='group-detail-section4'>
-                <h2>Upcoming Events</h2>
-                {Array.isArray(singleGroup.groupEvents) && Object.values(singleGroup.groupEvents).map((event) => (
-                    <div key={event.id}>
-                        <h3>{event.name}</h3>
-                        {/* Render other event properties here */}
-                    </div>
-                ))}
-            </section>
+            <div className='events-group'>
+                <section className='group-detail-section4'>
+                    <h2>Upcoming Events</h2>
+                    {Array.isArray(upcomingEvents) && upcomingEvents.map((event) => (
+                        <div key={event.id} className="event-card-groups">
+                            {/* <h3>{event.name}</h3>
+                        <div>{event.location}</div>
+                        Render other event properties here */}
+                            <img src={event.previewImage} alt="Event" />
+                            <div className="event-info">
+                                <div className="event-date-time">
+                                    <span>{formatDate(event.startDate)}</span>
+                                    <span> · </span>
+                                    <span>{formatTime(event.startDate)}</span>
+                                </div>
+                                <h3>{event.name}</h3>
+                                <p className="location">{event.location}</p>
+                                <p className="description">{event.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                    {/* </section> */}
+                    {/* <section className='group-detail-section5'> */}
+                    <h2>Past Events</h2>
+                    {Array.isArray(pastEvents) && pastEvents.map((event) => (
+                        <div key={event.id} className="event-card-groups">
+                            <img src={event.previewImage} alt="Event" />
+                            <div className="event-info">
+                                <div className="event-date-time">
+                                    <span>{formatDate(event.startDate)}</span>
+                                    <span> · </span>
+                                    <span>{formatTime(event.startDate)}</span>
+                                </div>
+                                <h3>{event.name}</h3>
+                                <p className="location">{event.city}</p>
+                                <p className="description">{event.description}</p>
+                            </div>
+                        </div>
+                    ))}
+                </section>
+            </div>
         </div >
     );
 }

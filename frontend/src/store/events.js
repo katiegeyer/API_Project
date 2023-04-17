@@ -100,6 +100,17 @@ export const deleteEventById = (eventId) => async (dispatch) => {
     }
 };
 
+
+export const getEventsByGroupId = (groupId) => async (dispatch) => {
+    const response = await fetch(`/api/groups/${groupId}/events`);
+
+    if (response.ok) {
+        const events = await response.json();
+        dispatch({ type: 'LOAD_EVENTS_BY_GROUP', events });
+    }
+};
+
+
 // Reducer
 const initialState = {
     allEvents: {},
@@ -163,6 +174,11 @@ const eventsReducer = (state = initialState, action) => {
                 allEvents: restOfEvents,
             };
         }
+        case 'LOAD_EVENTS_BY_GROUP':
+            return {
+                ...state,
+                groupEvents: action.events,
+            };
         default:
             return state;
     }

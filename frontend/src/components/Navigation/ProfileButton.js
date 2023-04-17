@@ -5,6 +5,7 @@ import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import { useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function ProfileButton({ user }) {
     const dispatch = useDispatch();
@@ -53,6 +54,9 @@ function ProfileButton({ user }) {
                         <li>Hello, {user.username}</li>
                         {/* <li>{user.firstName} {user.lastName}</li> */}
                         <li>{user.email}</li>
+                        <div>
+                            <NavLink to="/groups">View groups</NavLink>
+                        </div>
                         <li>
                             <div>
                                 <button onClick={logout}>Log Out</button>

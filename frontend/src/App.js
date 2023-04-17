@@ -12,6 +12,7 @@ import UpdateGroup from './components/UpdateGroup';
 import EventList from './components/Events';
 import OneEvent from './components/OneEvent';
 import CreateEvent from './components/CreateEvent';
+// import UserEvents from './components/UserEvents';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route exact path="/events" component={EventList} />
           <Route path="/groups/:groupId/events/:eventId" component={OneEvent} />
           <Route exact path="/groups/:groupId/create-event" component={CreateEvent} />
+          {/* <Route path="/events/current" component={UserEvents} /> */}
         </Switch>
       )}
     </>
