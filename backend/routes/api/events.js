@@ -148,6 +148,7 @@ router.get('/:eventId', handleValidationErrors, async (req, res, next) => {
             name: event.name,
             groupId: event.Group.id,
             venueId: event.Venue?.id,
+            organizerId: event.Group.organizerId,
             groupName: event.Group.name,
             hostFirst: host.firstName,
             hostLast: host.lastName,

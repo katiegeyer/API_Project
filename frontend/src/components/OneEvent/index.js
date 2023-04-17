@@ -20,6 +20,8 @@ function OneEvent() {
         dispatch(getOneEvent(eventId));
     }, [dispatch, eventId]);
     console.log(singleEvent);
+    const sessionUser = useSelector((state) => state.session.user);
+
 
     function formatDate(dateString) {
         // const date = new Date(dateString);
@@ -55,6 +57,9 @@ function OneEvent() {
 
         return `${hours}:${minutes} ${ampm}`;
     };
+
+    console.log('Session user ID:', sessionUser?.id);
+    console.log('Event organizer ID:', singleEvent.organizerId);
 
     // function formatDate(dateString) {
     //     const date = new Date(dateString);
@@ -137,9 +142,9 @@ function OneEvent() {
     // export default OneEvent;
 
     return (
-        <div>
+        <div className='oneevent-body'>
             <section className='event-heading'>
-                <div>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
+                <div className='bread-crumb'>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
                 <h1 className='event-name-header'>{singleEvent.name}</h1>
                 <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
             </section>
@@ -179,12 +184,22 @@ function OneEvent() {
                             <i id='dollar' className="fa-solid fa-dollar-sign"></i>
                             {`${singleEvent.price}`}</div>
                         <span>
-                            <div className="delete-modal-events">
-                                <i id='dot' className="fa-solid fa-location-dot"></i>
-                                <span className='eventtype'>{`${singleEvent.type}`}</span><OpenModalButton
-                                    buttonText="Delete"
-                                    modalComponent={<DeleteEvent />}
-                                /></div>
+                            {sessionUser && sessionUser.id === singleEvent.organizerId && (
+                                <div className="delete-modal-events">
+                                    <i id='dot' className="fa-solid fa-location-dot"></i>
+                                    <span className='eventtype'>{`${singleEvent.type}`}</span>
+                                    <OpenModalButton
+                                        buttonText="Delete"
+                                        modalComponent={<DeleteEvent />}
+                                    />
+                                </div>
+                            )}
+                            {sessionUser && sessionUser.id !== singleEvent.organizerId && (
+                                <>
+                                    <i id='dot' className="fa-solid fa-location-dot"></i>
+                                    <span className='eventtype'>{`${singleEvent.type}`}</span>
+                                </>
+                            )}
                         </span>
                     </section>
                 </div>
@@ -193,7 +208,7 @@ function OneEvent() {
             {/* </div> */}
 
             <section className='event-detail-section3'>
-                <h1>What we're about</h1>
+                <h1>Details </h1>
                 <p>{singleEvent.description}</p>
             </section>
         </div >

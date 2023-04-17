@@ -10,7 +10,6 @@ export default function DeleteEvent() {
     // const { groupId } = useParams();
     // const { eventId } = useParams();
     const singleEvent = useSelector((state) => state.events.singleEvent);
-    console.log('hi')
     // const singleEvent = useSelector((state) => state.events.singleEvent[eventId]);
     console.log('singleEvent', singleEvent)
     const history = useHistory()
@@ -33,10 +32,10 @@ export default function DeleteEvent() {
             <h1>Are you sure you would like to delete this event?</h1>
             <h2>{singleEvent.name}</h2>
             <div>
-                <button onClick={handleDelete}>Yes</button>
+                <button className='delete' onClick={handleDelete}>Yes</button>
             </div>
             <div>
-                <button onClick={handleNo}>No</button>
+                <button className='delete' onClick={handleNo}>No</button>
             </div>
         </>
     )

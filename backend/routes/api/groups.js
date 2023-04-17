@@ -537,7 +537,7 @@ router.get('/:groupId/events', handleValidationErrors, async (req, res, next) =>
         attributes: ['id', 'name', 'type', 'startDate', 'endDate'],
         include: [{
             model: Group,
-            attributes: ['id', 'name', 'city', 'state']
+            attributes: ['id', 'name', 'city', 'state', 'organizerId']
         },
         {
             model: Venue,
@@ -564,6 +564,7 @@ router.get('/:groupId/events', handleValidationErrors, async (req, res, next) =>
             id: event.id,
             groupId: event.Group.id,
             venueId: event.Venue.id,
+            organizerId: event.Group.organizerId,
             name: event.name,
             type: event.type,
             startDate: event.startDate,

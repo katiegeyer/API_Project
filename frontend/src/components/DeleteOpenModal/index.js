@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { deleteGroupById } from "../../store/groups";
 import { useModal } from "../../context/Modal";
+import './DeleteOpenModal.css'
 
 
 export default function DeleteOpenModal() {
@@ -26,10 +27,10 @@ export default function DeleteOpenModal() {
             <h1>Are you sure you would like to delete this group? hi</h1>
             <h2>{singleGroup.name}</h2>
             <div>
-                <button onClick={handleDelete}>Yes</button>
+                <button className='delete' onClick={handleDelete}>Yes</button>
             </div>
             <div>
-                <button onClick={handleNo}>No</button>
+                <button className='delete' onClick={handleNo}>No</button>
             </div>
         </>
     )
