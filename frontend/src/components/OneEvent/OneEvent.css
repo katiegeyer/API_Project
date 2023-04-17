@@ -1,0 +1,102 @@
+.event-heading {
+    text-align: left;
+}
+
+.section1-left-image img {
+    display: flex;
+    text-align: left;
+    width: 100%;
+    height: auto;
+    margin: 0px auto;
+}
+
+
+.groupcontainer-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-details-section1 {
+    display: flex;
+    /* flex-wrap: wrap; */
+}
+
+.card-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.section1-topright,
+.section1-bottomright {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 1rem;
+}
+
+.section1-topright img {
+    width: 200px;
+    height: 150px;
+}
+
+.section1-bottomright {
+    display: flex;
+    flex-direction: column;
+    line-height: ;
+    left: 0px;
+}
+
+.section1-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    padding-left: 30px;
+
+}
+
+.delete-modal-events button {
+    background-color: darkgray;
+    border: 1px solid black;
+    padding: 5px;
+    font-size: 12pt;
+    border-radius: 5px;
+}
+
+.eventtype {
+    padding-right: 100px;
+}
+
+.section1-right {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+
+    /* justify-content: space-between; */
+}
+
+#clock,
+#dollar,
+#dot {
+    font-size: 30px;
+    padding-right: 20px;
+}
+
+.time {
+    display: flex;
+    flex-direction: row;
+}
+
+.time-details {
+    display: flex;
+    flex-direction: column;
+    /* gap: 2rem; */
+}
+
+.time-details span {
+    display: flex;
+    flex-direction: column;
+}
+
+.event-detail-section3 {
+    margin-top: 1rem;
+}

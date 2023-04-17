@@ -73,6 +73,69 @@ function OneEvent() {
     // }
 
     //find out why it isn't giving us the event - store probably isnt updating the info properly
+    //     return (
+    //         <div>
+    //             <section className='event-heading'>
+    //                 <div>&lt; <NavLink to="/events" className="event-events-link">Events</NavLink></div>
+    //                 <h1 className='event-name-header'>{singleEvent.name}</h1>
+    //                 <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
+    //             </section>
+
+    //             <section className='event-details-section1'>
+    //                 <div className="section1-left-image">
+    //                     <img src={singleEvent.previewImage} />
+    //                 </div>
+    //                 <div className="section1-topright">
+    //                     <img src={singleEvent.groupImage} />
+    //                     <h1 className='events-group-name'>{singleEvent.groupName}</h1>
+    //                     <h2 className='type-of-event'>{singleEvent.private}</h2>
+    //                     {/* <div className='location'>{singleEvent.city}</div> */}
+    //                 </div>
+    //                 <div className="section1-bottomright">
+    //                     <div className='time-details'>
+    //                         <span>
+    //                             <i className="fa-regular fa-clock"></i>
+    //                             <div className='start'>START</div>
+    //                             <div className='date'>{formatDate(`${singleEvent.startDate}`)}</div>
+    //                             <div className='time'>{formatTime(`${singleEvent.startDate}`)}</div></span>
+    //                         <span>
+    //                             <div className='start'>END</div>
+    //                             <div className='date'>{formatDate(`${singleEvent.endDate}`)}</div>
+    //                             <div className='time'>{formatTime(`${singleEvent.endDate}`)}</div>
+    //                         </span>
+    //                     </div>
+    //                     <div>
+    //                         <i className="fa-solid fa-dollar-sign"></i>
+    //                         {`${singleEvent.price}`}</div>
+    //                     <span>
+    //                         <div>
+    //                             <i className="fa-solid fa-location-dot"></i>
+    //                             {`${singleEvent.type}`}</div>
+    //                     </span>
+    //                 </div >
+    //                 <div>
+    //                     {/*if not organizer*/}
+    //                     {/* <button className="join-event-button">Join this Event</button> */}
+    //                 </div>
+    //                 {/* if session user && if group organizerId = userId} */}
+    //                 <div>
+    //                     <OpenModalButton
+    //                         buttonText="Delete"
+    //                         modalComponent={<DeleteEvent />}
+    //                     />
+    //                 </div>
+    //             </section >
+    //             <section className='event-detail-section3'>
+    //                 <h1>What we're about</h1>
+    //                 <p>{singleEvent.description}</p>
+    //             </section>
+    //         </div >
+    //     );
+    // }
+
+
+    // export default OneEvent;
+
     return (
         <div>
             <section className='event-heading'>
@@ -85,45 +148,43 @@ function OneEvent() {
                 <div className="section1-left-image">
                     <img src={singleEvent.previewImage} />
                 </div>
-                <div className="section1-topright">
-                    <img src={singleEvent.groupImage} />
-                    <h1 className='events-group-name'>{singleEvent.groupName}</h1>
-                    <h2 className='type-of-event'>{singleEvent.private}</h2>
-                    {/* <div className='location'>{singleEvent.city}</div> */}
-                </div>
-                <div className="section1-bottomright">
-                    <div className='time-details'>
+                {/* <div className='section1-right-card'> */}
+                <section className='section1-card'>
+                    <div className="section1-topright">
+                        <img src={singleEvent.groupImage} />
+                    </div>
+                    <div className="section1-bottomright">
+                        <div className='part1'>
+                            <h2 className='events-group-name'>{singleEvent.groupName}</h2>
+                            <h3 className='type-of-event'>{singleEvent.private}</h3>
+                        </div>
+                        <div className='time'>
+                            <i id='clock' className="fa-regular fa-clock"></i>
+                            <div className='time-details'>
+                                <span>
+
+                                    <div className='start'>START {formatDate(`${singleEvent.startDate}`)} {formatTime(`${singleEvent.startDate}`)}</div>
+                                </span>
+                                <span>
+                                    <div className='start'>END {formatDate(`${singleEvent.endDate}`)} {formatTime(`${singleEvent.endDate}`)}</div>
+
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <i id='dollar' className="fa-solid fa-dollar-sign"></i>
+                            {`${singleEvent.price}`}</div>
                         <span>
-                            <i className="fa-regular fa-clock"></i>
-                            <div className='start'>START</div>
-                            <div className='date'>{formatDate(`${singleEvent.startDate}`)}</div>
-                            <div className='time'>{formatTime(`${singleEvent.startDate}`)}</div></span>
-                        <span>
-                            <div className='start'>END</div>
-                            <div className='date'>{formatDate(`${singleEvent.endDate}`)}</div>
-                            <div className='time'>{formatTime(`${singleEvent.endDate}`)}</div>
+                            <div className="delete-modal-events">
+                                <i id='dot' className="fa-solid fa-location-dot"></i>
+                                <span className='eventtype'>{`${singleEvent.type}`}</span><OpenModalButton
+                                    buttonText="Delete"
+                                    modalComponent={<DeleteEvent />}
+                                /></div>
                         </span>
                     </div>
-                    <div>
-                        <i className="fa-solid fa-dollar-sign"></i>
-                        {`${singleEvent.price}`}</div>
-                    <span>
-                        <div>
-                            <i className="fa-solid fa-location-dot"></i>
-                            {`${singleEvent.type}`}</div>
-                    </span>
-                </div >
-                <div>
-                    {/*if not organizer*/}
-                    {/* <button className="join-event-button">Join this Event</button> */}
-                </div>
-                {/* if session user && if group organizerId = userId} */}
-                <div>
-                    <OpenModalButton
-                        buttonText="Delete"
-                        modalComponent={<DeleteEvent />}
-                    />
-                </div>
+                </section>
+                {/* </div> */}
             </section >
             <section className='event-detail-section3'>
                 <h1>What we're about</h1>
@@ -132,6 +193,5 @@ function OneEvent() {
         </div >
     );
 }
-
 
 export default OneEvent;

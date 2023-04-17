@@ -63,11 +63,12 @@ function GroupList() {
                 <img src={group.previewImage} alt="Group" />
                 <div className='groups-section2'>
                   <GroupSummary group={group}></GroupSummary>
-                  <div>
-                    {group.numMembers > 1 ? (
-                      <span className='events-number'>{group.numMembers} members</span>) : (
-                      <span className='events-number'>{group.numMembers} member</span>
+                  <div className='bottom-details'>
+                    {group.events > 1 ? (
+                      <span className='events-number'>{group.events} events</span>) : (
+                      <span className='events-number'>{group.events} event</span>
                     )}
+                    <span> · </span>
                     <span className='group-type'>{group.type}</span>
                   </div>
                 </div>

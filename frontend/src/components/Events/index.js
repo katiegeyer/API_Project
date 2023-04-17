@@ -52,7 +52,7 @@ function EventList() {
 
         return `${hours}:${minutes} ${ampm}`;
     };
-    
+
 
 
 
@@ -86,7 +86,7 @@ function EventList() {
                                             <span className='time'>{formatTime(`${event.startDate}`)}</span>
                                         </div>
                                         <h1 className='event-name'>{`${event.name}`}</h1>
-                                        <h2 className='event-location'>{`${event.city},${event.state}`}</h2>
+                                        <h2 className='event-location'>{`${event.city},  ${event.state}`}</h2>
                                     </div>
                                 </div>
                                 <div className='event-about'>{`${event.description}`}</div>

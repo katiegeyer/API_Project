@@ -10,6 +10,10 @@ body {
     margin: 0 auto;
 }
 
+.groups-section1 h2 {
+    padding: 5px 0px 10px 0px;
+}
+
 .groups-section1 {
     position: sticky;
     top: 70px;
@@ -73,12 +77,12 @@ body {
 } */
 
 .events-number {
-    margin-right: 20px
+    margin-right: 0px
 }
 
 .group-card img {
     width: 50%;
-    height: fit-content;
+    height: 300px;
     object-fit: cover;
     border-radius: 4px;
     padding-right: 20px;
@@ -87,4 +91,8 @@ body {
 .landing-page-section3-link {
     text-decoration: none;
     color: inherit;
+}
+
+.bottom-details {
+    padding: 10px 0px 10px 0px;
 }

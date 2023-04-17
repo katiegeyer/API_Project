@@ -56,7 +56,6 @@ button {
     width: max-content;
 }
 
-
 .profile-dropdown {
     display: flex;
     flex-direction: column;
@@ -71,6 +70,7 @@ button {
     padding: 10px;
     margin-right: 40px;
     z-index: 1;
+    border-radius: 5px;
 }
 
 .profile-dropdown li {
@@ -90,13 +90,14 @@ button {
 
 .profile-dropdown button {
     display: flex;
-    padding: 10px 0px 2px 0px;
-    border: none;
+    margin: 10px 0px 2px 0px;
+    border: 2px solid lightgray;
+    border-radius: 5px;
     font-size: 12pt;
     background-color: white;
-    padding-left: 0;
+    padding-left: 2px 2px 2px 2px;
     color: black;
-    margin: 0px;
+
 }
 
 
@@ -157,16 +158,20 @@ li {
 }
 
 .start-a-new-group {
+    display: flex;
     background-color: white;
     border: none;
     font-weight: normal;
     font-family: Arial, Helvetica, sans-serif;
+    padding: 0px;
+    justify-content: center;
 }
 
 .start-a-new-group a {
     color: black;
-    font-size: 10pt;
+    font-size: 12pt;
     text-decoration: none;
+    padding-bottom: 5px;
 }
 
 .start-a-new-group:hover {
