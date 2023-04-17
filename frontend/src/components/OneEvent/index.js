@@ -22,22 +22,57 @@ function OneEvent() {
     console.log(singleEvent);
 
     function formatDate(dateString) {
+        // const date = new Date(dateString);
+        // const month = String(date.getMonth() + 1).padStart(2, '0');
+        // const day = String(date.getDate()).padStart(2, '0');
+        // const year = date.getFullYear();
+
+        // return `${month}-${day}-${year}`;
         const date = new Date(dateString);
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
+        const monthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
         const year = date.getFullYear();
 
-        return `${month}/${day}/${year}`;
+        return `${month} ${day}, ${year}`;
     };
     function formatTime(dateString) {
+        // const date = new Date(dateString);
+        // const hours = String(date.getHours()).padStart(2, '0');
+        // const minutes = String(date.getMinutes()).padStart(2, '0');
+
+        // return `${hours}:${minutes}`;
         const date = new Date(dateString);
-        const hours = String(date.getHours()).padStart(2, '0');
+        let hours = date.getHours();
         const minutes = String(date.getMinutes()).padStart(2, '0');
+        const ampm = hours >= 12 ? 'PM' : 'AM';
 
-        return `${hours}:${minutes}`;
-    }
+        hours = hours % 12;
+        hours = hours ? hours : 12; // If the hours is 0, change it to 12
 
-//find out why it isn't giving us the event - store probably isnt updating the info properly
+        return `${hours}:${minutes} ${ampm}`;
+    };
+
+    // function formatDate(dateString) {
+    //     const date = new Date(dateString);
+    //     const month = String(date.getMonth() + 1).padStart(2, '0');
+    //     const day = String(date.getDate()).padStart(2, '0');
+    //     const year = date.getFullYear();
+
+    //     return `${month}/${day}/${year}`;
+    // };
+    // function formatTime(dateString) {
+    //     const date = new Date(dateString);
+    //     const hours = String(date.getHours()).padStart(2, '0');
+    //     const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    //     return `${hours}:${minutes}`;
+    // }
+
+    //find out why it isn't giving us the event - store probably isnt updating the info properly
     return (
         <div>
             <section className='event-heading'>
@@ -59,7 +94,7 @@ function OneEvent() {
                 <div className="section1-bottomright">
                     <div className='time-details'>
                         <span>
-                            <i class="fa-regular fa-clock"></i>
+                            <i className="fa-regular fa-clock"></i>
                             <div className='start'>START</div>
                             <div className='date'>{formatDate(`${singleEvent.startDate}`)}</div>
                             <div className='time'>{formatTime(`${singleEvent.startDate}`)}</div></span>
@@ -70,14 +105,14 @@ function OneEvent() {
                         </span>
                     </div>
                     <div>
-                        <i class="fa-regular fa-circle-dollar">$</i>
+                        <i className="fa-solid fa-dollar-sign"></i>
                         {`${singleEvent.price}`}</div>
                     <span>
                         <div>
-                            <i class="fa-regular fa-location-dot"></i>
+                            <i className="fa-solid fa-location-dot"></i>
                             {`${singleEvent.type}`}</div>
                     </span>
-                </div>
+                </div >
                 <div>
                     {/*if not organizer*/}
                     {/* <button className="join-event-button">Join this Event</button> */}

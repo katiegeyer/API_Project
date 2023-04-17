@@ -10,7 +10,6 @@ function UserGroup() {
     const userId = useSelector((state) => state.session.user.id);
     const allGroups = useSelector((state) => Object.values(state.groups.allGroups));
     const userGroups = allGroups.filter((group) => group.organizerId === userId);
-
     useEffect(() => {
         dispatch(getUserGroups());
     }, [dispatch]);

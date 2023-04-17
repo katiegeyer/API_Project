@@ -116,32 +116,40 @@ export const restoreUser = () => async (dispatch) => {
 
 
 export const signup = (user) => async (dispatch) => {
-  try {
-    const {
-      username, firstName, lastName, email, password,
-    } = user;
-    const response = await csrfFetch('/api/users', {
-      method: 'POST',
-      body: JSON.stringify({
-        username,
-        firstName,
-        lastName,
-        email,
-        password,
-      }),
-    });
+  // try {
+  const {
+    username, firstName, lastName, email, password,
+  } = user;
+  let errors;
+  const response = await csrfFetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      firstName,
+      lastName,
+      email,
+      password,
+    }),
 
-    if (response.ok) {
-      const data = await response.json();
-      dispatch(setUser(data));
-      return response;
-    } else {
-      const errorData = await response.json();
-      throw errorData;
-    }
-  } catch (error) {
-    throw error;
+  }).catch(async (e) => {
+    return await e.json();
+  });
+  console.log('after fetch', response)
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setUser(data));
+    return response;
+  } else {
+    // const errorData = await response.json();
+    // throw errorData;
+    throw response;
   }
+  // } catch (error) {
+  //   error.then()
+  //   console.log('catch', error.json());
+  //   throw error;
+  // }
 };
 
 export const logout = () => async (dispatch) => {

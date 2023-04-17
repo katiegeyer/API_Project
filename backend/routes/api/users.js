@@ -80,6 +80,7 @@ router.post(
     } catch (err) {
       if (err.name === "SequelizeUniqueConstraintError") {
         const errorMessages = Object.values(err.errors).map(error => error);
+        console.log(errorMessages);
         return res.status(400).json({ errors: errorMessages });
       }
       // Handle other errors if necessary

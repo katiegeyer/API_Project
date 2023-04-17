@@ -13,9 +13,14 @@ function Navigation({ isLoaded }) {
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
-      <li>
-        <ProfileButton user={sessionUser} />
-      </li>
+      <div>
+        <button className='user-group-button'>
+          <NavLink to="/groups/current">Your Group</NavLink>
+        </button>
+        <li>
+          <ProfileButton user={sessionUser} />
+        </li>
+      </div>
     );
   } else {
     sessionLinks = (

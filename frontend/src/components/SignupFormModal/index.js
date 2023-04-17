@@ -22,8 +22,9 @@ function SignupFormModal() {
             return dispatch(sessionActions.signup({ email, username, firstName, lastName, password }))
                 .then(closeModal)
                 .catch(async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors([data.errors.signup]);
+                    if (!res.errors) return;
+                    const data = res.errors.map(err => err.message);
+                    setErrors(data);
                 });
         }
         return setErrors(['Confirm Password field must be the same as the Password field']);
