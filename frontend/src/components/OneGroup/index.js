@@ -53,8 +53,11 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
             return aDate - bDate;
         })
         : [];
+    console.log(sortedEvents);
     const upcomingEvents = sortedEvents.filter(event => new Date(event.startDate) >= new Date());
     const pastEvents = sortedEvents.filter(event => new Date(event.startDate) < new Date());
+
+    const sessionUser = useSelector((state) => state.session.user);
 
 
     return (
@@ -70,10 +73,21 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                     {/* <GroupSummary group={singleGroup} className="one-group-summary"></GroupSummary>
                     <p>Organized by {singleGroup.organizerName}</p> */}
                 </div>
-                <div>
-                    {/*if not organizer*/}
-                    <button className="join-group-button">Join this Group</button>
-                </div>
+                {sessionUser && sessionUser.id !== singleGroup.organizerId && (
+                    <button className="join-group-button" disabled={sessionUser.id === singleGroup.organizerId} onClick={() => alert('Feature coming soon')}
+                    >Join this Group</button>
+                )}
+                {sessionUser && sessionUser.id === singleGroup.organizerId && (
+                    <div className="section1-right-bottom">
+                        <NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">
+                            Create event
+                        </NavLink>
+                        <NavLink to={`/${singleGroup.id}/update-group`} className="groups-create-event-link">
+                            Update
+                        </NavLink>
+                        <OpenModalButton buttonText="Delete" modalComponent={<DeleteOpenModal />} />
+                    </div>
+                )}
                 {/* if session user && if group organizerId = userId} */}
                 {/* <div><NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">Create event</NavLink>
                     <NavLink to={`/${singleGroup.id}/update-group`} className="groups-create-event-link">Update</NavLink>
@@ -83,7 +97,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                     />
                 </div>
             </section> */}
-                <div className="section1-right-bottom">
+                {/* <div className="section1-right-bottom">
                     <NavLink to={`/groups/${singleGroup.id}/create-event`} className="groups-create-event-link">
                         Create event
                     </NavLink>
@@ -91,7 +105,7 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                         Update
                     </NavLink>
                     <OpenModalButton buttonText="Delete" modalComponent={<DeleteOpenModal />} />
-                </div>
+                </div> */}
             </section>
             <section className='group-details-section2'>
                 <h1>Organizer</h1>

@@ -34,8 +34,10 @@ const EventForm = () => {
         private: '',
         price: '',
         capacity: '',
-        startDate: '',
-        endDate: '',
+        // startDate: '',
+        // endDate: '',
+        startDateTime: '',
+        endDateTime: '',
         previewImage: '',
         description: '',
     });
@@ -79,10 +81,17 @@ const EventForm = () => {
         if (!formData.private) errors.private = "Visibility type is required";
         if (!formData.price) errors.price = "Price is required";
         if (!formData.capacity) errors.capacity = "Capacity is required";
-        if (!formData.startDate || !formData.startTime)
+        // if (!formData.startDate || !formData.startTime)
+        //     errors.start = "Event start is required";
+        // if (!formData.endDate || !formData.endTime)
+        //     errors.end = "Event end is required";
+        if (!formData.startDateTime)
             errors.start = "Event start is required";
-        if (!formData.endDate || !formData.endTime)
+        if (!formData.endDateTime)
             errors.end = "Event end is required";
+        if (new Date(formData.startDateTime) >= new Date(formData.endDateTime)) {
+            errors.date = "End date and time must be after start date and time";
+        }
         if (
             !formData.previewImage.match(
                 /\.(png|jpg|jpeg)$/i
@@ -103,7 +112,16 @@ const EventForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevFormData) => {
+            let updatedFormData = { ...prevFormData, [name]: value };
+            if (name === 'startDate' || name === 'startTime') {
+                updatedFormData.startDateTime = `${updatedFormData.startDate}T${updatedFormData.startTime}`;
+            }
+            if (name === 'endDate' || name === 'endTime') {
+                updatedFormData.endDateTime = `${updatedFormData.endDate}T${updatedFormData.endTime}`;
+            }
+            return updatedFormData;
+        });
     };
 
     // const handleSubmit = (e) => {
@@ -114,8 +132,10 @@ const EventForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const errors = validateForm();
-        const startDate = moment(`${formData.startDate}T${formData.startTime}`).format("MMMM D, YYYY, h:mm A");
-        const endDate = moment(`${formData.endDate}T${formData.endTime}`).format("MMMM D, YYYY, h:mm A");
+        // const startDate = moment(`${formData.startDate}T${formData.startTime}`).format("MMMM D, YYYY, h:mm A");
+        // const endDate = moment(`${formData.endDate}T${formData.endTime}`).format("MMMM D, YYYY, h:mm A");
+        const startDate = moment(formData.startDateTime).format("MMMM D, YYYY, h:mm A");
+        const endDate = moment(formData.endDateTime).format("MMMM D, YYYY, h:mm A");
         if (Object.keys(errors).length === 0) {
             const modifiedFormData = {
                 ...formData,
@@ -200,7 +220,19 @@ const EventForm = () => {
                         <p className="error-message">{validationErrors.price}</p>
                     )}
                 </div>
-                <div>
+                <label htmlFor="startDateTime">When does your event start?</label>
+                <input
+                    type="datetime-local"
+                    id="startDateTime"
+                    name="startDateTime"
+                    value={formData.startDateTime}
+                    onChange={handleChange}
+                    placeholder="MM/DD/YYYY, HH/mm AM"
+                />
+                {validationErrors.start && (
+                    <p className="error-message">{validationErrors.start}</p>
+                )}
+                {/* <div>
                     <label htmlFor="startDate">Start Date:</label>
                     <input
                         type="date"
@@ -223,8 +255,8 @@ const EventForm = () => {
                     {validationErrors.start && (
                         <p className="error-message">{validationErrors.start}</p>
                     )}
-                </div>
-                <div>
+                </div> */}
+                {/* <div>
                     <label htmlFor="endDate">End Date:</label>
                     <input
                         type="date"
@@ -252,8 +284,22 @@ const EventForm = () => {
                     {validationErrors.end && (
                         <p className="error-message">{validationErrors.end}</p>
                     )}
-                </div>
-
+                </div> */}
+                <label htmlFor="endDateTime">When does your event end?</label>
+                <input
+                    type="datetime-local"
+                    id="endDateTime"
+                    name="endDateTime"
+                    value={formData.endDateTime}
+                    onChange={handleChange}
+                    placeholder="MM/DD/YYYY, HH/mm AM"
+                />
+                {validationErrors.end && (
+                    <p className="error-message">{validationErrors.end}</p>
+                )}
+                {validationErrors.date && (
+                    <p className="error-message">{validationErrors.date}</p>
+                )}
 
                 <div className="section">
                     <h2>Please describe your event:</h2>
@@ -267,8 +313,6 @@ const EventForm = () => {
                         <p className="error-message">{validationErrors.about}</p>
                     )}
                 </div>
-
-                {/* SECTION 5 */}
                 <div className="section">
                     <label htmlFor="previewImage">Please add an image URL for your event below:</label>
                     <input
@@ -282,8 +326,6 @@ const EventForm = () => {
                         <p className="error-message">{validationErrors.previewImage}</p>
                     )}
                 </div>
-
-            /* SECTION 6 */
                 <div className="section">
                     <button type="submit">Create Event</button>
                 </div>

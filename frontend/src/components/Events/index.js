@@ -52,6 +52,7 @@ function EventList() {
 
         return `${hours}:${minutes} ${ampm}`;
     };
+    
 
 
 

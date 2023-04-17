@@ -96,14 +96,14 @@ const GroupUpdate = () => {
             <div className="section">
                 <label htmlFor="type">Is this an In person or online group?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
-                    <option></option>
+                    {/* <option></option> */}
                     <option value="In person">In person</option>
                     <option value="Online">Online</option>
                 </select>
 
                 <label htmlFor="private">Is this group private or public?</label>
                 <select name="private" value={formData.private ? 'private' : 'public'} onChange={handleChange1}>
-                    <option></option>
+                    {/* <option></option> */}
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                 </select>

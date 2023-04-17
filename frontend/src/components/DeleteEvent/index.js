@@ -6,7 +6,6 @@ import { useModal } from "../../context/Modal";
 
 
 export default function DeleteEvent() {
-    console.log('helloooo')
     const dispatch = useDispatch();
     // const { groupId } = useParams();
     // const { eventId } = useParams();
@@ -31,7 +30,7 @@ export default function DeleteEvent() {
 
     return (
         <>
-            <h1>Are you sure you would like to delete this group? helloooooooo</h1>
+            <h1>Are you sure you would like to delete this event?</h1>
             <h2>{singleEvent.name}</h2>
             <div>
                 <button onClick={handleDelete}>Yes</button>

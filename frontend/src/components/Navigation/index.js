@@ -14,8 +14,8 @@ function Navigation({ isLoaded }) {
   if (sessionUser) {
     sessionLinks = (
       <div className='profile-groups-button'>
-        <button className='view-groups-button'>
-          <NavLink to="/groups/current">Your Group</NavLink>
+        <button className='start-a-new-group'>
+          <NavLink to="/create-group">Start a New Group</NavLink>
         </button>
         <li>
           <ProfileButton user={sessionUser} />

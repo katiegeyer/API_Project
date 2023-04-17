@@ -113,6 +113,15 @@
   margin-top: 2rem;
 }
 
+.join-group-button-disabled {
+  padding: 10px 15px;
+  background-color: lightgray;
+  color: #fff;
+  border: none;
+  pointer-events: none;
+  text-align: center;
+}
+
 .event-info {
   display: flex;
   flex-direction: column;
