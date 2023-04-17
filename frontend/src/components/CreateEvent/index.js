@@ -87,6 +87,8 @@ const EventForm = () => {
         //     errors.end = "Event end is required";
         if (!formData.startDateTime)
             errors.start = "Event start is required";
+        if (new Date(formData.startDateTime) <= new Date())
+            errors.start = "Start date must be in the future";
         if (!formData.endDateTime)
             errors.end = "Event end is required";
         if (new Date(formData.startDateTime) >= new Date(formData.endDateTime)) {

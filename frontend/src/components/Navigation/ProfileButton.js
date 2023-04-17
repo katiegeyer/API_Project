@@ -58,10 +58,18 @@ function ProfileButton({ user }) {
                         </div>
                         <div className="dropdown-links">
                             <a className="grouplink">
-                                <NavLink to="/groups">View groups</NavLink>
+                                <NavLink to="/groups" onClick={closeMenu}>View groups</NavLink>
                             </a>
                             <a className="grouplink">
-                                <NavLink to="/events">View events</NavLink>
+                                <NavLink to="/events" onClick={closeMenu}>View events</NavLink>
+                            </a>
+                        </div>
+                        <div className="users-links">
+                            <a className="groupslink">
+                                <NavLink to="/groups/current" onClick={closeMenu}>View your groups</NavLink>
+                            </a>
+                            <a className="eventslink">
+                                <NavLink to="/events/current" onClick={closeMenu}>View your events</NavLink>
                             </a>
                         </div>
                         <li>

@@ -42,6 +42,7 @@ function Navigation({ isLoaded }) {
       <li>
         <NavLink exact to="/">
           SpeakUp
+          <img src="https://thumbs.dreamstime.com/b/web-protester-banner-concept-hand-hold-empty-protest-sign-wood-stick-isolated-clipart-white-background-poster-announcement-163731176.jpg" />
         </NavLink>
       </li>
       {isLoaded && sessionLinks}
