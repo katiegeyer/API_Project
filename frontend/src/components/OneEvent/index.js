@@ -144,20 +144,24 @@ function OneEvent() {
                 <h2>Hosted by {`${singleEvent.hostFirst} ${singleEvent.hostLast}`}</h2>
             </section>
 
-            <section className='event-details-section1'>
+            <div className='top-side'>
                 <div className="section1-left-image">
                     <img src={singleEvent.previewImage} />
                 </div>
                 {/* <div className='section1-right-card'> */}
-                <section className='section1-card'>
-                    <div className="section1-topright">
-                        <img src={singleEvent.groupImage} />
-                    </div>
-                    <div className="section1-bottomright">
-                        <div className='part1'>
-                            <h2 className='events-group-name'>{singleEvent.groupName}</h2>
-                            <h3 className='type-of-event'>{singleEvent.private}</h3>
+                <div className='right-side'>
+                    <section className='section1-card'>
+                        <div className="section1-topright">
+                            <img src={singleEvent.groupImage} />
                         </div>
+                        <div className="section1-bottomright">
+                            <div className='part1'>
+                                <h2 className='events-group-name'>{singleEvent.groupName}</h2>
+                                <h3 className='type-of-event'>{singleEvent.private}</h3>
+                            </div>
+                        </div>
+                    </section >
+                    <section className='columncard'>
                         <div className='time'>
                             <i id='clock' className="fa-regular fa-clock"></i>
                             <div className='time-details'>
@@ -182,10 +186,12 @@ function OneEvent() {
                                     modalComponent={<DeleteEvent />}
                                 /></div>
                         </span>
-                    </div>
-                </section>
-                {/* </div> */}
-            </section >
+                    </section>
+                </div>
+            </div>
+
+            {/* </div> */}
+
             <section className='event-detail-section3'>
                 <h1>What we're about</h1>
                 <p>{singleEvent.description}</p>

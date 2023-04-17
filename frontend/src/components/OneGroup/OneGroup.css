@@ -14,8 +14,7 @@
  .groupcontainer-card {
    display: flex;
    flex-wrap: nowrap;
-   justify-content: space-between;
-   align-items: left;
+   /* justify-content: space-between; */
    flex-direction: row;
    width: 75%;
    margin: 0% auto;
@@ -24,7 +23,7 @@
  }
 
  .groupcontainer-card img {
-   width: 50%;
+   width: 40%;
    height: 400px;
  }
 
@@ -178,4 +177,10 @@
    flex-wrap: wrap;
    width: 55%;
    padding-left: 20px;
+ }
+
+ .group-detail-section1 {
+  width: 50%;
+  flex-direction: column;
+  /* fle */
  }

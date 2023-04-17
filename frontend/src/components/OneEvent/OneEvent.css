@@ -11,19 +11,28 @@
 }
 
 
-.groupcontainer-card {
-    display: flex;
-    flex-direction: column;
-}
+
 
 .event-details-section1 {
     display: flex;
     /* flex-wrap: wrap; */
 }
 
-.card-column {
+.top-side {
+    display: flex;
+    flex-direction: row;
+}
+.section1-card img {
+    padding-right: 40px;
+}
+
+.columncard {
     display: flex;
     flex-direction: column;
+    padding-top: 100px;
+    align-items: left;
+    padding-left: 30px;
+
 }
 
 .section1-topright,
