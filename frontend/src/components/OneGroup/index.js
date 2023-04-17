@@ -117,29 +117,51 @@ function OneGroup() { //call a restApi to retrieve this groupId (singleGroups, l
                                     <span>{formatTime(event.startDate)}</span>
                                 </div>
                                 <h3>{event.name}</h3>
-                                <p className="location">{event.location}</p>
+                                <p className="location">{event.city}</p>
                                 <p className="description">{event.description}</p>
                             </div>
                         </div>
                     ))}
                     {/* </section> */}
                     {/* <section className='group-detail-section5'> */}
-                    <h2>Past Events</h2>
+                    {/* {pastEvents.length > 0 ? (
+                        <h2>Past Events</h2>
                     {Array.isArray(pastEvents) && pastEvents.map((event) => (
-                        <div key={event.id} className="event-card-groups">
-                            <img src={event.previewImage} alt="Event" />
-                            <div className="event-info">
-                                <div className="event-date-time">
-                                    <span>{formatDate(event.startDate)}</span>
-                                    <span> · </span>
-                                    <span>{formatTime(event.startDate)}</span>
+                            <div key={event.id} className="event-card-groups">
+                                <img src={event.previewImage} alt="Event" />
+                                <div className="event-info">
+                                    <div className="event-date-time">
+                                        <span>{formatDate(event.startDate)}</span>
+                                        <span> · </span>
+                                        <span>{formatTime(event.startDate)}</span>
+                                    </div>
+                                    <h3>{event.name}</h3>
+                                    <p className="location">{event.city}</p>
+                                    <p className="description">{event.description}</p>
                                 </div>
-                                <h3>{event.name}</h3>
-                                <p className="location">{event.city}</p>
-                                <p className="description">{event.description}</p>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    ) : null} */}
+                    {pastEvents.length > 0 ? (
+                        <>
+                            <h2>Past Events</h2>
+                            {pastEvents.map((event) => (
+                                <div key={event.id} className="event-card-groups">
+                                    <img src={event.previewImage} alt="Event" />
+                                    <div className="event-info">
+                                        <div className="event-date-time">
+                                            <span>{formatDate(event.startDate)}</span>
+                                            <span> · </span>
+                                            <span>{formatTime(event.startDate)}</span>
+                                        </div>
+                                        <h3>{event.name}</h3>
+                                        <p className="location">{event.city}</p>
+                                        <p className="description">{event.description}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </>
+                    ) : null}
                 </section>
             </div>
         </div >

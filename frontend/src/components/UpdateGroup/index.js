@@ -46,14 +46,12 @@ const GroupUpdate = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            /* SECTION 1 */
+        <form onSubmit={handleSubmit} className='group-form'>
             <div className="section">
                 <h2>Update Your Group</h2>
                 <p>We'll walk you through a few steps to update your Group</p>
             </div>
 
-            /* SECTION 2 */
             <div className="section">
                 <h2>First, set your group's location.</h2>
                 <p>Meetup groups meet locally, In person and online. We'll connect you with people in your area, and more can join you online.</p>
@@ -72,8 +70,6 @@ const GroupUpdate = () => {
                     onChange={handleChange}
                 />
             </div>
-
-            /* SECTION 3 */
             <div className="section">
                 <h2>What will your group's name be?</h2>
                 <p>Choose a name that will give people a clear idea of what the group is about. Feel free to get creative! You can edit this later if you change your mind.</p>
@@ -97,8 +93,6 @@ const GroupUpdate = () => {
                     onChange={handleChange}
                 />
             </div>
-
-            {/* SECTION 5 */}
             <div className="section">
                 <label htmlFor="type">Is this an In person or online group?</label>
                 <select name="type" value={formData.type} onChange={handleChange}>
@@ -123,8 +117,6 @@ const GroupUpdate = () => {
                     onChange={handleChange}
                 />
             </div>
-
-            /* SECTION 6 */
             <div className="section">
                 <button type="submit">Update Group</button>
             </div>

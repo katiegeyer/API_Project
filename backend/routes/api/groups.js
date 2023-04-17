@@ -266,6 +266,8 @@ router.get('/:groupId', requireAuth, handleValidationErrors, async (req, res, ne
 
         return {
             ...event.get({ plain: true }),
+            city: event.Group.city,
+            state: event.Group.state,
             previewImage,
         };
     });
